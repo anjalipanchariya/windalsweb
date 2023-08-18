@@ -16,40 +16,29 @@ function WindalsNav() {
             <Nav.Link href="#home">Admin Panel</Nav.Link>
             <Nav.Link href="#link">Home</Nav.Link>
             <NavDropdown title="Product" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">Add Product</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                Another action
+                Update Product
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Delete Product</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Station" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">Add station</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                Another action
+                Update Station
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Delete Station</NavDropdown.Item>
+              
             </NavDropdown>
             <NavDropdown title="Users" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">Add User</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                Another action
+                Update User
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Delete User</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Nav.Link href="#link" style={{margin:20}}>My Profile</Nav.Link>
+          <Nav.Link href="#link" style={{margin:15}}>My Profile</Nav.Link>
           <Button variant="outline-dark">Login</Button>
         </Navbar.Collapse>
       </Container>
