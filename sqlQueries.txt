@@ -1,0 +1,14 @@
+##create product master table:
+CREATE TABLE `windals`.`product_master` (
+  `id` INT NOT NULL,
+  `product_name` VARCHAR(50) NOT NULL,
+  `parameters` VARCHAR(100) NULL,
+  `min` INT NULL,
+  `max` INT NULL,
+  `unit` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `product_name_UNIQUE` (`product_name` ASC) VISIBLE);
+
+ALTER TABLE `windals`.`product_master` 
+CHANGE COLUMN `id` `id` INT NOT NULL AUTO_INCREMENT ;
