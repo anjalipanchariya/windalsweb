@@ -4,7 +4,7 @@ function Station() {
   return (
     <Form style={{width:300, margin:20}}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Sttaion Name</Form.Label>
+        <Form.Label>Station Name</Form.Label>
         <Form.Control type="text" placeholder="Name" />
       </Form.Group>
 
