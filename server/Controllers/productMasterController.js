@@ -4,10 +4,20 @@ async function insertInProductMaster(req,res){
     const { productName, parameter, minVal, maxVal, unit } = req.body;
 
     try {
-        const query = "INSERT INTO product_master (product_name, parameters, min, max, unit) VALUES (?, ?, ?, ?, ?)";
-        const [result] = await db.promise().query(query, [productName, parameter, minVal, maxVal, unit]);
-
-        res.status(201).send({ msg: "Record inserted successfully", insertedId: result.insertId });
+        const searchQuery = "SELECT id FROM product_master WHERE product_name = ? && parameters = ?"
+        const [searchResult] = await db.promise().query(searchQuery,[productName,parameter])
+        if(searchResult.length>0)
+        {
+            res.status(409).send({msg:"Respective product and lenght already exist in database."})
+        }
+        else
+        {
+            const insertQuery = "INSERT INTO product_master (product_name, parameters, min, max, unit) VALUES (?, ?, ?, ?, ?)";
+            const [insertResult] = await db.promise().query(insertQuery, [productName, parameter, minVal, maxVal, unit]);
+            console.log(insertResult);
+            res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
+        }
+        
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });
@@ -17,9 +27,9 @@ async function insertInProductMaster(req,res){
 
  async function getInfoFromProductMaster(req,res){
     try{
-        var query = "SELECT product_name,parameters,min,max,unit FROM product_master"
+        var query = "SELECT id,product_name,parameters,min,max,unit FROM product_master"
         const [result] = await db.promise().query(query)
-        
+        console.log(result);
         res.status(201).send(result)
     }catch(err){
         console.error("Database error:", err);
@@ -28,21 +38,21 @@ async function insertInProductMaster(req,res){
 }
 
  async function deleteFromProductMaster(req,res){
-    const {productName} = req.query
+    const {productId} = req.query
     try{
-        var selectQuery = "SELECT id FROM product_master WHERE product_name = ?"
-        const [selectResult] = await db.promise().query(selectQuery,[productName])
+        var selectQuery = "SELECT id,product_name,parameters FROM product_master WHERE id = ?"
+        const [selectResult] = await db.promise().query(selectQuery,[productId])
 
         if(selectResult.length === 0){
             res.status(404).send({msg:"Product does not exist in database"})
+            return;
         }
 
-        const deletedRow = selectResult[0]
         
-        var deleteQuery = "DELETE FROM product_master WHERE product_name = ?"
-        const [result] = await db.promise().query(deleteQuery,[productName])
+        var deleteQuery = "DELETE FROM product_master WHERE id = ?"
+        const [deleteResult] = await db.promise().query(deleteQuery,[productId])
         
-        console.log({"Rows deleted":result.affectedRows,"Row deleted":deletedRow});
+        console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
         res.status(201).send({msg:"Product data deleted from database successfully"})
     }catch(err){
         console.error("Database error:", err);
@@ -76,4 +86,34 @@ async function insertInProductMaster(req,res){
     }
 }
 
-export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster };
+async function getProductInfoFromProductMaster(req,res){
+    const {productName} = req.query
+    try{
+        const selectQuery = "SELECT * FROM product_master WHERE product_name = ?"
+        const [selectResult] = await db.promise().query(selectQuery,[productName])
+        if(selectResult.length===0){
+            return res.status(409).send({msg:"Product does not exist in database"})
+        }
+        res.status(201).send(selectResult)
+    }catch(err){
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+}
+
+async function getOneProductInfoFromProductMaster(req,res){
+    const {productName,productParameter} = req.query
+    try{
+        const selectQuery = "SELECT * FROM product_master WHERE product_name = ? && parameters = ?"
+        const [selectResult] = await db.promise().query(selectQuery,[productName,productParameter])
+        if(selectResult.length===0){
+            return res.status(409).send({msg:"Product does not exist in database"})
+        }
+        res.status(201).send(selectResult)
+    }catch(err){
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+}
+
+export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getProductInfoFromProductMaster, getOneProductInfoFromProductMaster };

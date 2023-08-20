@@ -1,18 +1,20 @@
 import Router from "express"
-import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster } from "../Controllers/productMasterController.js";
+import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getProductInfoFromProductMaster, getOneProductInfoFromProductMaster } from "../Controllers/productMasterController.js";
 
 const router = Router();
 
 /**POST MEATHODS */
-router.route("/insertInProductMaster").post(insertInProductMaster);
+router.route("/ProductMasterInsert").post(insertInProductMaster);
 
 /**GET MEATHODS */
-router.route('/getInfoFromProductMaster').get(getInfoFromProductMaster);
+router.route('/ProductMasterGet').get(getInfoFromProductMaster);
+router.route('/ProductMasterGetProduct').get(getProductInfoFromProductMaster);
+router.route('/ProductMasterGetOneProduct').get(getOneProductInfoFromProductMaster);
 
 /**DELETE MEATHODS */
-router.route('/deleteFromProducMaster').delete(deleteFromProductMaster);
+router.route('/ProductMasterDelete').delete(deleteFromProductMaster);
 
 /**PUT MEATHOD */
-router.route('updateProducMaster').put(updateProductMaster);
+router.route('/ProductMasterUpdate').put(updateProductMaster);
 
 export default router;
