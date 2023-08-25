@@ -1,0 +1,32 @@
+.add-product-container {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-product-inputs {
+    width: 100%; /* Adjust width if necessary */
+    max-width: 400px; /* Set a maximum width for better readability */
+    margin: 0 auto; /* Center the form */
+}
+
+.add-product-button {
+    width: 81%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-add-product{
+    margin: 5px;;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 767px) {
+    .add-product-inputs {
+        max-width: 100%; /* Adjust the max-width for smaller screens */
+        padding: 0 20px; /* Add some padding for better readability */
+    }
+}

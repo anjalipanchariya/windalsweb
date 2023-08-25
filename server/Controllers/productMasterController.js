@@ -14,7 +14,6 @@ async function insertInProductMaster(req,res){
         {
             const insertQuery = "INSERT INTO product_master (product_name, parameters, min, max, unit) VALUES (?, ?, ?, ?, ?)";
             const [insertResult] = await db.promise().query(insertQuery, [productName, parameter, minVal, maxVal, unit]);
-            console.log(insertResult);
             res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
         }
         
@@ -27,10 +26,15 @@ async function insertInProductMaster(req,res){
 
  async function getInfoFromProductMaster(req,res){
     try{
-        var query = "SELECT id,product_name,parameters,min,max,unit FROM product_master"
+        var query = "SELECT * FROM product_master"
         const [result] = await db.promise().query(query)
-        console.log(result);
-        res.status(201).send(result)
+        if(result.length===0){
+            res.status(200).send({msg:"No infomation about products exist in database."})
+        }
+        else{
+            console.log(result);
+            res.status(201).send(result)
+        }
     }catch(err){
         console.error("Database error:", err);
         res.status(500).send({msg:`Internal server error: ${err}`})
@@ -86,7 +90,7 @@ async function insertInProductMaster(req,res){
     }
 }
 
-async function getProductInfoFromProductMaster(req,res){
+async function getOneProductAllParametersInfoFromProductMaster(req,res){
     const {productName} = req.query
     try{
         const selectQuery = "SELECT * FROM product_master WHERE product_name = ?"
@@ -101,7 +105,7 @@ async function getProductInfoFromProductMaster(req,res){
     }
 }
 
-async function getOneProductInfoFromProductMaster(req,res){
+async function getOneProductOneParameterInfoFromProductMaster(req,res){
     const {productName,productParameter} = req.query
     try{
         const selectQuery = "SELECT * FROM product_master WHERE product_name = ? && parameters = ?"
@@ -116,4 +120,4 @@ async function getOneProductInfoFromProductMaster(req,res){
     }
 }
 
-export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getProductInfoFromProductMaster, getOneProductInfoFromProductMaster };
+export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster };
