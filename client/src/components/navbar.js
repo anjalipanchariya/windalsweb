@@ -10,7 +10,7 @@ import UpdateProduct from './product/updateproduct';
 import UpdateStation from './station/updateStation';
 import AddProduct from './product/addProduct';
 import AddStation from './station/addStation';
-
+import Home from './Home';
 
 function WindalsNav() {
 
@@ -18,8 +18,8 @@ function WindalsNav() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <img src="./logo.png" alt='' style={{ height: 40, width: 50 }} />
-          <Navbar.Brand href="#home">Windals Precision Ltd.</Navbar.Brand>
+          <img src={process.env.PUBLIC_URL} alt='' style={{ height: 40, width: 50 }} />
+          <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -45,6 +45,7 @@ function WindalsNav() {
       </Navbar>
 
       <Routes>
+        <Route path='/' element={<Home />}></Route>
         <Route path='/user/adduser' element={<AddUser />} />
         <Route path='/user/deleteuser' element={<DeleteUser />} />
 
