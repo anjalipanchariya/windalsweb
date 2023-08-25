@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 import './addStation.css'
 
@@ -33,13 +33,13 @@ function AddStation() {
                         </Form.Select>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Maximum" />
+                            <Form.Control type="number" placeholder="Maximum" />
                             <Form.Text className="text-muted">
                             </Form.Text>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Minimum" />
+                            <Form.Control type="number" placeholder="Minimum" />
                             <Form.Text className="text-muted">
                             </Form.Text>
                         </Form.Group>

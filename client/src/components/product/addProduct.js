@@ -1,55 +1,99 @@
-import React from "react";
-import { Button, Form } from 'react-bootstrap';
-import './addProduct.css'
+import React, { useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import './addProduct.css';
+import toast, { Toaster } from 'react-hot-toast';
+import { addProduct } from '../helper/helper';
 
 function AddProduct() {
-    return (
-        <div>
-            <div className="header-add-product">
-                <h2 className="add-product-header">Add Product</h2>
-            </div>
-            <div className="add-product-container">
-                <div className="add-product-inputs">
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Enter Product Name" />
-                            <Form.Text className="text-muted">
-                            </Form.Text>
-                        </Form.Group>
+  const [parameters, setParameters] = useState([]);
+  const [productName, setProductName] = useState('');
 
-                        <Form.Select className="mb-3 select-param" aria-label="Default select example">
-                            <option>Select Parameters</option>
-                            <option value="1">Parameter 1</option>
-                            <option value="2">Parameter 2</option>
-                            <option value="3">Parameter 3</option>
-                        </Form.Select>
+  const addRow = () => {
+    const newParameter = { name: '', min: '', max: '', unit: '' };
+    setParameters([...parameters, newParameter]);
+  };
 
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Maximum" />
-                            <Form.Text className="text-muted">
-                            </Form.Text>
-                        </Form.Group>
+  const handleParameterChange = (index, field, value) => {
+    const updatedParameters = [...parameters];
+    updatedParameters[index][field] = value;
+    setParameters(updatedParameters);
+  };
 
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Minimum" />
-                            <Form.Text className="text-muted">
-                            </Form.Text>
-                        </Form.Group>
+  const handleSave = () => {
+    // You can now send the productName and parameters array to the backend for saving.
+    const addProductProsie = addProduct(productName,parameters)
+    addProductProsie.then((result)=>{
+      toast.success(result.msg)
+      setParameters([])
+      setProductName([])
+    }).catch((err)=>{
+      toast.error(err.msg)
+    })
+  };
 
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Unit" />
-                            <Form.Text className="text-muted">
-                            </Form.Text>
-                        </Form.Group>
-                    </Form>
-                </div>
-            </div>
+  return (
+    <div>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <div className="productadd">
+        <h3>Product name:</h3>
+        <input
+          type="text"
+          value={productName}
+          placeholder="Enter Product Name"
+          onChange={(e) => setProductName(e.target.value)}
+        />
+        <Button onClick={addRow}>Add parameter</Button>
+        <Button onClick={handleSave}>Save</Button>
+      </div>
 
-            <div className="add-product-button">
-                <Button variant="danger" className="add-button">Add Product</Button>
-            </div>
-        </div>
-    )
+      <Table striped responsive hover>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Max</th>
+            <th>Min</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {parameters.map((parameter, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>
+                <input
+                  type="text"
+                  value={parameter.name}
+                  onChange={(e) => handleParameterChange(index, 'name', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={parameter.max}
+                  onChange={(e) => handleParameterChange(index, 'max', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={parameter.min}
+                  onChange={(e) => handleParameterChange(index, 'min', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={parameter.unit}
+                  onChange={(e) => handleParameterChange(index, 'unit', e.target.value)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
 }
 
 export default AddProduct;

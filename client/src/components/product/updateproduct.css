@@ -1,99 +1,51 @@
-.search-form {
+
+.header-div{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 30px;
 }
 
-.input-field-search {
+.complete-form{
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
 }
 
-.search-button {
+.search-form-row {
+    display: flex;
+    align-items: center; /* Vertically center the button with the input */
+}
+
+.search-form{
+    flex-direction: row;
+}
+
+.mb-3{
+    margin-top: 16px;
+}
+
+.form-group {
+    margin-right: 10px; /* Add some space between input and button */
+}
+
+.search-button{
     margin-left: 10px;
 }
 
-.button {
-    width: 100%;
-}
-
-.mb-3 {
-    width: 100%;
-}
-
-.all-inputs {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    /* flex-wrap: wrap; */
-}
-
-.input-fields {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.input-param {
-    margin: 10px 0;
-    margin-right: 10px;
-}
-
-.inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0;
-}
-
-.update-button, .delete-button {
-    width: 45%;
-    margin: 0 5px; /* Adjusted margin */
-}
-
-.up-del-button {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* justify-content: center; */
-    margin: 10px auto;
-}
-
-.header-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-}
-
-.header {
-    font-family: 'Courier New', Courier, monospace;
+.search-but{
     margin: 0;
+    padding: 0;
 }
 
-.up-button, .del-button {
-    width: 100%;
+.searhc-for{
+    margin: 0;
+    padding: 0;
 }
 
-.select-param {
-    width: 100%;
-}
-
-@media screen and (min-width: 768px) {
-    .all-inputs {
-        flex-wrap: nowrap;
-    }
-    .input-fields, .up-del-button {
-        align-items: center;
-    }
-    .inputs {
-        flex-direction: row;
-    }
-    .update-button, .delete-button {
-        width: auto;
-        margin: 5px auto; /* Adjusted margin */
-    }
+.all-inputs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 }
