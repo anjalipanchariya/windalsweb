@@ -49,3 +49,19 @@
     justify-content: space-between;
     flex-direction: row;
 }
+
+.table{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productadd{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons button{
+    margin-right: 12px;
+}
