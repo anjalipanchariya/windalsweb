@@ -4,7 +4,7 @@ async function insertInProductMaster(req,res){
     const { productName, parameter, minVal, maxVal, unit } = req.body;
 
     try {
-        const searchQuery = "SELECT id FROM product_master WHERE product_name = ? && parameters = ?"
+        const searchQuery = "SELECT id FROM product_master WHERE product_name = ? && parameter = ?"
         const [searchResult] = await db.promise().query(searchQuery,[productName,parameter])
         if(searchResult.length>0)
         {
@@ -12,7 +12,7 @@ async function insertInProductMaster(req,res){
         }
         else
         {
-            const insertQuery = "INSERT INTO product_master (product_name, parameters, min, max, unit) VALUES (?, ?, ?, ?, ?)";
+            const insertQuery = "INSERT INTO product_master (product_name, parameter, min_parameter, max_parameter, unit) VALUES (?, ?, ?, ?, ?)";
             const [insertResult] = await db.promise().query(insertQuery, [productName, parameter, minVal, maxVal, unit]);
             res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
         }
@@ -44,7 +44,7 @@ async function insertInProductMaster(req,res){
  async function deleteFromProductMaster(req,res){
     const {productId} = req.query
     try{
-        var selectQuery = "SELECT id,product_name,parameters FROM product_master WHERE id = ?"
+        var selectQuery = "SELECT id,product_name,parameter FROM product_master WHERE id = ?"
         const [selectResult] = await db.promise().query(selectQuery,[productId])
 
         if(selectResult.length === 0){
@@ -108,7 +108,7 @@ async function getOneProductAllParametersInfoFromProductMaster(req,res){
 async function getOneProductOneParameterInfoFromProductMaster(req,res){
     const {productName,productParameter} = req.query
     try{
-        const selectQuery = "SELECT * FROM product_master WHERE product_name = ? && parameters = ?"
+        const selectQuery = "SELECT * FROM product_master WHERE product_name = ? && parameter = ?"
         const [selectResult] = await db.promise().query(selectQuery,[productName,productParameter])
         if(selectResult.length===0){
             return res.status(409).send({msg:"Product does not exist in database"})

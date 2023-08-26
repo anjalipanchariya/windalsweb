@@ -1,5 +1,5 @@
 import React from "react";
-import axios from axios;
+import axios from "axios";
 
 export async function addProduct(values){
     try {
