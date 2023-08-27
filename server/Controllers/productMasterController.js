@@ -1,20 +1,26 @@
 import db from "../Database/connection.js";
 
 async function insertInProductMaster(req,res){
-    const { productName, parameter, minVal, maxVal, unit } = req.body;
-
+    const { productName, parameters } = req.body;
+    console.log({productName,parameters});
+    
     try {
-        const searchQuery = "SELECT id FROM product_master WHERE product_name = ? && parameter = ?"
-        const [searchResult] = await db.promise().query(searchQuery,[productName,parameter])
+        const searchQuery = "SELECT id FROM product_master WHERE product_name = ?"
+        const [searchResult] = await db.promise().query(searchQuery,[productName])
         if(searchResult.length>0)
         {
-            res.status(409).send({msg:"Respective product and lenght already exist in database."})
+            res.status(409).send({msg:"Respective product already exist in database."})
         }
         else
         {
             const insertQuery = "INSERT INTO product_master (product_name, parameter, min_parameter, max_parameter, unit) VALUES (?, ?, ?, ?, ?)";
-            const [insertResult] = await db.promise().query(insertQuery, [productName, parameter, minVal, maxVal, unit]);
-            res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
+            for(const parameter of parameters)
+            {
+                const {parameterName,minVal,maxVal,unit} = parameter
+                const [insertResult] = await db.promise().query(insertQuery, [productName, parameterName, minVal, maxVal, unit]);
+            
+            }
+            res.status(201).send({ msg: "Record inserted successfully"});
         }
         
     } catch (err) {
