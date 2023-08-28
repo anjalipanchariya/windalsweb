@@ -1,13 +1,16 @@
 import db from "../Database/connection.js";
 
 async function insertIntoStationMaster(req,res){
-    const {stationName,
+    var {stationName,
         productName,
-        report,
-        stationParameters,
+        reportType, //0-for ok/notok, 1-for parameters
+        stationParameter,
         cycleTime,
         dailyCount,
         productPerHour} = req.body
+        if(stationParameter.length===0){
+            stationParameter = null;
+        }
     try {
         const selectQuery = "SELECT station_id FROM station_master WHERE station_name = ? && product_name = ?"
         const [selectResult] = await db.promise().query(selectQuery,[stationName,productName])
@@ -15,11 +18,11 @@ async function insertIntoStationMaster(req,res){
             res.status(409).send({msg:"Product configuration already exists for this station."})
         }
         else{
-            insertQuery = "INSERT INTO station_master (station_name, product_name, report, station_parameters, cycle_time, daily_count, product_per_hour) VALUES (?,?,?,?)"
-            const [insertQuery] = await db.promise().query(insertQuery,[stationName,productName,report,stationParameters,cycleTime,dailyCount,productPerHour])
+            const insertQuery = "INSERT INTO station_master (station_name, product_name, report, station_parameters, cycle_time, daily_count, product_per_hour) VALUES (?,?,?,?,?,?,?)"
+            const [insertResult] = await db.promise().query(insertQuery,[stationName,productName,reportType,stationParameter,cycleTime,dailyCount,productPerHour])
             res.status(201).send({ msg: "Record inserted successfully" });
         }
-    } catch (error) {
+    } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });
     }
@@ -38,7 +41,7 @@ async function deleteFromStationMaster(req,res){
             const [deleteResult] = await db.promise().query(deleteQuery,[stationId])
             res.status(201).send({msg:`Station: ${selectResult[0].station_name} configuration of product: ${selectResult[0].product_name} deleted from database successfully`})
         } 
-    }catch(error){
+    }catch(err){
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });
     }
@@ -63,7 +66,7 @@ async function updateStationMaster(req,res){
                 const [updateResult] = await db.promise().query(updateQuery,[stationName,productName,report,stationParameters,cycleTime,dailyCount,productPerHour])
                 res.status(201).send({msg:`Data updated successfully`})
             } 
-        } catch (error) {
+        } catch (err) {
             console.error("Database error:", err);
             res.status(500).send({ msg: `Internal server error: ${err}` });
         }
@@ -96,7 +99,7 @@ async function getOneStationFromStationMaster(req,res){
         else{
             res.status(201).send({searchResult})
         }        
-    } catch (error) {
+    } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({msg:`Internal server error: ${err}`})
     }
@@ -113,7 +116,7 @@ async function getOneStationOneProductFromStationMaster(req,res){
         else{
             res.status(201).send({searchResult})
         }        
-    } catch (error) {
+    } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({msg:`Internal server error: ${err}`})
     }

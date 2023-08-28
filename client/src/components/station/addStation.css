@@ -1,17 +1,17 @@
 .add-station-container {
-    margin: 5px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* Use flexbox layout */
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 5px;
 }
 
 .add-station-inputs {
     width: 100%;
-    /* Adjust width if necessary */
     max-width: 400px;
-    /* Set a maximum width for better readability */
     margin: 0 auto;
-    /* Center the form */
+    flex: 1;
+    margin-left: 20px;
 }
 
 .add-station-button {
@@ -22,7 +22,6 @@
 
 .header-add-station {
     margin: 5px;
-    ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,6 +33,20 @@
         /* Adjust the max-width for smaller screens */
         padding: 0 20px;
         /* Add some padding for better readability */
+    }
+}
+
+@media (max-width: 767px) {
+    .add-station-container {
+        flex-direction: column;
+        /* Stack forms vertically on smaller screens */
+        align-items: center;
+        justify-content: center;
+    }
+
+    .add-station-inputs {
+        max-width: 100%;
+        padding: 0 20px;
     }
 }
 
@@ -51,39 +64,54 @@
     text-align: left;
 }
 
-.table-body{
+.table-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
 }
 
-.head-contents{
+.head-contents {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.body-contents{
+.body-contents {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.table-edit-button button{
+.table-edit-button button {
     height: 10px;
 }
 
-.edits{
+.edits {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.station-row{
+.station-row {
     margin-left: 100px;
 }
 
-.product-row{
+.product-row {
     margin-left: 50px;
+}
+
+.search-station-form {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    margin: 0;
+    margin-right: 100px;
+    width: 100%;
+}
+
+.search-station-button {
+    margin-right: 130px;
 }
