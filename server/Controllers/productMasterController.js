@@ -121,4 +121,15 @@ async function getOneProductOneParameterInfoFromProductMaster(req,res){
     }
 }
 
-export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster };
+async function getProductNames(req,res){
+    try {
+        searchQuery = "SELECT product_name FROM product_mastert"
+        const [searchResult] = await db.promise().query(searchQuery)
+        res.status(201).send({searchResult})
+    } catch (error) {
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+}
+
+export { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames };
