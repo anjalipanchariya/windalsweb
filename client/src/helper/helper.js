@@ -10,7 +10,8 @@ export async function addProduct(values){
     }
 }
 
-export async function updateProducts(values){
+export async function updateProducts(productName,existingParameters){
+    const values = {ProductName:productName,parameters:existingParameters}
     try {
         const {data,status} = await axios.put("http://localhost:8080/api/ProductMasterUpdate",values)
         return Promise.resolve(data)
@@ -19,10 +20,9 @@ export async function updateProducts(values){
     }
 }
 
-export async function deleteProduct(values){
-    const {productId} = values
+export async function deleteProductParameter(productId){
     try{
-        const {data,status} = await axios.delete("http://localhost:8080/api/ProductMasterDelete",{params:{productId:productId}})
+        const {data,status} = await axios.delete("http://localhost:8080/api/ProductMasterDelete",{params:{productId}})
         return Promise.resolve(data)
     }catch(error){
         return Promise.reject(error.response.data);
@@ -38,8 +38,7 @@ export async function getAllProducts(){
     }
 }
 
-export async function getOneProductAllParameters(values){
-    const {productName} = values
+export async function getOneProductAllParameters(productName){
     try {
         const {data,status} = await axios.get("http://localhost:8080/api/ProductMasterGetOneProductAllParameters",{params:{productName:productName}})
         return Promise.resolve(data)

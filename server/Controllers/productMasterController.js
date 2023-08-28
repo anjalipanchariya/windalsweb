@@ -2,15 +2,16 @@ import db from "../Database/connection.js";
 
 async function insertInProductMaster(req,res){
     const { productName, parameters } = req.body;
-    console.log({productName,parameters});
-    
+    const parameterNames = parameters.map((parameter) => parameter.parameterName)
     try {
-        const searchQuery = "SELECT id FROM product_master WHERE product_name = ?"
-        const [searchResult] = await db.promise().query(searchQuery,[productName])
-        if(searchResult.length>0)
+        const searchQuery = "SELECT parameter FROM product_master WHERE product_name = ? AND parameter IN (?)"
+        const [selectResult] = await db.promise().query(searchQuery,[productName,parameterNames])
+        if(selectResult.length>0)
         {
-            res.status(409).send({msg:"Respective product already exist in database."})
-        }
+            const conflictingParameters = selectResult.map(result => result.parameter);
+            res.status(409).send({ msg: `Failed for parameters:${conflictingParameters.join(', ')}. These parameters already exist for the product.` });
+
+        }       
         else
         {
             const insertQuery = "INSERT INTO product_master (product_name, parameter, min_parameter, max_parameter, unit) VALUES (?, ?, ?, ?, ?)";
@@ -18,11 +19,9 @@ async function insertInProductMaster(req,res){
             {
                 const {parameterName,minVal,maxVal,unit} = parameter
                 const [insertResult] = await db.promise().query(insertQuery, [productName, parameterName, minVal, maxVal, unit]);
-            
             }
             res.status(201).send({ msg: "Record inserted successfully"});
         }
-        
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });
@@ -38,7 +37,6 @@ async function insertInProductMaster(req,res){
             res.status(200).send({msg:"No infomation about products exist in database."})
         }
         else{
-            console.log(result);
             res.status(201).send(result)
         }
     }catch(err){
@@ -63,7 +61,7 @@ async function insertInProductMaster(req,res){
         const [deleteResult] = await db.promise().query(deleteQuery,[productId])
         
         console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
-        res.status(201).send({msg:"Product data deleted from database successfully"})
+        res.status(201).send({msg:`Parameter: ${selectResult[0].parameter} of product: ${selectResult[0].product_name} deleted from database successfully  `})
     }catch(err){
         console.error("Database error:", err);
         res.status(500).send({msg:`Internal server error: ${err}`})
@@ -71,25 +69,22 @@ async function insertInProductMaster(req,res){
 }
 
  async function updateProductMaster(req,res){
-    const { productId, updatedFields } = req.body;
-
+    // const { productId, updatedFields } = req.body;
+    const {productName,parameters} = req.body
     try {
-        // Construct the SET clause for the update query based on the updatedFields object
-        const setClause = Object.keys(updatedFields).map(key => `${key} = ?`).join(', ');
-
-        // Prepare the values array for the query
-        const values = Object.values(updatedFields);
-        values.push(productId); // Add productId as the last value for the WHERE condition
-
-        // Update the product based on productId
-        const updateQuery = `UPDATE product_master SET ${setClause} WHERE id = ?`;
-        const [updateResult] = await db.promise().query(updateQuery, values);
-
-        if (updateResult.affectedRows === 0) {
-            return res.status(404).send({ msg: "Product not found" });
+        const updateQuery = "UPDATE product_master SET max_parameter = ?, min_parameter = ?, unit = ? WHERE id = ? "
+        const updateData = []
+        for(const parameter of parameters)
+        {
+            const {id,maxVal,minVal,unit} = parameter
+            const updateResult = await db.promise().query(updateQuery,[maxVal,minVal,unit,id])
+            updateData.push(updateResult)
         }
-
-        res.status(200).send({ msg: "Product data updated successfully" });
+        if(updateData.length===0){
+            res.status(409).send({msg:"Server Error: Product not found"})
+            return
+        }
+        res.status(200).send({ msg: "Data updated successfully" });
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });

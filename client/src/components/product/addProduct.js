@@ -40,11 +40,15 @@ const AddProduct = () => {
         addProductPromise,
         {
           loading: 'Uploading data', // This should be a plain string
-          success: result => <b>{`${result.msg}`}</b>,
-          error: err => <b>{`${err.msg}`}</b>
+          success: result => {
+                    formik.resetForm();
+                    formik.setFieldValue("parameter",[{ parameterName: '', minVal: '', maxVal: '', unit: '' }])
+                    return result.msg
+                },
+          error: err => <b>{err.msg}</b>
         }
       );
-      formik.resetForm();
+      
     },
   });
 
