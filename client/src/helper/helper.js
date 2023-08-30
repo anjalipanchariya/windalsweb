@@ -86,18 +86,19 @@ export async function getStations(){
     }
 }
 
-export async function getOneStation(StationName){
+export async function getOneStation(stationName){
     try {
-        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStation",{params:{StationName}})
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStation",{params:{stationName}})
         return Promise.resolve(data)
     } catch (error) {
+        console.log(error);
         return Promise.reject(error.response.data)
     }
 }
 
-export async function getOneStationOneProduct(stationName,productName){
+export async function getOneStationOneProduct(values){
     try {
-        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStationOneProduct",{params:{stationName,productName}})
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStationOneProduct",{params:{values}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)

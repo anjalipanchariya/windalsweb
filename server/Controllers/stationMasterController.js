@@ -11,6 +11,9 @@ async function insertIntoStationMaster(req,res){
         if(stationParameter.length===0){
             stationParameter = null;
         }
+        else{
+            stationParameter = stationParameter.map((parameter)=>parameter).join(", ")
+        }
     try {
         const selectQuery = "SELECT station_id FROM station_master WHERE station_name = ? && product_name = ?"
         const [selectResult] = await db.promise().query(selectQuery,[stationName,productName])
@@ -29,10 +32,10 @@ async function insertIntoStationMaster(req,res){
 }
 
 async function deleteFromStationMaster(req,res){
-    const {stationId,stationName,productName} = req.query
+    const {stationId} = req.query
     try{
-        const selectQuery = "SELECT station_id FROM station_master WHERE station_name = ? && product_name = ?"
-        const [selectResult] = await db.promise().query(selectQuery,[stationName,productName])
+        const selectQuery = "SELECT station_id FROM station_master WHERE station_id = ?"
+        const [selectResult] = await db.promise().query(selectQuery,[stationId])
         if(selectResult.length === 0 ){
             res.status(409).send({msg:"The station configuration of this product does not exist."})
         }
@@ -48,13 +51,20 @@ async function deleteFromStationMaster(req,res){
 }
 
 async function updateStationMaster(req,res){
-    const {stationName,
+    var {stationId,
+        stationName,
         productName,
-        report,
-        stationParameters,
+        reportType,
+        stationParameter,
         cycleTime,
         dailyCount,
         productPerHour} = req.body
+        if(stationParameter.length===0){
+            stationParameter = null;
+        }
+        else{
+            stationParameter = stationParameter.map((parameter)=>parameter).join(", ")
+        }
         try {
             const selectQuery = "SELECT station_id FROM station_master WHERE station_name = ? && product_name = ?"
             const [selectResult] = await db.promise().query(selectQuery,[stationName,productName])
@@ -63,7 +73,7 @@ async function updateStationMaster(req,res){
             }
             else{
                 const updateQuery = "UPDATE station_master set station_name = ?, product_name = ?, report = ?, station_parameters = ?, cycle_time = ?, daily_count = ?, product_per_hour = ? WHERE station_id = ?"
-                const [updateResult] = await db.promise().query(updateQuery,[stationName,productName,report,stationParameters,cycleTime,dailyCount,productPerHour])
+                const [updateResult] = await db.promise().query(updateQuery,[stationName,productName,reportType,stationParameter,cycleTime,dailyCount,productPerHour,stationId])
                 res.status(201).send({msg:`Data updated successfully`})
             } 
         } catch (err) {
@@ -89,7 +99,7 @@ async function getInfoFromStationMaster(req,res){
 }
 
 async function getOneStationFromStationMaster(req,res){
-    const {stationName} = req.body
+    const {stationName} = req.query
     try {
         const searchQuery = "SELECT * FROM station_master WHERE station_name = ?"
         const [searchResult] = await db.promise().query(searchQuery,[stationName])
@@ -97,7 +107,7 @@ async function getOneStationFromStationMaster(req,res){
             res.status(409).send({msg:"No such station exist in database."})
         }
         else{
-            res.status(201).send({searchResult})
+            res.status(201).send(searchResult)
         }        
     } catch (err) {
         console.error("Database error:", err);
@@ -106,7 +116,7 @@ async function getOneStationFromStationMaster(req,res){
 }
 
 async function getOneStationOneProductFromStationMaster(req,res){
-    const {stationName,productName} = req.body
+    const {stationName,productName} = req.query.values
     try {
         const searchQuery = "SELECT * FROM station_master WHERE station_name = ? AND product_name = ?"
         const [searchResult] = await db.promise().query(searchQuery,[stationName,productName])
@@ -114,7 +124,7 @@ async function getOneStationOneProductFromStationMaster(req,res){
             res.status(409).send({msg:"Station configuration of this product does not exist in database."})
         }
         else{
-            res.status(201).send({searchResult})
+            res.status(201).send(searchResult)
         }        
     } catch (err) {
         console.error("Database error:", err);

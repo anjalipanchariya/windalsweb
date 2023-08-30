@@ -123,7 +123,7 @@ async function getOneProductOneParameterInfoFromProductMaster(req,res){
 
 async function getProductNames(req,res){
     try {
-        const searchQuery = "SELECT product_name FROM product_master"
+        const searchQuery = "SELECT DISTINCT product_name FROM product_master"
         const [searchResult] = await db.promise().query(searchQuery)
         res.status(201).send(searchResult)
     } catch (err) {
