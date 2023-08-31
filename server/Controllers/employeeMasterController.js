@@ -1,7 +1,7 @@
 import db from "../Database/connection.js";
 
 async function insertIntoEmployeeMaster(req,res){
-    const { designation, emp_first_name, emp_last_name,  joining_date } = req.body;
+    const { designation, emp_first_name, emp_last_name,  joining_date, password } = req.body;
 
     try {
         const searchQuery = "SELECT id FROM employee WHERE emp_first_name = ? && emp_last_name = ?"
@@ -13,8 +13,8 @@ async function insertIntoEmployeeMaster(req,res){
         else
         {
 
-            const insertQuery = "INSERT INTO employee (designation, emp_first_name, emp_last_name,  joining_date) VALUES (?, ?, ?, ?,)";
-            const [insertResult] = await db.promise().query(insertQuery, [designation, emp_first_name, emp_last_name,  joining_date]);
+            const insertQuery = "INSERT INTO employee (designation, emp_first_name, emp_last_name,  joining_date, password) VALUES (?, ?, ?, ?,?)";
+            const [insertResult] = await db.promise().query(insertQuery, [designation, emp_first_name, emp_last_name,  joining_date,password]);
             res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
         }
         

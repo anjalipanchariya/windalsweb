@@ -1,13 +1,17 @@
 import Router from "express"
 import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames } from "../Controllers/productMasterController.js";
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster} from "../Controllers/stationMasterController.js";
+import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
+import {insertInStationyyyyFirst} from "../Controllers/stationyyyyController.js"
 const router = Router()
 
 /**POST MEATHODS */
 router.route("/ProductMasterInsert").post(insertInProductMaster)
 router.route("/StationMasterInsert").post(insertIntoStationMaster)
 router.route("/EmployeeMasterInsert").post(insertIntoEmployeeMaster)
+router.route("/ProductyyyyInsert").post(insertInProductyyyy);
+router.route("/StationyyyyInsertFirst").post(insertInStationyyyyFirst);
 
 /**GET MEATHODS */
 router.route('/ProductMasterGet').get(getInfoFromProductMaster)

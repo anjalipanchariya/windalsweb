@@ -14,8 +14,25 @@ CREATE TABLE `windals`.`station_master` (
   `report` INT NOT NULL,
   `station_parameters` VARCHAR(1000) NULL,
   `next_station_name` VARCHAR(100) NULL,
-  PRIMARY KEY (`station_id`),
-  UNIQUE INDEX `product_name_UNIQUE` (`product_name` ASC) VISIBLE);
+  `cycle_time` INT NOT NULL,
+  `daily_count` INT NOT NULL,
+  `product_per_hour` INT NOT NULL,
+  PRIMARY KEY (`station_id`));
+
+// station_yyyy table queries
+
+CREATE TABLE `windals`.`station_yyyy` (
+  `station_id` INT NOT NULL,
+  `product_name` VARCHAR(100) NOT NULL,
+  `job_id` INT NOT NULL,
+  `employee_id` INT NOT NULL,
+  `status` INT NULL,
+  `parameters` VARCHAR(1000) NULL,
+  `intime` DATETIME NOT NULL,
+  `out_time` DATETIME NULL);
+
+// employee table queries
+  
 
   CREATE TABLE `windals`.`employee` (
   `employee_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -25,4 +42,20 @@ CREATE TABLE `windals`.`station_master` (
   `joining_date` DATE NOT NULL,
   `leaving_date` DATE NULL,
   PRIMARY KEY (`employee_id`));
+
+
+ALTER TABLE `windals`.`employee` 
+ADD COLUMN `password` VARCHAR(10) NOT NULL AFTER `leaving_date`;
+
+
+// product_yyyy table queries
+CREATE TABLE `windals`.`productyyyy` (
+  `job_id` INT NOT NULL,
+  `product_name` VARCHAR(100) NOT NULL,
+  `station_id` INT NOT NULL,
+  `job_name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`job_id`));
+
+ALTER TABLE `windals`.`productyyyy` 
+CHANGE COLUMN `job_id` `job_id` INT NOT NULL AUTO_INCREMENT ;
 
