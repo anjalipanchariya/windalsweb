@@ -1,103 +1,215 @@
-import React from "react";
-import { Button, Form, Modal } from 'react-bootstrap';
+import React, { useEffect } from "react";
+import { Button, Form, Modal,Table } from 'react-bootstrap';
 import './addStation.css'
 import { useState } from "react";
+import { useFormik } from "formik";
+import { addStation, deleteStation, getOneProductAllParameters, getOneStation, getOneStationOneProduct, getProductNames,updateStation } from "../../helper/helper";
+import toast, { Toaster } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 
 function AddStation() {
-    const checkArray = ['param1', 'param2', 'param3', 'param4'];
-    const proArraay = ['product 1', 'product 2', 'product 3'];
-    const [show, setShow] = useState(false);
-    const [selectedReportType, setSelectedReportType] = useState('');
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const handleReportTypeChange = (event) => {
-        setSelectedReportType(event.target.value);
-        if (event.target.value === "2") {
-            handleShow();
+    const [productNames,setProductNames] = useState([]);
+    const [productParameters,setProductParameters] = useState([]);
+    const [stationData,setStationData] = useState([])
+    const [showEditModal,setShowEditModal] = useState(false);
+    
+    const addFormFormik = useFormik({
+        initialValues:{
+            stationName: '',
+            productName: '',
+            reportType: '',
+            stationParameter: [],
+            cycleTime: '',
+            dailyCount:'',
+            productPerHour: ''
+        },
+        onSubmit: async (values) => {
+            const addStationPromise = addStation(values)
+            toast.promise(
+                addStationPromise,
+                {
+                    loading: 'Adding station',
+                    success: (result) => {
+                        addFormFormik.resetForm()
+                        return result.msg},
+                    error: (err) => {
+                        return err.msg}
+                }
+            )
         }
-        else {
-            setSelectedParams([]);
-            setSelectedParams(["Ok/ Not OK"]);
+    })
+
+    const searchFormFormik = useFormik({
+        initialValues:{
+            stationName:"",
+            productName:"",
+        },
+        onSubmit: (values) => {
+            handleSearch()
+        }
+    })
+
+    const editFormFormik = useFormik({
+        initialValues:{
+            stationId:'',
+            stationName: '',
+            productName: '',
+            reportType: '',
+            stationParameter: [],
+            cycleTime: '',
+            dailyCount:'',
+            productPerHour: ''
+        },
+        onSubmit: async (values) => {
+            const updateStationPromise = updateStation(values)
+            toast.promise(
+                updateStationPromise,
+                {
+                  loading: "Updating data",
+                  success: result => {
+                    editFormFormik.resetForm();
+                    setShowEditModal(false);
+                    handleSearch();
+                    return <b>{result.msg}</b>; // Return a React element
+                  },
+                  error: err => <b>{err.msg}</b>, // Return a React element
+                }
+            )
+        }
+    })
+    
+    useEffect(()=>{
+        const getProductNamesPromise = getProductNames()
+        getProductNamesPromise.then(async(result)=>{
+            const productnames = await result.map((product)=> product.product_name)
+            setProductNames(productnames)
+        }).catch((err)=>{})
+    },[])
+   
+    useEffect(()=>{
+        if(addFormFormik.values.productName!=="" || editFormFormik.values.productName!=="")
+        {
+            const productName = addFormFormik.values.productName!=="" ? addFormFormik.values.productName : editFormFormik.values.productName
+            const getProductParametersPromise = getOneProductAllParameters(productName)
+            getProductParametersPromise.then( async (result)=>{
+                const parameters = await result.map( (product) => product.parameter)
+                setProductParameters(parameters)
+            }).catch((err)=>{})
+        }
+    },[addFormFormik.values.productName,editFormFormik.values.productName])
+
+    useEffect(()=>{
+        handleReportTypeChangeForAdd(addFormFormik.values.reportType)
+    },[addFormFormik.values.reportType])
+
+    useEffect(()=>{
+        handleReportTypeChangeForEdit(editFormFormik.values.reportType)
+    },[editFormFormik.values.reportType])
+    
+    const handleModalClose = () => {
+        editFormFormik.resetForm()
+        setShowEditModal(false);
+    }
+
+    const handleReportTypeChangeForAdd = (value) => {          //use to empty stationParameters if reportType changed to ok/notok
+        if (value === "0") {
+            addFormFormik.setFieldValue('stationParameter',[])
         }
     };
 
-    const [stationName, setStationName] = useState('');
-    const [work, setWork] = useState('');
-    const [product, setProduct] = useState('');
-    const [selectedParams, setSelectedParams] = useState([]);
-
-    const [stationData, setStationData] = useState([]);
-
-    const parameterChange = (parameter) => {
-        const updatedParams = selectedParams.includes(parameter) ? (selectedParams.filter(item => item !== parameter)) : [...selectedParams, parameter]
-
-        setSelectedParams(updatedParams);
-    }
-
-    const printVal = () => {
-        // console.log("Station : ", stationName)
-        // console.log("Work : ", work)
-        // console.log("Product : ", product)
-        // console.log("Report : ", selectedParams)
-
-        const newRow = {
-            stationName: stationName,
-            // work: work, 
-            product: product,
-            selectedParams: selectedParams.join(", ")
-        };
-
-        setStationData(prevData => [...prevData, newRow]);
-    }
-
-    const handleDelete = (index) => {
-        const updatedStationData = [...stationData];
-        updatedStationData.splice(index, 1);
-        setStationData(updatedStationData);
+    const handleReportTypeChangeForEdit = (value) => {          //use to empty stationParameters if reportType changed to ok/notok
+        if (value === "0") {
+            editFormFormik.setFieldValue('stationParameter',[])
+        }
     };
 
-    const [editingIndex, setEditingIndex] = useState(-1); // -1 indicates no editing
-    const [editableValues, setEditableValues] = useState({
-        stationName: "",
-        product: "",
-        selectedParams: "",
-    });
+    function handleSearch() {
+        if(searchFormFormik.values.productName===""){
+            const getOneStationPromise = getOneStation(searchFormFormik.values.stationName)
+            getOneStationPromise.then(async(result)=>{
+                await setStationData(result)
+            }).catch((err)=>{
+                toast.error(err.msg)
+            })
+        }
+        else{
+           const getOneStationOneProductPromise = getOneStationOneProduct(searchFormFormik.values)
+           getOneStationOneProductPromise.then(async(result)=>{
+                await setStationData(result)
+            }).catch((err)=>{
+                toast.error(err.msg)
+            })
+        }
+    }
+    
+    const handleDelete = (index,stationId) => {
+        const deleteStationPromise = deleteStation(stationId)
+        toast.promise(
+            deleteStationPromise,
+            {
+                loading: "Deleting data",
+                success: result => {
+                    handleSearch()
+                    return result.msg
+                },
+                error: err => {return err.msg}
+            }
+        )
+        
+    };
 
-    const handleEdit = (index) => {
-        const row = stationData[index];
-        setEditingIndex(index);
-        setEditableValues({
-            stationName: row.stationName,
-            product: row.product,
-            selectedParams: row.selectedParams,
-        });
+    const handleEdit = (stationData) => {
+       const editValues = {
+        stationId: stationData.station_id,
+        stationName: stationData.station_name,
+        productName: stationData.product_name,
+        reportType: stationData.report.toString(),
+        stationParameter: stationData.station_parameters===null ? [] : stationData.station_parameters.split(', '),
+        cycleTime: stationData.cycle_time,
+        dailyCount: stationData.daily_count,
+        productPerHour: stationData.product_per_hour
+       }
+       editFormFormik.setValues(editValues)
+       setShowEditModal(true)
     };
 
     const handleUpdate = () => {
-        const updatedData = stationData.map((row, index) => {
-            if (index === editingIndex) {
-                return {
-                    ...row,
-                    stationName: editableValues.stationName,
-                    product: editableValues.product,
-                    selectedParams: editableValues.selectedParams,
-                };
-            }
-            return row;
-        });
-
-        setStationData(updatedData);
-        setEditingIndex(-1);
-        setEditableValues({
-            stationName: "",
-            product: "",
-            selectedParams: "",
-        });
+            
     };
+
+    const handleParameterTickBoxChangeForAdd = (parameterName) => {
+        if (addFormFormik.values.stationParameter.includes(parameterName)) {
+          addFormFormik.setFieldValue(
+            'stationParameter',
+            addFormFormik.values.stationParameter.filter((name) => name !== parameterName)
+          );
+        } else {
+          addFormFormik.setFieldValue(
+            'stationParameter',
+            [...addFormFormik.values.stationParameter, parameterName]
+          );
+        }
+      };
+
+      const handleParameterTickBoxChangeForEdit = (parameterName) => {
+        if (editFormFormik.values.stationParameter.includes(parameterName)) {
+          editFormFormik.setFieldValue(
+            'stationParameter',
+            editFormFormik.values.stationParameter.filter((name) => name !== parameterName)
+          );
+        } else {
+          editFormFormik.setFieldValue(
+            'stationParameter',
+            [...editFormFormik.values.stationParameter, parameterName]
+          );
+        }
+      };
+
+
     return (
         <div>
+            <Toaster position="top-center" reverseOrder={false}></Toaster>
             <div className="header-add-station">
                 <h2 className="add-station-header">Add Station</h2>
             </div>
@@ -106,13 +218,13 @@ function AddStation() {
                     <Form>
                         <div className="station-name-id">
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="text" placeholder="Enter Station Name" value={stationName} onChange={(event) => { setStationName(event.target.value) }} />
+                                <Form.Control type="text" placeholder="Enter Station Name" value={addFormFormik.values.stationName} name="stationName" onChange={addFormFormik.handleChange} />
                             </Form.Group>
 
-                            <Form.Select className="mb-3 select-param" aria-label="Default select example" value={product} onChange={(event) => { setProduct(event.target.value) }}>
-                                <option>Product</option>
+                            <Form.Select className="mb-3 select-param" aria-label="Default select example" value={addFormFormik.values.productName} name="productName" onChange={addFormFormik.handleChange}>
+                                <option values="">--Select Product--</option>
                                 {
-                                    proArraay.map((product, index) => (
+                                    Array.isArray(productNames) && productNames.map((product, index) => (
                                         <option key={index} value={product}>{product}</option>
                                     ))
                                 }
@@ -124,138 +236,210 @@ function AddStation() {
                                     </Form.Text>
                                 </Form.Group> */}
 
-                            <Form.Select className="mb-3 select-param" aria-label="Default select example" value={selectedReportType} onChange={handleReportTypeChange}>
-                                <option>Report Type</option>
-                                <option value="1">Okay/Not okay</option>
-                                <option value="2">Parameters</option>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="number" placeholder="Enter Cycle Time" value={addFormFormik.values.cycleTime} name="cycleTime" onChange={addFormFormik.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="number" placeholder="Enter Daily Count " value={addFormFormik.values.dailyCount} name="dailyCount" onChange={addFormFormik.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="number" placeholder="Enter Product to be producted per hour" value={addFormFormik.values.productPerHour} name="productPerHour" onChange={addFormFormik.handleChange} />
+                            </Form.Group>
+
+                            <Form.Select className="mb-3 select-param" aria-label="Default select example" value={addFormFormik.values.reportType} name="reportType" onChange={addFormFormik.handleChange}>
+                                <option value=''>--Select Report Type--</option>
+                                <option value="0">Okay/Not okay</option>
+                                <option value="1">Parameters</option>
                             </Form.Select>
+
+                            {
+                                addFormFormik.values.reportType === "1" && 
+                                <Form>
+                                <h3>Select Parameters:</h3>
+                                    {productParameters.map((parameter,index) => (
+                                        <div key={index}>
+                                        <label>
+                                            <input
+                                            type="checkbox"
+                                            checked={addFormFormik.values.stationParameter.includes(parameter)}
+                                            onChange={() => handleParameterTickBoxChangeForAdd(parameter)}
+                                            />
+                                            {parameter}
+                                        </label>
+                                        </div>
+                                    ))}
+                                </Form>
+                            }    
+                        
                         </div>
 
                         <div className="add-station-button">
-                            <Button variant="danger" className="add-button-stn" onClick={printVal}>Add Station</Button>
+                            <Button variant="danger" className="add-button-stn" onClick={addFormFormik.handleSubmit}>Add Station</Button>
                         </div>
                     </Form>
                 </div>
+                <div className="search-station-form">
+                    <Form>
+                        <Form.Group className="mb-3" aria-label="formBasicEmail">
+                            <Form.Control type="text" placeholder="Enter Station Name" value={searchFormFormik.values.stationName} name="stationName" onChange={searchFormFormik.handleChange}/>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" aria-label="formBasicEmail">
+                            <Form.Control type="text" placeholder="Enter Product Name" value={searchFormFormik.values.productName} name="productName" onChange={searchFormFormik.handleChange}/>
+                        </Form.Group>
+                    </Form>
+                    <Button variant="danger" className="search-station-button" onClick={searchFormFormik.handleSubmit}>Search</Button>
+                </div>
+            </div>
+
+            <div>
+            <Table striped responsive hover className='table'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Station Name</th>
+                        <th>Product Name</th>
+                        <th>Report Type</th>
+                        <th>Station parameters</th>
+                        {/* <th>Next station Name</th> */}
+                        <th>Station cycle time</th>
+                        <th>Station product count</th>
+                        <th>Station product per hour</th>
+                        <th>Press to Edit</th>
+                        <th>Press to delete row</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {   
+                        Array.isArray(stationData) && stationData.map((stationdata,index)=>(
+                            
+                            <tr key={index}>
+                                <td>
+                                    {index+1}
+                                </td>
+                                <td>
+                                    {stationdata.station_name}
+                                </td>
+                                <td>
+                                    {stationdata.product_name}
+                                </td>
+                                <td>
+                                    {
+                                        stationdata.report === 0 ? "OK/NOT OK" : "Parameters"
+                                    }
+                                </td>
+                                <td>
+                                    {stationdata.station_parameters ? stationdata.station_parameters : "NULL"}
+                                </td>
+                                {/* <td>
+                                    {stationdata.next_station_name}
+                                </td> */}
+                                <td>
+                                    {stationdata.cycle_time}
+                                </td>
+                                <td>
+                                    {stationdata.daily_count}
+                                </td>
+                                <td>
+                                    {stationdata.product_per_hour}
+                                </td>
+                                <td>
+                                    <button
+                                        className="edit-button"
+                                        onClick={() => handleEdit(stationdata)}
+                                    >
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                    className="delete-button"
+                                    onClick={() => handleDelete(index,stationdata.station_id)}
+                                    >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </Table>
             </div>
 
             <Modal
-                show={show}
-                onHide={handleClose}
+                show={showEditModal}
+                onHide={handleModalClose}
                 backdrop="static"
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Select Parameters</Modal.Title>
+                    <Modal.Title>Edit the Station as per required</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        {checkArray.map((type) => (
-                            <div key={`default-${type}`} className="mb-3">
-                                <Form.Check
-                                    type="checkbox"
-                                    id={`default-${type}`}
-                                    label={type}
-                                    checked={selectedParams.includes(type)}
-                                    onChange={() => { parameterChange(type) }}
-                                />
-                            </div>
-                        ))}
+                        Staiton Name: {editFormFormik.values.stationName}
+                        Product Name: {editFormFormik.values.productName}
+                        
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <label>Cycle Time</label>
+                            <Form.Control type="number" placeholder="Enter Cycle Time" value={editFormFormik.values.cycleTime} name="cycleTime" onChange={editFormFormik.handleChange} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <label>Daily Count</label>
+                            <Form.Control type="number" placeholder="Enter Daily Count " value={editFormFormik.values.dailyCount} name="dailyCount" onChange={editFormFormik.handleChange} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <label>Product per hour</label>
+                            <Form.Control type="number" placeholder="Enter Product to be producted per hour" value={editFormFormik.values.productPerHour} name="productPerHour" onChange={editFormFormik.handleChange} />
+                        </Form.Group>
+                        
+                        <label>Report Type</label>
+                        <Form.Select className="mb-3 select-param" aria-label="Default select example" value={editFormFormik.values.reportType} name="reportType" onChange={editFormFormik.handleChange}>
+                                <option value=''>--Select Report Type--</option>
+                                <option value="0">Okay/Not okay</option>
+                                <option value="1">Parameters</option>
+                        </Form.Select>
+
+                        {
+                                editFormFormik.values.reportType === "1" && 
+                                <div>
+                                <h3>Select Parameters:</h3>
+                                    {productParameters.map((parameter,index) => (
+                                        <div key={index}>
+                                        <label>
+                                            <input
+                                            type="checkbox"
+                                            checked={editFormFormik.values.stationParameter.includes(parameter)}
+                                            onChange={() => handleParameterTickBoxChangeForEdit(parameter)}
+                                            />
+                                            {parameter}
+                                        </label>
+                                        </div>
+                                    ))}
+                                </div>
+                            }
+
                     </Form>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="danger" onClick={handleClose}>
+                    <Button variant="danger" onClick={handleModalClose}>
                         Close
+                    </Button>
+                    <Button variant="danger" onClick={editFormFormik.handleSubmit}>
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            <div className="station-table">
-                <table className="table styled-table">
-                    <thead>
-                        <tr className="head-contents">
-                            <th scope="col">Station Name</th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Report Type</th>
-                        </tr>
-                    </thead>
-                    <tbody className="table-body">
-                        {stationData.map((row, index) => {
-                            const isEditing = index === editingIndex;
-
-                            return (
-                                <tr key={index} className="body-contents">
-                                    <div className="edits">
-                                        <td className="station-row">
-                                            {isEditing ? (
-                                                <Form.Control
-                                                    type="text"
-                                                    value={editableValues.stationName}
-                                                    onChange={(e) =>
-                                                        setEditableValues({
-                                                            ...editableValues,
-                                                            stationName: e.target.value,
-                                                        })
-                                                    }
-                                                />
-                                            ) : (
-                                                row.stationName
-                                            )}
-                                        </td>
-                                        <td className="product-row">
-                                            {isEditing ? (
-                                                <Form.Control
-                                                    as="select"
-                                                    value={editableValues.product}
-                                                    onChange={(e) =>
-                                                        setEditableValues({
-                                                            ...editableValues,
-                                                            product: e.target.value,
-                                                        })
-                                                    }
-                                                >
-                                                    <option value="">Select Product</option>
-                                                    {proArraay.map((product, index) => (
-                                                        <option key={index} value={product}>
-                                                            {product}
-                                                        </option>
-                                                    ))}
-                                                </Form.Control>
-                                            ) : (
-                                                row.product
-                                            )}
-                                        </td>
-                                        <td className="param-row">{row.selectedParams}</td>
-                                        <td>
-                                            {isEditing ? (
-                                                <Button variant="success" onClick={handleUpdate}>
-                                                    Save
-                                                </Button>
-                                            ) : (
-                                                <Button variant="primary" onClick={() => handleEdit(index)}>
-                                                    Edit
-                                                </Button>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <Button
-                                                variant="danger"
-                                                onClick={() => {
-                                                    handleDelete(index);
-                                                    setEditingIndex(-1);
-                                                }}
-                                                className="table-delete-button"
-                                            >
-                                                Delete
-                                            </Button>
-                                        </td>
-                                    </div>
-                                </tr>
-                            );
-                        })}
-                    </tbody>;
-                </table>
-            </div>
+        
+        
+        
+        
+        
         </div>
     )
 }

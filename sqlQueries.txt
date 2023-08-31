@@ -33,7 +33,8 @@ CREATE TABLE `windals`.`station_yyyy` (
 
 // employee table queries
   
-CREATE TABLE `windals`.`employee` (
+
+  CREATE TABLE `windals`.`employee` (
   `employee_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `emp_first_name` VARCHAR(100) NOT NULL,
   `emp_last_name` VARCHAR(100) NOT NULL,
@@ -41,6 +42,7 @@ CREATE TABLE `windals`.`employee` (
   `joining_date` DATE NOT NULL,
   `leaving_date` DATE NULL,
   PRIMARY KEY (`employee_id`));
+
 
 ALTER TABLE `windals`.`employee` 
 ADD COLUMN `password` VARCHAR(10) NOT NULL AFTER `leaving_date`;
@@ -56,3 +58,4 @@ CREATE TABLE `windals`.`productyyyy` (
 
 ALTER TABLE `windals`.`productyyyy` 
 CHANGE COLUMN `job_id` `job_id` INT NOT NULL AUTO_INCREMENT ;
+

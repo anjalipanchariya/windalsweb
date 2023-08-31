@@ -19,10 +19,10 @@ router.route('/ProductMasterGetOneProductAllParameters').get(getOneProductAllPar
 router.route('/ProductMasterGetOneProductOneParameter').get(getOneProductOneParameterInfoFromProductMaster)
 router.route("/StationMasterGet").get(getInfoFromStationMaster)
 router.route('/ProductMasterGetProductNames').get(getProductNames)
-router.route('StationMasterGetOneStation').get(getOneStationFromStationMaster)
-router.route('StationMasterGetOneStationOneProduct').get(getOneStationOneProductFromStationMaster)
-router.route('EmployeeMasterGet').get(getAllFromEmployee)
-router.route('EmployeeMasterGetOne').get(getOneFromEmployee)
+router.route('/StationMasterGetOneStation').get(getOneStationFromStationMaster)
+router.route('/StationMasterGetOneStationOneProduct').get(getOneStationOneProductFromStationMaster)
+router.route('/EmployeeMasterGet').get(getAllFromEmployee)
+router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 
 /**DELETE MEATHODS */
 router.route('/ProductMasterDelete').delete(deleteFromProductMaster)

@@ -62,60 +62,63 @@ export async function getProductNames(){
         const {data,status} = await axios.get("http://localhost:8080/api/ProductMasterGetProductNames")
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
 
 export async function addStation(values){
+    console.log(values);
     try {
-        const {data,status} = axios.post("http://localhost:8080/api/StationMasterInsert",values)
+        const {data,status} = await axios.post("http://localhost:8080/api/StationMasterInsert",values)
+        console.log(data);
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
 
 export async function getStations(){
     try {
-        const {data,status} = axios.get("http://localhost:8080/api/StationMasterGet")
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGet")
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
 
-export async function getOneStation(StationName){
+export async function getOneStation(stationName){
     try {
-        const {data,status} = axios.get("http://localhost:8080/api/StationMasterGetOneStation",{params:{StationName}})
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStation",{params:{stationName}})
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        console.log(error);
+        return Promise.reject(error.response.data)
     }
 }
 
-export async function getOneStationOneProduct(stationName,productName){
+export async function getOneStationOneProduct(values){
     try {
-        const {data,status} = axios.get("http://localhost:8080/api/StationMasterGetOneStationOneProduct",{params:{stationName,productName}})
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetOneStationOneProduct",{params:{values}})
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
 
 export async function deleteStation(stationId){
     try {
-        const {data,status} = axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId}})
+        const {data,status} = await  axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId}})
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
 
 export async function updateStation(values){
     try {
-        const {data,status} = axios.put("http://localhost:8080/api/StationMasterUpdate",values)
+        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterUpdate",values)
         return Promise.resolve(data)
     } catch (error) {
-        return Promise.reject(error.resolve.data)
+        return Promise.reject(error.response.data)
     }
 }
