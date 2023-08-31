@@ -4,13 +4,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import { Routes, Route, Link} from 'react-router-dom';
-import AddUser from './user/adduser';
+import WorkerReg from './user/adduser';
 import DeleteUser from './user/deleteuser';
 import UpdateProduct from './product/updateproduct';
 import UpdateStation from './station/updateStation';
 import AddProduct from './product/addProduct';
 import AddStation from './station/addStation';
 import Home from './Home';
+import LoginPage from './login';
 
 function WindalsNav() {
 
@@ -38,7 +39,10 @@ function WindalsNav() {
                 <NavDropdown.Item as={Link} to="/station/updateStation">Update Station</NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Nav.Link href="#link" style={{ margin: 15 }}>My Profile</Nav.Link>
+            <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
+            
+            <Nav.Link as={Link} to="/login" style={{ margin: 15 }}>Login</Nav.Link>
+            
             <Button variant="outline-dark">Login</Button>
           </Navbar.Collapse>
         </Container>
@@ -46,7 +50,7 @@ function WindalsNav() {
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='/user/adduser' element={<AddUser />} />
+        <Route path='/user/adduser' element={<WorkerReg />} />
         <Route path='/user/deleteuser' element={<DeleteUser />} />
 
         <Route path='/product/addProduct' element={<AddProduct />}></Route>
@@ -54,6 +58,8 @@ function WindalsNav() {
 
         <Route path='/station/addStation' element={<AddStation />}></Route>
         <Route path='/station/updateStation' element={<UpdateStation />}></Route>
+        
+        <Route path='/login' element={<LoginPage />} />
       </Routes>
     </>
   );

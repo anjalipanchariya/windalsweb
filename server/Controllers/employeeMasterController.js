@@ -1,20 +1,35 @@
 import db from "../Database/connection.js";
 
 async function insertIntoEmployeeMaster(req,res){
-    const { designation, emp_first_name, emp_last_name,  joining_date } = req.body;
-
+    var { userName,
+    firstName,
+    lastName,
+    nickName,
+    password,
+    designation,
+    joiningDate,
+    mobileNo } = req.body;
+    if(mobileNo===''){
+        mobileNo = null
+    }
     try {
-        const searchQuery = "SELECT id FROM employee WHERE emp_first_name = ? && emp_last_name = ?"
-        const [searchResult] = await db.promise().query(searchQuery,[emp_first_name,emp_last_name])
-        if(searchResult.length>0)
+        const searchUserNameQuery = "SELECT employee_id FROM employee_master WHERE user_name = ?"
+        const [searchUserNameResult] = await db.promise().query(searchUserNameQuery,[userName])
+        const searchMobileNoQuery = "SELECT employee_id FROM employee_master WHERE mobile_no = ?"
+        const [searchMobileNoResult] = await db.promise().query(searchMobileNoQuery,[mobileNo])
+        if(searchUserNameResult.length>0)
         {
-            res.status(409).send({msg:"Respective employee already exist in database."})
+            res.status(409).send({msg:"User name already exist. Use another username."})
+        }
+        else if(searchMobileNoResult.length>0)
+        {
+            res.status(409).send({msg:"Mobile number already exist. Enter different mobile no."})
         }
         else
         {
 
-            const insertQuery = "INSERT INTO employee (designation, emp_first_name, emp_last_name,  joining_date) VALUES (?, ?, ?, ?,)";
-            const [insertResult] = await db.promise().query(insertQuery, [designation, emp_first_name, emp_last_name,  joining_date]);
+            const insertQuery = "INSERT INTO employee_master (user_name,first_name,last_name,nick_name,password,designation,joining_date,mobile_no) VALUES (?,?,?,?,?,?,?,?)";
+            const [insertResult] = await db.promise().query(insertQuery, [userName,firstName,lastName,nickName,password,designation,joiningDate,mobileNo]);
             res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
         }
         
@@ -27,7 +42,7 @@ async function insertIntoEmployeeMaster(req,res){
 
 async function getAllFromEmployee(req,res){
     try{
-        var query = "SELECT * FROM employee"
+        var query = "SELECT * FROM employee_master"
         const [result] = await db.promise().query(query)
         res.status(201).send(result)
     }catch(err){
@@ -39,7 +54,7 @@ async function getAllFromEmployee(req,res){
 async function getOneFromEmployee(req,res){
     const {emp_first_name, emp_last_name, designation} = req.body
     try{
-        var query="SELECT * FROM employee WHERE emp_first_name = ? && emp_last_name = ? && designation=?"
+        var query="SELECT * FROM employee_master WHERE emp_first_name = ? && emp_last_name = ? && designation=?"
         const [result]= await db.promise().query(query,[emp_first_name,emp_last_name,designation]);
         if(result.length>0)
         {
@@ -62,7 +77,7 @@ async function updateEmployee(req,res){
 
         values.push(employee_id);
 
-        const query=`UPDATE employee SET ${setClause} WHERE employee_id = ?`;
+        const query=`UPDATE employee_master SET ${setClause} WHERE employee_id = ?`;
         const [updateResult]=db.promise().query(query,values);
 
         if (updateResult.affectedRows === 0) {

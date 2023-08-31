@@ -122,3 +122,12 @@ export async function updateStation(values){
         return Promise.reject(error.response.data)
     }
 }
+
+export async function registerUser(values){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/EmployeeMasterInsert",values)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
