@@ -25,11 +25,13 @@ CREATE TABLE `windals`.`station_yyyy` (
   `station_id` INT NOT NULL,
   `product_name` VARCHAR(100) NOT NULL,
   `job_id` INT NOT NULL,
-  `employee_id` INT NOT NULL,
+  `employee_id` INT NULL,
   `status` INT NULL,
   `parameters` VARCHAR(1000) NULL,
   `intime` DATETIME NOT NULL,
   `out_time` DATETIME NULL);
+ALTER TABLE `windals`.`station_yyyy` 
+ADD PRIMARY KEY (`intime`, `station_id`, `product_name`, `job_id`);
 
 // employee table queries
   
