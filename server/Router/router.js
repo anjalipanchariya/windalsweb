@@ -3,7 +3,7 @@ import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaste
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
-import { login } from "../Controllers/employeeMasterController.js";
+import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {insertInStationyyyyFirst} from "../Controllers/stationyyyyController.js"
 
 const router = Router()
@@ -26,6 +26,8 @@ router.route('/StationMasterGetOneStation').get(getOneStationFromStationMaster)
 router.route('/StationMasterGetOneStationOneProduct').get(getOneStationOneProductFromStationMaster)
 router.route('/EmployeeMasterGet').get(getAllFromEmployee)
 router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
+router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
+
 
 /**DELETE MEATHODS */
 router.route('/ProductMasterDelete').delete(deleteFromProductMaster)
