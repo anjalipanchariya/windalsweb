@@ -123,6 +123,17 @@ export async function updateStation(values){
     }
 }
 
+export async function getAllStationNames(){
+    try {
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetNames")
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+
+
 export async function registerUser(values){
     try {
         const {data,status} = await axios.post("http://localhost:8080/api/EmployeeMasterInsert",values)
@@ -144,6 +155,15 @@ export async function getAllUsers(){
 export async function getAllWorkerNames(){
     try {
         const {data,status} = await axios.get("http://localhost:8080/api/EmployeeMasterGetNames")
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function addStationAllocation(values){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/StationAllocationInsert",values)
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)

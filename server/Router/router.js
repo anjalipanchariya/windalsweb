@@ -1,10 +1,11 @@
 import Router from "express"
 import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames } from "../Controllers/productMasterController.js";
-import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster} from "../Controllers/stationMasterController.js";
+import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {insertInStationyyyyFirst} from "../Controllers/stationyyyyController.js"
+import {insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
 
 const router = Router()
 
@@ -15,6 +16,7 @@ router.route("/EmployeeMasterInsert").post(insertIntoEmployeeMaster)
 router.route("/login").post(login)
 router.route("/ProductyyyyInsert").post(insertInProductyyyy);
 router.route("/StationyyyyInsertFirst").post(insertInStationyyyyFirst);
+router.route("/StationAllocationInsert").post(insertIntoStationAllocation)
 
 /**GET MEATHODS */
 router.route('/ProductMasterGet').get(getInfoFromProductMaster)
@@ -27,6 +29,7 @@ router.route('/StationMasterGetOneStationOneProduct').get(getOneStationOneProduc
 router.route('/EmployeeMasterGet').get(getAllFromEmployee)
 router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
+router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
 
 
 /**DELETE MEATHODS */

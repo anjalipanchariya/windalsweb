@@ -132,4 +132,15 @@ async function getOneStationOneProductFromStationMaster(req,res){
     }
 }
 
-export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster}
+async function getStationNamesFromStationMaster(req,res){
+    try {
+        const selectQuery = "SELECT DISTINCT station_name FROM station_master"
+        const [selectResult] = await db.promise().query(selectQuery)
+        res.status(201).send(selectResult)
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).send({msg:`Internal server error: ${error}`})
+    }
+}
+
+export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster}
