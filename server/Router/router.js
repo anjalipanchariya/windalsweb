@@ -13,6 +13,7 @@ router.route("/EmployeeMasterInsert").post(insertIntoEmployeeMaster)
 router.route("/ProductyyyyInsert").post(insertInProductyyyy);
 router.route("/StationyyyyInsertFirst").post(insertInStationyyyyFirst);
 router.route("/StationyyyyInsertFirstNextStation").post(insertInStationyyyyFirstNextStation);
+router.route("/StationyyyyShowJob").post(jobsAtStation);
 
 
 /**GET MEATHODS */
@@ -25,7 +26,7 @@ router.route('/StationMasterGetOneStation').get(getOneStationFromStationMaster)
 router.route('/StationMasterGetOneStationOneProduct').get(getOneStationOneProductFromStationMaster)
 router.route('/EmployeeMasterGet').get(getAllFromEmployee)
 router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
-router.route("/StationyyyyShowJob").get(jobsAtStation);
+
 
 /**DELETE MEATHODS */
 router.route('/ProductMasterDelete').delete(deleteFromProductMaster)

@@ -8,6 +8,7 @@ async function insertInStationyyyyFirst(req,res){
         const [selectResult] = await db.promise().query(searchQuery,[job_name])
         const job_id=selectResult[0]["job_id"];
 
+
         const insertQuery = "INSERT INTO station_yyyy (product_name, station_id, job_id, employee_id,status,intime) VALUES (?, ?, ?,?,1,NOW())";
         const [insertResult] = await db.promise().query(insertQuery, [product_name, station_id, job_id,employee_id]);
             
@@ -68,8 +69,8 @@ async function updateInStationyyyy(req,res){
         console.log(intime)
 
 
-        const updateQuery = "UPDATE `windals`.`station_yyyy` SET `employee_id` = ?, `status` = ? WHERE (`intime` = ?) and (`station_id` = ?) and (`product_name` = ?) and (`job_id` = ?);";
-        const [updateResult] = await db.promise().query(updateQuery, [employee_id,status,intime,station_id,product_name, job_id]);
+        const updateQuery = "UPDATE `windals`.`station_yyyy` SET `employee_id` = ?, `status` = ?, `parameters` = ? WHERE (`intime` = ?) and (`station_id` = ?) and (`product_name` = ?) and (`job_id` = ?);";
+        const [updateResult] = await db.promise().query(updateQuery, [employee_id,status,parameters,intime,station_id,product_name, job_id]);
             
         res.status(201).send({ msg: "Record updated successfully"});
         
@@ -81,7 +82,7 @@ async function updateInStationyyyy(req,res){
 }
 
 async function jobsAtStation(req,res){
-    const {station_id} = req.query;
+    const {station_id} = req.body;
     
     try {
         // console.log(station_id);
