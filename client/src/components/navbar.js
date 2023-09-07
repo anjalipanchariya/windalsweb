@@ -4,13 +4,19 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import { Routes, Route, Link} from 'react-router-dom';
-import AddUser from './user/adduser';
+import WorkerReg from './user/adduser';
 import DeleteUser from './user/deleteuser';
 import UpdateProduct from './product/updateproduct';
 import UpdateStation from './station/updateStation';
 import AddProduct from './product/addProduct';
 import AddStation from './station/addStation';
 import Home from './Home';
+import LoginPage from './login';
+import ViewUser from './user/viewUser';
+import ViewProduct from './product/viewProduct';
+import ViewStation from './station/viewStation';
+import StationAllocation from './station/allocateStation';
+import Station from './station/station';
 
 function WindalsNav() {
 
@@ -25,20 +31,28 @@ function WindalsNav() {
             <Nav className="me-auto">
               <NavDropdown title="Users" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/user/adduser">Add User</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/user/deleteuser">Delete User</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/user/deleteuser">Update User</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/user/viewuser">View User</NavDropdown.Item>
               </NavDropdown>
 
               <NavDropdown title="Product" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/product/addProduct">Add Product</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/product/updateproduct">Update Product</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/product/viewproduct">View Product</NavDropdown.Item>
               </NavDropdown>
 
               <NavDropdown title="Station" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/station/addStation">Add Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/updateStation">Update Station</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/station/viewstation">View Station</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/station/allocatestation">Allocate Station</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/station">Station</NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Nav.Link href="#link" style={{ margin: 15 }}>My Profile</Nav.Link>
+            <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
+            
+            <Nav.Link as={Link} to="/login" style={{ margin: 15 }}>Login</Nav.Link>
+            
             <Button variant="outline-dark">Login</Button>
           </Navbar.Collapse>
         </Container>
@@ -46,14 +60,21 @@ function WindalsNav() {
 
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='/user/adduser' element={<AddUser />} />
+        <Route path='/user/adduser' element={<WorkerReg />} />
         <Route path='/user/deleteuser' element={<DeleteUser />} />
+        <Route path='/user/viewuser' element={<ViewUser />} />
 
         <Route path='/product/addProduct' element={<AddProduct />}></Route>
         <Route path='/product/updateproduct' element={<UpdateProduct />}></Route>
+        <Route path='/product/viewproduct' element={<ViewProduct />}></Route>
 
         <Route path='/station/addStation' element={<AddStation />}></Route>
         <Route path='/station/updateStation' element={<UpdateStation />}></Route>
+        <Route path='/station/viewStation' element={<ViewStation />}></Route>
+        <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
+        <Route path='/station' element={<Station />}></Route>
+        
+        <Route path='/login' element={<LoginPage />} />
       </Routes>
     </>
   );

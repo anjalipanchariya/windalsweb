@@ -61,3 +61,22 @@ CREATE TABLE `windals`.`productyyyy` (
 ALTER TABLE `windals`.`productyyyy` 
 CHANGE COLUMN `job_id` `job_id` INT NOT NULL AUTO_INCREMENT ;
 
+CREATE TABLE `employee_master` (
+  `employee_id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `designation` varchar(100) NOT NULL,
+  `joining_date` datetime NOT NULL,
+  `leaving_date` datetime DEFAULT NULL,
+  `password` varchar(100) NOT NULL,
+  `mobile_no` varchar(100) NOT NULL,
+  `nick_name` varchar(100) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  UNIQUE KEY `employee_id_UNIQUE` (`employee_id`)
+) ;
+
+ALTER TABLE `windals`.`employee_master` 
+ADD UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE,
+ADD UNIQUE INDEX `mobile_no_UNIQUE` (`mobile_no` ASC) VISIBLE;
+;

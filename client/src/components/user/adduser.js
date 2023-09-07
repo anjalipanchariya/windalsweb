@@ -1,119 +1,62 @@
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { useState } from 'react';
+import React from "react";
+import './adduser.css'
+import { useFormik } from "formik";
+import { registerUser } from "../../helper/helper";
+import toast, { Toaster } from 'react-hot-toast';
 
-function AddUser() {
-  const [formData, setFormData] = useState({
-    name: '',
-    mobNo: '',
-    userName: '',
-    password: ''
-  });
-
-  const [errors, setErrors] = useState({
-    name: '',
-    mobNo: '',
-    userName: '',
-    password: ''
-  });
-
-  const validateName = () => {
-    if (formData.name.trim() === '') {
-      setErrors((prevErrors) => ({ ...prevErrors, name: 'Name is required' }));
-      return false;
+function WorkerReg(){
+   
+  const formik = useFormik({
+    initialValues:{
+      userName:"",
+      firstName:"",
+      lastName:"",
+      nickName:"",
+      password:"",
+      confirmPassword:"",
+      designation:"",
+      joiningDate:"",
+      mobileNo:"",
+    },
+    onSubmit: values => {
+      const registerUserPromise = registerUser(values)
+      toast.promise(
+        registerUserPromise,
+        {
+          loading: "Registering user",
+          success: (reuslt) => {
+            formik.resetForm()
+            return reuslt.msg 
+          },
+          error: err => err.msg
+        }
+      )
     }
-    return true;
-  };
+  })
+  
+  
+  return(
+        <>
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
+        <h1 className="heading">Worker Registration</h1>
+        <form className="workerreg">        
+            <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
+            <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
+            <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
+            <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange}/>
+            <input type="number" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
+            <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange}/>
+            <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange}/>
+            <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange}/>
+            <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
+            <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
+        </form>
 
-  const validateMobNo = () => {
-    const mobilePattern = /^[0-9]{10}$/;
-    if (!formData.mobNo.match(mobilePattern)) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        mobNo: 'Invalid mobile number. Please enter a 10-digit number.',
-      }));
-      return false;
-    }
-    return true;
-  }
-
-  const validateUsername = () => {
-    if (formData.userName.trim() === '') {
-      setErrors((prevErrors) => ({ ...prevErrors, userName: 'Username is required' }));
-      return false;
-    }
-    return true;
-  };
-
-  const validatePassword = () => {
-    if (formData.password.length < 6) {
-      setErrors((prevErrors) => ({ ...prevErrors, password: 'Password must be at least 6 characters' }));
-      return false;
-    }
-    return true;
-  };
-
-  const validateForm = () => {
-    const isValidName = validateName();
-    const isValidMobNo = validateMobNo();
-    const isValidUsername = validateUsername();
-    const isValidPass = validatePassword();
-    return isValidName && isValidMobNo && isValidUsername && isValidPass;
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Form Submitted : ", formData);
-    }
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: '',
-    }));
-  }
-
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Form style={{ width: 300, margin: 30 }} onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" placeholder="" name='name' value={formData.name} onChange={handleChange}/>
-          {errors.name && <Form.Text className="text-danger">{errors.name}</Form.Text>}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Mobile No</Form.Label>
-          <Form.Control type="number" placeholder="" name='mobNo' value={formData.mobNo} onChange={handleChange}/>
-          {errors.mobNo && <Form.Text className="text-danger">{errors.mobNo}</Form.Text>}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Create Username</Form.Label>
-          <Form.Control type="text" placeholder="" name='userName' value={formData.userName} onChange={handleChange}/>
-          {errors.userName && <Form.Text className="text-danger">{errors.userName}</Form.Text>}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Create Password</Form.Label>
-          <Form.Control type="password" placeholder="" name='password' value={formData.password} onChange={handleChange}/>
-          {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
-        </Form.Group>
-
-        <Button variant="danger" type="submit">
-          Add User
-        </Button>
-
-      </Form>
-    </div>
-  );
+        <footer className = "footer">
+            <h6>Vishwakarma Institute of Information Technology</h6>
+        </footer>
+        </>
+    )
 }
 
-export default AddUser;
+export default WorkerReg;
