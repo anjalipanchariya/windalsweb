@@ -2,22 +2,58 @@ import React from 'react';
 import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
+import { loginUser } from '../helper/helper';
+import toast, { Toaster } from 'react-hot-toast';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+
+  const navigate=useNavigate();
   const formik = useFormik({
     initialValues: {
-      email: '',
+      userName: '',
       password: '',
-      admin: false,
-      station: 'station1',
     },
+    validationSchema: Yup.object().shape({
+      userName: Yup.string().required('Username is required'),
+      password: Yup.string().required('Password is required'),
+    }),
     onSubmit: (values) => {
-      console.log('Form submitted with values:', values);
+      console.log(values);
+      if(values.userName == "admin" && values.password == "admin")
+            {
+              navigate('/admin');
+            }
+            else{
+              navigate('/worker');
+            }
+      // const loginPromise= loginUser(values)
+      // toast.promise(loginPromise,
+      //   {
+      //     loading: "Checking creds",
+      //     success: result =>{
+      //       console.log(result.msg);
+      //       if(values.userName == "admin" && values.password == "admin")
+      //       {
+      //         navigate('/admin');
+      //       }
+      //       else{
+      //         navigate('/worker');
+      //       }
+      //       return result.msg
+      //     },
+      //     error: err => {
+            
+      //      return err.msg
+      //     }
+      //   })
     },
   });
 
   return (
     <div className="container d-flex justify-content-center">
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="col-md-6 bg-light-grey">
         <form className="row g-3" onSubmit={formik.handleSubmit}>
           <div className="col-12">
@@ -25,14 +61,15 @@ const LoginPage = () => {
               Username
             </label>
             <input
-              type="email"
+              type="text"
               className="form-control"
               id="inputEmail4"
-              name="email"
-              value={formik.values.email}
+              name="userName"
+              value={formik.values.userName}
               onChange={formik.handleChange}
             />
           </div>
+          {formik.errors.userName && formik.errors.userName}
           <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
@@ -45,40 +82,7 @@ const LoginPage = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
-          </div>
-
-          <div className="col-12">
-            <label className="custom-checkbox-label">
-              <input
-                type="checkbox"
-                className="form-check-input custom-checkbox"
-                id="adminCheckbox"
-                name="admin"
-                checked={formik.values.admin}
-                onChange={formik.handleChange}
-              />
-              <span className="custom-checkbox-icon">
-                <span className="checkmark">&#10003;</span>
-              </span>
-              Admin
-            </label>
-          </div>
-
-          <div className="col-12">
-            <label htmlFor="stationSelect" className="form-label">
-              Select Station
-            </label>
-            <select
-              className="form-select"
-              id="stationSelect"
-              name="station"
-              value={formik.values.station}
-              onChange={formik.handleChange}
-            >
-              <option value="station1">Station 1</option>
-              <option value="station2">Station 2</option>
-              <option value="station3">Station 3</option>
-            </select>
+          {formik.errors.password && formik.errors.password}
           </div>
 
           <div className="col-12">

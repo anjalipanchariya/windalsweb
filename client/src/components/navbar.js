@@ -3,15 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import { Routes, Route, Link} from 'react-router-dom';
-import WorkerReg from './user/adduser';
-import DeleteUser from './user/deleteuser';
-import UpdateProduct from './product/updateproduct';
-import UpdateStation from './station/updateStation';
-import AddProduct from './product/addProduct';
-import AddStation from './station/addStation';
-import Home from './Home';
-import LoginPage from './login';
+import {Link} from 'react-router-dom';
 
 function WindalsNav() {
 
@@ -48,19 +40,7 @@ function WindalsNav() {
         </Container>
       </Navbar>
 
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/user/adduser' element={<WorkerReg />} />
-        <Route path='/user/deleteuser' element={<DeleteUser />} />
-
-        <Route path='/product/addProduct' element={<AddProduct />}></Route>
-        <Route path='/product/updateproduct' element={<UpdateProduct />}></Route>
-
-        <Route path='/station/addStation' element={<AddStation />}></Route>
-        <Route path='/station/updateStation' element={<UpdateStation />}></Route>
-        
-        <Route path='/login' element={<LoginPage />} />
-      </Routes>
+      
     </>
   );
 }

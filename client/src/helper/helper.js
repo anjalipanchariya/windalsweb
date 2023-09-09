@@ -131,3 +131,12 @@ export async function registerUser(values){
         return Promise.reject(error.response.data)
     }
 }
+
+export async function loginUser(values){
+    try{
+        const {data,status} = await axios.post("http://localhost:8080/api/login")
+        return Promise.resolve(data)
+    }catch(error){
+        return Promise.reject(error.response.data)
+    }
+}
