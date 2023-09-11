@@ -72,7 +72,7 @@ async function updateStationMaster(req,res){
                 res.status(409).send({msg:"The station configuration of this product does not exist."})
             }
             else{
-                const updateQuery = "UPDATE station_master set station_name = ?, product_name = ?, report = ?, station_parameters = ?, cycle_time = ?, daily_count = ?, product_per_hour = ? WHERE station_id = ?"
+                const updateQuery = "UPDATE station_master SET station_name = ?, product_name = ?, report = ?, station_parameters = ?, cycle_time = ?, daily_count = ?, product_per_hour = ? WHERE station_id = ?"
                 const [updateResult] = await db.promise().query(updateQuery,[stationName,productName,reportType,stationParameter,cycleTime,dailyCount,productPerHour,stationId])
                 res.status(201).send({msg:`Data updated successfully`})
             } 
@@ -143,4 +143,32 @@ async function getStationNamesFromStationMaster(req,res){
     }
 }
 
-export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster}
+async function getStationNamesForOneProduct(req,res){
+    const {productName} = req.query
+    try {
+        const searchQuery = "SELECT station_name FROM station_master WHERE product_name = ?"
+        const [searchResult] = await db.promise().query(searchQuery,[productName])
+        res.status(201).send(searchResult)
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).send({msg:`Internal server error: ${error}`})
+    }
+}
+
+async function addNextStationInStationMaster(req,res){
+    const {productName,nextStationAllocation} = req.body
+    try {
+        const updateQuery = "UPDATE station_master SET next_station_name = ? WHERE product_name=? AND station_name=?"
+        for(const station of nextStationAllocation)
+        {
+            const {currentStation,nextStation} = station
+            const [updateResult] = await db.promise().query(updateQuery,[nextStation,productName,currentStation])
+        }
+        res.status(201).send({msg:"Configuration saved successfully"})
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).send({msg:`Internal server error: ${error}`})
+    }
+}
+
+export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster,getStationNamesForOneProduct,addNextStationInStationMaster}

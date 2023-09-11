@@ -16,7 +16,9 @@ import ViewUser from './user/viewUser';
 import ViewProduct from './product/viewProduct';
 import ViewStation from './station/viewStation';
 import StationAllocation from './station/allocateStation';
-import Station from './station/station';
+import StationPage from './station/stationPage';
+import FirstStation from './station/firstStation';
+import NextStation from './station/nextStationAllocation';
 
 function WindalsNav() {
 
@@ -46,7 +48,9 @@ function WindalsNav() {
                 <NavDropdown.Item as={Link} to="/station/updateStation">Update Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/viewstation">View Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/allocatestation">Allocate Station</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/station">Station</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/station/allocatenextStation">Allocate Next Station</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/station">Station Page</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/firststation">First Station Page</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
@@ -72,7 +76,9 @@ function WindalsNav() {
         <Route path='/station/updateStation' element={<UpdateStation />}></Route>
         <Route path='/station/viewStation' element={<ViewStation />}></Route>
         <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
-        <Route path='/station' element={<Station />}></Route>
+        <Route path='/station/allocatenextStation' element={<NextStation />}></Route>
+        <Route path='/station' element={<StationPage />}></Route>
+        <Route path='/firststation' element={<FirstStation />}></Route>
         
         <Route path='/login' element={<LoginPage />} />
       </Routes>

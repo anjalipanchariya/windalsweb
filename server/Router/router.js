@@ -1,11 +1,10 @@
 import Router from "express"
 import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames } from "../Controllers/productMasterController.js";
-import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster} from "../Controllers/stationMasterController.js";
+import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
-import {insertInStationyyyyFirst} from "../Controllers/stationyyyyController.js"
 import {insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
 
 const router = Router()
@@ -18,8 +17,8 @@ router.route("/login").post(login)
 router.route("/ProductyyyyInsert").post(insertInProductyyyy);
 router.route("/StationyyyyInsertFirst").post(insertInStationyyyyFirst);
 router.route("/StationyyyyInsertFirstNextStation").post(insertInStationyyyyFirstNextStation);
-router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationAllocationInsert").post(insertIntoStationAllocation)
+router.route("/StationyyyyShowJob").post(jobsAtStation);
 
 
 /**GET MEATHODS */
@@ -34,6 +33,7 @@ router.route('/EmployeeMasterGet').get(getAllFromEmployee)
 router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
 router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
+router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOneProduct)
 
 
 
@@ -45,6 +45,7 @@ router.route('/EmployeeMasterDelete').delete()
 /**PUT MEATHOD */
 router.route('/ProductMasterUpdate').put(updateProductMaster);
 router.route('/StationMasterUpdate').put(updateStationMaster)
+router.route('/StationMasterAddNextStation').put(addNextStationInStationMaster)
 router.route('/EmployeeMasterUpdate').put(updateEmployee)
 router.route('/Stationyyyyupdate').put(updateInStationyyyy)
 

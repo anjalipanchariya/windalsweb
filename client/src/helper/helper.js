@@ -132,6 +132,15 @@ export async function getAllStationNames(){
     }
 }
 
+export async function getOneProductStationNames(productName){
+    try {
+        const {data,status} = await axios.get("http://localhost:8080/api/StationMasterGetNamesForOneProduct",{params:{productName:productName.value}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
 
 
 export async function registerUser(values){
@@ -164,6 +173,60 @@ export async function getAllWorkerNames(){
 export async function addStationAllocation(values){
     try {
         const {data,status} = await axios.post("http://localhost:8080/api/StationAllocationInsert",values)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function createJobId(values){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/ProductyyyyInsert",values)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function configureNextStation(values){
+    const newValues = {
+        productName : values.productName.value,
+        nextStationAllocation: values.nextStationAllocation.map((station)=>{
+            return ({
+                currentStation: station.currentStation,
+                nextStation: station.nextStation.value
+            })
+        })
+    }
+    try {
+        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterAddNextStation",newValues)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function insertInStationyyyyFirst(values){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/StationyyyyInsertFirst",values)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function insertInStationyyyyFirstNextStation(values){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/StationyyyyInsertFirstNextStation",values)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function getJobesAtStation(stationId){
+    try {
+        const {data,status} = await axios.post("http://localhost:8080/api/StationyyyyShowJob",{station_id:stationId})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)

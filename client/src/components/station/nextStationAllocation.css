@@ -1,0 +1,27 @@
+.datepicker{
+    margin: 20px;
+    margin-left: 21vw;
+}
+
+.stationslist{
+    margin: 20px;
+    margin-left: 22vw;
+}
+
+.shiftsel{
+    width: 15vw;
+    margin: 18px;
+    margin-left: 15vw;
+}
+
+.stattable{
+    display: block;
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    margin-left: 30vw;
+}
+
+.stattable th{
+    width: 200px;
+}

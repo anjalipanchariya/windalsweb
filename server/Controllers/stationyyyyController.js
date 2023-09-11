@@ -83,13 +83,12 @@ async function updateInStationyyyy(req,res){
 
 async function jobsAtStation(req,res){
     const {station_id} = req.body;
-    
     try {
-        // console.log(station_id);
+        console.log(station_id);
         const searchQueryJob = "SELECT job_id, job_name, product_name FROM productyyyy as py  where py.job_id in (select job_id from station_yyyy where `status` is null and `station_id`=?);"
         const [selectResultJob] = await db.promise().query(searchQueryJob,[station_id])
         
-     
+        console.log(selectResultJob);
             
         res.status(201).send(selectResultJob);
         
