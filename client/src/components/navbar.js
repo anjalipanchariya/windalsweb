@@ -4,10 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
-import ViewUser from './user/viewUser';
-import ViewProduct from './product/viewProduct';
-import ViewStation from './station/viewStation';
-import StationAllocation from './station/allocateStation';
+
 
 function WindalsNav() {
 
@@ -48,7 +45,7 @@ function WindalsNav() {
         </Container>
       </Navbar>
 
-      <Routes>
+      {/* <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/user/adduser' element={<WorkerReg />} />
         <Route path='/user/deleteuser' element={<DeleteUser />} />
@@ -64,7 +61,7 @@ function WindalsNav() {
         <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
         
         <Route path='/login' element={<LoginPage />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 }
