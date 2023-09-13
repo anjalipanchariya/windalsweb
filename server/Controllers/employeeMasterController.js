@@ -134,4 +134,15 @@ async function login(req, res) {
     }
   }
 
-export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee,login}
+async function getNamesFromEmployeeMaster(req,res){
+  try {
+    const selectQuery = "SELECT DISTINCT first_name,last_name,user_name from employee_master"
+    const [selectResult] = await db.promise().query(selectQuery)
+    res.status(201).send(selectResult)
+  } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).send({ msg: `Internal server error: ${error}` });
+  }
+}
+
+export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee,login,getNamesFromEmployeeMaster}
