@@ -224,9 +224,9 @@ export async function insertInStationyyyyFirstNextStation(values){
     }
 }
 
-export async function getJobesAtStation(stationId){
+export async function getJobesAtStation(stationId,productName){
     try {
-        const {data,status} = await axios.post("http://localhost:8080/api/StationyyyyShowJob",{station_id:stationId})
+        const {data,status} = await axios.post("http://localhost:8080/api/StationyyyyShowJob",{station_id:stationId,product_name:productName})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
