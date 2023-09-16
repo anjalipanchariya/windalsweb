@@ -273,3 +273,34 @@ export async function updateJobesAtStation(values,stationId,employeeId){
         return Promise.reject(error.response.data)
     }
 }
+
+export async function loginUser(values){
+    try{
+        const {data:loginData,status:loginStatus} = await axios.post("http://localhost:8080/api/login",values)
+        console.log({loginData:loginData});
+        if(loginStatus===201 && loginData.userName==="admin")
+        {
+            console.log("ADMIN");
+            return Promise.resolve(loginData)
+        }
+        else if(loginStatus===201 && loginData.userName!="admin")
+        {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 because months are zero-based
+            const day = String(currentDate.getDate()).padStart(2, "0");
+            const formattedDate = `${year}-${month}-${day}`;
+            console.log(formattedDate);
+            const {data:workerStationData,status} = await axios.get("http://localhost:8080/api/getOneWorkerStation",{params:{employeeId:loginData.employeeId,date:formattedDate,shift:values.shift}})
+            console.log({workerStationData:workerStationData});
+            const finalData = {
+                ...loginData,
+                ...workerStationData
+            }
+            console.log({finalData:finalData});
+            return Promise.resolve(finalData)
+        }
+    }catch(error){
+        return Promise.reject(error.response.data)
+    }
+}

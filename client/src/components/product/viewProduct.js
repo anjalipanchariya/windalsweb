@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllProducts } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
+import WindalsNav from '../navbar';
 function ViewProduct() { // Changed the function name to start with an uppercase letter
 
   const [products, setProducts] = useState([]);
@@ -32,6 +33,7 @@ function ViewProduct() { // Changed the function name to start with an uppercase
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <WindalsNav />
       <Table columns={columns} data={products} />
     </>
   );

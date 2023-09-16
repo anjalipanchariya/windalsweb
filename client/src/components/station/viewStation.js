@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getStations } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
+import WindalsNav from '../navbar';
 
 function ViewStation() {
   const [stations, setStations] = useState([]);
@@ -48,6 +49,7 @@ function ViewStation() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <WindalsNav/>
       <Table columns={columns} data={stations} />
     </>
   );

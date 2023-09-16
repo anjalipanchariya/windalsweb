@@ -5,7 +5,7 @@ import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
-import {insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
+import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
 
 const router = Router()
 
@@ -36,7 +36,7 @@ router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
 router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
 router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOneProduct)
-
+router.route('/getOneWorkerStation').get(getOneWorkerStation)
 
 
 

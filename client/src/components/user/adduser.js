@@ -3,6 +3,7 @@ import './adduser.css'
 import { useFormik } from "formik";
 import { registerUser } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
+import WindalsNav from "../navbar";
 
 function WorkerReg(){
    
@@ -38,6 +39,7 @@ function WorkerReg(){
   return(
         <>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
+        <WindalsNav/>
         <h1 className="heading">Worker Registration</h1>
         <form className="workerreg">        
             <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>

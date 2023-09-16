@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllUsers } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
+import WindalsNav from '../navbar';
 
 function ViewUser() { // Changed the function name to start with an uppercase letter
 
@@ -16,7 +17,6 @@ function ViewUser() { // Changed the function name to start with an uppercase le
     { field: 'leaving_date', label: 'Leaving Date' },
     { field: 'mobile_no', label: 'Mobile Number' },
     { field: 'nick_name', label: 'Nick Name' },
-    { field: 'password', label: 'Password' },
     { field: 'user_name', label: 'User Name' },
   ];
   
@@ -51,6 +51,7 @@ function ViewUser() { // Changed the function name to start with an uppercase le
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <WindalsNav/>
       <Table columns={columns} data={users} />
     </>
   );

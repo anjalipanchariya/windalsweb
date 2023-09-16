@@ -4,12 +4,14 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './firstStation.css';
 import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 
 const FirstStation = () => {
     
-    const stationName = "S1";
-    const employeeId = "7";
+    const { employeeId, userName, stationName } = useParams();
+    // const stationName = "S1";
+    // const employeeId = "7";
     const [stationAllInfo,setStationAllInfo] = useState("");
     const [stationOneProductInfo,setStationOneProductInfo] = useState("");
     const [availableProducts,setAvailableProducts] = useState([]);
@@ -86,6 +88,9 @@ const FirstStation = () => {
     return (
         <div className="container text-center mt-4">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <h1>STATION NAME:{stationName}</h1>
+            <h1>EMPLOYEE ID: {employeeId}</h1>
+            <h1>USER NAME: {userName}</h1>
             <h1 className="centered-text">First Station</h1>
             <div className="form-group">
                 <label htmlFor="job_nameInput">Enter the Job Name:</label>

@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { addProduct,getAllProducts,updateProducts,deleteProductParameter,getOneProductAllParameters,getOneProductOneParameter } from "../../helper/helper";
-
+import WindalsNav from '../navbar';
 function AddProduct() {
     
     const validationSchema = Yup.object().shape({
@@ -115,6 +115,7 @@ function AddProduct() {
    
     return (
         <div>
+            <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <div className="productadd">
                 <h3>Product name:</h3>

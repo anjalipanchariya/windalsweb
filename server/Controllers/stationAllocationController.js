@@ -26,4 +26,23 @@ async function insertIntoStationAllocation(req,res){
     }
 } 
 
-export {insertIntoStationAllocation}
+async function getOneWorkerStation(req,res){
+    const {employeeId,date,shift} = req.query
+    try {
+        const selectQuery = "SELECT station_name FROM station_allocation WHERE employee_id=? AND date=? AND shift=?"
+        const [selectResult] = await db.promise().query(selectQuery,[employeeId,date,shift])
+        if(selectResult.length<=0)
+        {
+            res.status(501).send({msg:"No station has been allocated to you."})
+        }
+        else
+        {
+            res.status(201).send({stationName:selectResult[0].station_name})
+        }
+    } catch (error) {
+        console.error(`Database error: ${error}`);
+        res.status(500).send({ msg: `Internal server error: ${error}` });
+    }
+}
+
+export {insertIntoStationAllocation,getOneWorkerStation}

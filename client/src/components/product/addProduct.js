@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
+import WindalsNav from '../navbar';
 import * as Yup from 'yup';
 
 const AddProduct = () => {
@@ -73,6 +74,7 @@ const AddProduct = () => {
 
   return (
     <div className="productadd">
+      <WindalsNav />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
       <div className="product-name-container">

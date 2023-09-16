@@ -57,7 +57,7 @@ async function insertIntoEmployeeMaster(req, res) {
 
 async function getAllFromEmployee(req,res){
     try{
-        var query = "SELECT * FROM employee_master"
+        var query = "SELECT employee_id,first_name,last_name,user_name,nick_name,mobile_no,joining_date,leaving_date,designation FROM employee_master"
         const [result] = await db.promise().query(query)
         res.status(201).send(result)
     }catch(err){
@@ -110,7 +110,7 @@ async function updateEmployee(req,res){
 async function login(req, res) {
     const { userName, password } = req.body;
     try {
-      const selectUserQuery = "SELECT password FROM employee_master WHERE user_name = ?";
+      const selectUserQuery = "SELECT password,employee_id,user_name FROM employee_master WHERE user_name = ?";
       const [selectUserResult] = await db.promise().query(selectUserQuery, [userName]);
       if (selectUserResult.length === 0) {
         res.status(401).send({ msg: "Username does not exist" });
@@ -122,9 +122,11 @@ async function login(req, res) {
             res.status(500).send({ msg: `Internal server error: ${err}` });
             return;
           } else if (result) {
-            res.status(200).send({ msg: "Login successful" });
+            res.status(201).send({ msg: "Login successful",employeeId:selectUserResult[0].employee_id,userName:selectUserResult[0].user_name });
+            return;
           } else {
             res.status(401).send({ msg: "Invalid password" });
+            return;
           }
         });
       }

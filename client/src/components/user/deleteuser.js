@@ -1,9 +1,11 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import WindalsNav from '../navbar';
 
 function DeleteUser() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <WindalsNav/>
       <Form style={{ margin: 30 }}>
         <h3 style={{ width: 500, textAlign: 'center' }}>Enter Username of the User to Delete</h3>
 

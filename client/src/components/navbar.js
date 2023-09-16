@@ -3,22 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import { Routes, Route, Link} from 'react-router-dom';
-import WorkerReg from './user/adduser';
-import DeleteUser from './user/deleteuser';
-import UpdateProduct from './product/updateproduct';
-import UpdateStation from './station/updateStation';
-import AddProduct from './product/addProduct';
-import AddStation from './station/addStation';
-import Home from './Home';
-import LoginPage from './login';
-import ViewUser from './user/viewUser';
-import ViewProduct from './product/viewProduct';
-import ViewStation from './station/viewStation';
-import StationAllocation from './station/allocateStation';
-import StationPage from './station/stationPage';
-import FirstStation from './station/firstStation';
-import NextStationAllocation from './station/nextStationAllocation';
+import {Link} from 'react-router-dom';
+
 
 function WindalsNav() {
 
@@ -49,8 +35,8 @@ function WindalsNav() {
                 <NavDropdown.Item as={Link} to="/station/viewstation">View Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/allocatestation">Allocate Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/allocatenextStation">Allocate Next Station</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/station">Station Page</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/firststation">First Station Page</NavDropdown.Item>
+                {/* <NavDropdown.Item as={Link} to="/station">Station Page</NavDropdown.Item>
+                 */}
               </NavDropdown>
             </Nav>
             <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
@@ -62,7 +48,7 @@ function WindalsNav() {
         </Container>
       </Navbar>
 
-      <Routes>
+      {/* <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/user/adduser' element={<WorkerReg />} />
         <Route path='/user/deleteuser' element={<DeleteUser />} />
@@ -80,7 +66,7 @@ function WindalsNav() {
         <Route path='/firststation' element={<FirstStation />}></Route>
         
         <Route path='/login' element={<LoginPage />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 }

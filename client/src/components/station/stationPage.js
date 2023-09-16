@@ -10,11 +10,13 @@ import {
   getJobesAtStation,
   updateJobesAtStation,
 } from '../../helper/helper';
+import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
 const StationPage = () => {
-  const stationName = "S2";
-  const employeeId = "1";
+  const { employeeId, userName, stationName } = useParams();
+  // const stationName = "S2";
+  // const employeeId = "1";
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownPosition, setDropdownPosition] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -178,6 +180,7 @@ const StationPage = () => {
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <h1>STATION NAME:{stationName}</h1>
       <h1>EMPLOYEE ID: {employeeId}</h1>
+      <h1>USER NAME: {userName}</h1>
       {stationOneProductInfo[0] && 
         <div>
           <h1>DAILY COUNT: {stationOneProductInfo[0].daily_count}</h1>

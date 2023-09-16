@@ -1,10 +1,12 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './updateStation.css';
+import WindalsNav from "../navbar";
 
 function UpdateStation() {
   return (
     <>
+      <WindalsNav/>
       <div className="container-fluid">
         <div className="row">
 

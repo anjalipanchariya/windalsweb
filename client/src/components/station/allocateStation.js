@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames, addStationAllocation } from "../../helper/helper";
+import WindalsNav from "../navbar";
 
 function StationAllocation() {
     const today = new Date();
@@ -116,6 +117,7 @@ function StationAllocation() {
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <WindalsNav/>
             <div>
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group controlId="date">

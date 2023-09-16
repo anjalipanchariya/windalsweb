@@ -7,6 +7,7 @@ import { addStation, deleteStation, getOneProductAllParameters, getOneStation, g
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
+import WindalsNav from "../navbar";
 
 function AddStation() {
     const [productNames,setProductNames] = useState([]);
@@ -209,6 +210,7 @@ function AddStation() {
 
     return (
         <div>
+            <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <div className="header-add-station">
                 <h2 className="add-station-header">Add Station</h2>
