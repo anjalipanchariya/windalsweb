@@ -26,7 +26,7 @@ const LoginPage = () => {
               navigate('/admin');
             }
             else{
-              navigate('/worker');
+              navigate('/station/firststation');
             }
       // const loginPromise= loginUser(values)
       // toast.promise(loginPromise,

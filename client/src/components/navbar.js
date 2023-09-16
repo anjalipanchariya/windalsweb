@@ -35,8 +35,8 @@ function WindalsNav() {
                 <NavDropdown.Item as={Link} to="/station/viewstation">View Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/allocatestation">Allocate Station</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/station/allocatenextStation">Allocate Next Station</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/station">Station Page</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/firststation">First Station Page</NavDropdown.Item>
+                {/* <NavDropdown.Item as={Link} to="/station">Station Page</NavDropdown.Item>
+                 */}
               </NavDropdown>
             </Nav>
             <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
