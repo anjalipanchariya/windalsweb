@@ -3,12 +3,15 @@ import { Table, Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
+import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames,addStationAllocation } from "../../helper/helper";
 
 function StationAllocation() {
     const today = new Date();
 
     const [workers, setWorkers] = useState([]);
+    const [workersCompleteName, setWorkersCompleteName] = useState({});
+
     const [stations, setStations] = useState([]);
     const [allocationStation, setAllocationStation] = useState([]);
 
@@ -21,10 +24,24 @@ function StationAllocation() {
                 const workerNames = await getAllWorkerNames();
                 setWorkers(workerNames);
 
+                const tempObj={};
+                
+
+                for(const w of workerNames){
+                    const {first_name,last_name} =w
+                    tempObj[first_name+" "+last_name]=w
+                    
+                }
+                
+                setWorkersCompleteName(tempObj);
+                console.log(workers)
+                console.log(Object.keys(workersCompleteName))
+
+
                 // Initialize allocationStation based on stations
                 const initialAllocationStation = stationNames.map((station) => ({
                     station: station.station_name,
-                    worker: '',
+                    worker: [],
                 }));
                 setAllocationStation(initialAllocationStation);
             } catch (error) {
@@ -32,6 +49,7 @@ function StationAllocation() {
             }
         };
         fetchStationsAndWorkers();
+        
     }, []);
 
     // const validationSchema = Yup.object().shape({
@@ -85,6 +103,10 @@ function StationAllocation() {
     //     setWorkers(updatedWorkers);
     // }, [allocationStation]);
 
+    function handleSelect(selectedList,selectedItem) {
+        
+    }
+
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -134,7 +156,7 @@ function StationAllocation() {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{allocation.station}</td>
-                                <td>
+                                {/* <td>
                                     <Form.Control
                                         type="text"
                                         name={`stationAllocations[${index}].worker`}
@@ -159,6 +181,14 @@ function StationAllocation() {
                                             />
                                         ))}
                                     </datalist>
+                                </td> */}
+                                <td>
+                                <Multiselect 
+                                isObject={false}
+                                options={Object.keys(workersCompleteName)}
+                                onSelect={ handleSelect}
+                                showCheckbox
+                                />
                                 </td>
                             </tr>
                         ))}

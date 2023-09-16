@@ -9,11 +9,15 @@ async function insertIntoStationAllocation(req,res){
             res.status(501).send({msg:`Workers already allocated to stations for shift:${shift} on date:${date}`})
         }
         else{
-            const insertQuery = "INSERT INTO station_allocation (date,shift,station_name,employee_id) VALUES (?, ?, ?, (SELECT employee_id FROM employee_master WHERE first_name = ?))"
+            const insertQuery = "INSERT INTO station_allocation (date,shift,station_name,employee_id) VALUES (?, ?, ?, (SELECT employee_id FROM employee_master WHERE first_name = ? and last_name=?))"
             for(const stationAllocation of stationAllocations)
             {
-                const {station,worker} = stationAllocation
-                const [insertResult] = await db.promise().query(insertQuery,[date,shift,station,worker])
+                const {station,workers} = stationAllocation
+                for(const worker of workers){
+                    const {first_name , last_name}=worker;
+                    const [insertResult] = await db.promise().query(insertQuery,[date,shift,station,first_name , last_name])
+                }
+                
             }
             res.status(201).send({msg:"Stations allocated to workers successfully."})
         }

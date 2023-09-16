@@ -71,8 +71,7 @@ function WindalsNav() {
         <Route path='/product/addProduct' element={<AddProduct />}></Route>
         <Route path='/product/updateproduct' element={<UpdateProduct />}></Route>
         <Route path='/product/viewproduct' element={<ViewProduct />}></Route>
-
-        <Route path='/station/addStation' element={<AddStation />}></Route>
+        <Route path='/station/addStation' element={< AddStation/>}></Route>
         <Route path='/station/updateStation' element={<UpdateStation />}></Route>
         <Route path='/station/viewStation' element={<ViewStation />}></Route>
         <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
