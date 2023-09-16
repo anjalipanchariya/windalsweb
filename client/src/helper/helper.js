@@ -232,3 +232,44 @@ export async function getJobesAtStation(stationId,productName){
         return Promise.reject(error.response.data)
     }
 }
+
+export async function updateJobesAtStation(values,stationId,employeeId){
+    let formattedString = '';
+    if (values.parameterValues!=null && values.parameterValues!={}) {
+        // Convert parameterValues object to a string
+        const parameterString = Object.entries(values.parameterValues)
+          .map(([key, value]) => `${key},${value}`)
+          .join(';');
+    
+        formattedString += parameterString;
+      }
+    
+      if (values.reason!="") {
+        // Append the reason to the string if it exists
+        if (formattedString.length > 0) {
+          formattedString += `;${values.reason}`;
+        } else {
+          formattedString += values.reason;
+        }
+      }
+    
+      // If neither reason nor parameters exist, set the string to null
+      if (formattedString.length === 0) {
+        formattedString = null;
+      }
+    
+    const newValues = {
+        product_name:values.selectedJob.product_name,
+        job_name:values.selectedJob.job_name,
+        status:values.status,
+        parameters:formattedString,
+        station_id:stationId,
+        employee_id:employeeId
+    }
+    try {
+        const {data,status} = await axios.put("http://localhost:8080/api/Stationyyyyupdate",newValues)
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}

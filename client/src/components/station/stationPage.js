@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Modal from 'react-modal';
-import { Formik, Form, Field, useFormik, validateYupSchema } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
   getOneStation,
-  createJobId,
-  insertInStationyyyyFirst,
   insertInStationyyyyFirstNextStation,
   getJobesAtStation,
+  updateJobesAtStation,
 } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -35,11 +34,30 @@ const StationPage = () => {
     },
     // validationSchema: validateYupSchema,
     onSubmit:(values)=>{
-      console.log(values);
-      formik.resetForm()
-      setDropdownOptions([])
-      setDropdownPosition(null)
-      closeModal()
+      const updateJobeAtStationPromise = updateJobesAtStation(values,stationOneProductInfo[0].station_id,employeeId)
+      updateJobeAtStationPromise.then((result)=>{
+        toast.success(result.msg)
+        const newValues = {
+          job_name:values.selectedJob.job_name,
+          product_name:product_name,
+          station_id:stationOneProductInfo[0].station_id
+        }
+        const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
+        insertInStationyyyyFirstNextStationPromise.then((result)=>{
+          toast.success(result.msg)
+          formik.resetForm()
+          setDropdownOptions([])
+          setDropdownPosition(null)
+          closeModal()
+          setJobesAtStationFunction()
+        }).catch((err)=>{
+          toast.error(err.msg)
+          console.log(err);
+        })
+      }).catch((err)=>{
+        toast.error(err.msg)
+        console.log(err);
+      }) 
     }
   })
 
@@ -67,21 +85,29 @@ const StationPage = () => {
       setStationOneProductInfo(stationOneProductInfo);
 
       // Split the parameter names string into an array
-      const parameterNamesArray = stationOneProductInfo[0].station_parameters.split(',');
-      setParameterNames(parameterNamesArray);
+      if(stationOneProductInfo[0].station_parameters!=null)
+      {
+        const parameterNamesArray = stationOneProductInfo[0].station_parameters.split(',');
+        setParameterNames(parameterNamesArray);
+      }
+      
     }
   }, [product_name]);
 
   useEffect(() => {
     if (stationOneProductInfo.length > 0) {
-      const getJobesAtStationPromise = getJobesAtStation(stationOneProductInfo[0].station_id,stationOneProductInfo[0].product_name);
-      getJobesAtStationPromise.then((result) => {
-        setJobsAtStation(result);
-      }).catch((err) => {
-        toast.error(err.msg);
-      });
+      setJobesAtStationFunction()
     }
   }, [stationOneProductInfo]);
+
+  const setJobesAtStationFunction = () => {
+    const getJobesAtStationPromise = getJobesAtStation(stationOneProductInfo[0].station_id,stationOneProductInfo[0].product_name);
+    getJobesAtStationPromise.then((result) => {
+      setJobsAtStation(result);
+    }).catch((err) => {
+      toast.error(err.msg);
+    });
+  }
 
   const handleJobIdClick = async (job, event) => {
     formik.setFieldValue("selectedJob",job);
@@ -135,19 +161,31 @@ const StationPage = () => {
   const setParameterValue = (parameter, value) => {
     // Clone the existing parameterValues object
     const updatedParameterValues = { ...formik.values.parameterValues };
-  
+    
+    // Trim the parameter name to remove leading/trailing spaces
+    const trimmedParameter = parameter.trim();
+    
     // Set the value for the parameter
-    updatedParameterValues[parameter] = value;
-  
+    updatedParameterValues[trimmedParameter] = value;
+    
     // Update the parameterValues field in Formik
     formik.setFieldValue("parameterValues", updatedParameterValues);
   };
 
-  console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo});
+  console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo,formikvalues:formik.values,parameterNames:parameterNames});
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <h1>{stationName}</h1>
+      <h1>STATION NAME:{stationName}</h1>
+      <h1>EMPLOYEE ID: {employeeId}</h1>
+      {stationOneProductInfo[0] && 
+        <div>
+          <h1>DAILY COUNT: {stationOneProductInfo[0].daily_count}</h1>
+          <h1>CYCLE TIME: {stationOneProductInfo[0].cycle_time}</h1>
+          <h1>PRODUCT PER HOUR: {stationOneProductInfo[0].product_per_hour}</h1>
+          <h1>PARAMETERS TO BE CHECKED: {stationOneProductInfo[0].report===1 ? stationOneProductInfo[0].station_parameters : "NONE"}</h1>
+        </div>
+      }
       <div className="form-group">
         <label htmlFor="productSelect">Select a Product:</label>
         <select
@@ -158,6 +196,7 @@ const StationPage = () => {
           onChange={(e) => {
              setProductName(e.target.value)
              closeModal()
+             formik.resetForm()
             }}
         >
           <option value="">--Select Product--</option>
