@@ -3,7 +3,7 @@ import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaste
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
-import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation} from "../Controllers/stationyyyyController.js"
+import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
 
@@ -19,6 +19,8 @@ router.route("/StationyyyyInsertFirst").post(insertInStationyyyyFirst);
 router.route("/StationyyyyInsertFirstNextStation").post(insertInStationyyyyFirstNextStation);
 router.route("/StationAllocationInsert").post(insertIntoStationAllocation)
 router.route("/StationyyyyShowJob").post(jobsAtStation);
+router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
+router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
 
 
 /**GET MEATHODS */
@@ -34,6 +36,7 @@ router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
 router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
 router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOneProduct)
+
 
 
 

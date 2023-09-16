@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Form } from 'react-bootstrap';
-import * as Yup from 'yup';
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
-import { getAllStationNames, getAllWorkerNames,addStationAllocation } from "../../helper/helper";
+import { getAllStationNames, getAllWorkerNames, addStationAllocation } from "../../helper/helper";
 
 function StationAllocation() {
     const today = new Date();
 
     const [workers, setWorkers] = useState([]);
     const [workersCompleteName, setWorkersCompleteName] = useState({});
-
     const [stations, setStations] = useState([]);
     const [allocationStation, setAllocationStation] = useState([]);
+    const [availableWorkerNames, setAvailableWorkerNames] = useState([]);
+    const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
 
     useEffect(() => {
         const fetchStationsAndWorkers = async () => {
@@ -24,24 +24,19 @@ function StationAllocation() {
                 const workerNames = await getAllWorkerNames();
                 setWorkers(workerNames);
 
-                const tempObj={};
-                
+                const tempObj = {};
 
-                for(const w of workerNames){
-                    const {first_name,last_name} =w
-                    tempObj[first_name+" "+last_name]=w
-                    
+                for (const w of workerNames) {
+                    const { first_name, last_name, employee_id, user_name } = w;
+                    tempObj[first_name + " " + last_name + " " + user_name] = { employee_id, name: first_name + " " + last_name + " " + user_name };
                 }
-                
-                setWorkersCompleteName(tempObj);
-                console.log(workers)
-                console.log(Object.keys(workersCompleteName))
 
+                setWorkersCompleteName(tempObj);
 
                 // Initialize allocationStation based on stations
                 const initialAllocationStation = stationNames.map((station) => ({
                     station: station.station_name,
-                    worker: [],
+                    workers: [],
                 }));
                 setAllocationStation(initialAllocationStation);
             } catch (error) {
@@ -49,28 +44,7 @@ function StationAllocation() {
             }
         };
         fetchStationsAndWorkers();
-        
     }, []);
-
-    // const validationSchema = Yup.object().shape({
-    //     date: Yup.date().required("Required").nullable(),
-    //     shift: Yup.string().required("Required"),
-    //     stationAllocations: Yup.array()
-    //         .of(Yup.object().shape({
-    //             station: Yup.string().required("Required"),
-    //             worker: Yup.string()
-    //                 .test("is-worker-valid", "Worker does not exist", (value) => {
-    //                     // Check if the worker name exists in the list of workers
-    //                     return workers.some((worker) => worker.first_name === value);
-    //                 })
-    //                 .test("is-worker-unique", "Worker is already allocated to another station", (value, context) => {
-    //                     const { station, index } = context.options.context;
-    //                     if (!value) return true; // Worker is not required
-    //                     return allocationStation.some((allocation, i) => i !== index && allocation.station === station && allocation.worker === value);
-    //                 }),
-    //         }))
-    //         .required("At least one station worker allocation is required"),
-    // });
 
     const formik = useFormik({
         initialValues: {
@@ -78,35 +52,67 @@ function StationAllocation() {
             shift: '',
             stationAllocations: allocationStation,
         },
-        // validationSchema: validationSchema,
         onSubmit: (values) => {
-            const addStationAllocationPromise = addStationAllocation(values)
-            toast.promise(addStationAllocationPromise,{
-                loading: "Saving data",
-                success: result => result.msg,
-                error: err => err.msg
-            })
+            // Ensure that all stations have at least one worker
+            const isValid = values.stationAllocations.every(
+                (allocation) => allocation.workers.length > 0
+            );
+
+            if (!isValid) {
+                toast.error("All stations must have at least one worker.");
+            } else {
+                // Map selected names to employee_ids when submitting the form
+                const stationAllocationsWithEmployeeIds = values.stationAllocations.map((allocation) => ({
+                    station: allocation.station,
+                    workers: allocation.workers.map((selectedName) => workersCompleteName[selectedName].employee_id),
+                }));
+
+                console.log({
+                    date: values.date,
+                    shift: values.shift,
+                    stationAllocations: stationAllocationsWithEmployeeIds
+                });
+                 const addStationAllocationPromise = addStationAllocation({
+                    date: values.date,
+                    shift: values.shift,
+                    stationAllocations: stationAllocationsWithEmployeeIds,
+                });
+
+                toast.promise(addStationAllocationPromise, {
+                    loading: "Saving data",
+                    success: (result) => result.msg,
+                    error: (err) => err.msg,
+                });
+            }
         },
         enableReinitialize: true,
     });
 
-    // useEffect(() => {
-    //     // Dynamically update suggestions list based on allocated workers
-    //     const allocatedWorkers = new Set();
-    //     const updatedWorkers = workers.filter((worker) => {
-    //         if (!allocatedWorkers.has(worker.first_name)) {
-    //             allocatedWorkers.add(worker.first_name);
-    //             return true;
-    //         }
-    //         return false;
-    //     });
-    //     setWorkers(updatedWorkers);
-    // }, [allocationStation]);
+    useEffect(() => {
+        filterAvailableWorkerNames();
+    }, [formik.values.stationAllocations]);
 
-    function handleSelect(selectedList,selectedItem) {
-        
+    function handleSelect(selectedList, selectedItem, stationIndex) {
+        console.log({ selectedItem: selectedItem, selectedList: selectedList });
+        // Update the selected names for a specific station
+        const updatedAllocation = [...formik.values.stationAllocations];
+        updatedAllocation[stationIndex].workers = selectedList;
+        formik.setFieldValue("stationAllocations", updatedAllocation);
+        filterAvailableWorkerNames();
     }
 
+    const filterAvailableWorkerNames = () => {
+        // Combine the selected workers from all stations
+        const allSelectedWorkers = formik.values.stationAllocations.flatMap((allocation) => allocation.workers);
+        // Filter out workers that are already selected
+        const filteredAvailableWorkerNames = workers.filter((worker) => {
+            const workerName = `${worker.first_name} ${worker.last_name} ${worker.user_name}`;
+            return !allSelectedWorkers.includes(workerName);
+        });
+        setAvailableWorkerNames(filteredAvailableWorkerNames);
+    }
+
+    console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -138,12 +144,14 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-                    <Button variant="danger" type="submit">Submit</Button>
+                    <Button variant="danger" type="submit">
+                        Submit
+                    </Button>
                 </Form>
             </div>
 
             <div className="table-container">
-                <Table striped responsive hover className='table'>
+                <Table striped responsive hover className="table">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -156,39 +164,18 @@ function StationAllocation() {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{allocation.station}</td>
-                                {/* <td>
-                                    <Form.Control
-                                        type="text"
-                                        name={`stationAllocations[${index}].worker`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={allocation.worker}
-                                        list={`worker-suggestions-${index}`}
-                                    />
-                                    {formik.touched.stationAllocations
-                                        && formik.errors.stationAllocations
-                                        && formik.errors.stationAllocations[index]
-                                        && formik.errors.stationAllocations[index].worker && (
-                                            <div className="error">
-                                                {formik.errors.stationAllocations[index].worker}
-                                            </div>
-                                        )}
-                                    <datalist id={`worker-suggestions-${index}`}>
-                                        {workers.map((worker, workerIndex) => (
-                                            <option
-                                                key={workerIndex}
-                                                value={worker.first_name}
-                                            />
-                                        ))}
-                                    </datalist>
-                                </td> */}
                                 <td>
-                                <Multiselect 
-                                isObject={false}
-                                options={Object.keys(workersCompleteName)}
-                                onSelect={ handleSelect}
-                                showCheckbox
-                                />
+                                    <Multiselect
+                                        isObject={false}
+                                        options={availableWorkerNames.map(
+                                            (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
+                                        )}
+                                        onSelect={(selectedList, selectedItem) =>
+                                            handleSelect(selectedList, selectedItem, index)
+                                        }
+                                        selectedValues={allocation.workers}
+                                        showCheckbox
+                                    />
                                 </td>
                             </tr>
                         ))}

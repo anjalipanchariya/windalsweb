@@ -106,4 +106,50 @@ async function jobsAtStation(req,res){
 
 }
 
-export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation};
+async function countOfWorkAtStation(req,res){
+    const {station_id} = req.body;
+
+    try {
+
+        const searchQueryDone = "select count(*) as ok from station_yyyy where status=1 and station_id=?;"
+        const [selectResultDone] = await db.promise().query(searchQueryDone,[station_id])
+        const done=selectResultDone[0]['ok'];
+
+        const searchQueryNotDone = "select count(*) as notok from station_yyyy where status=0 and station_id=?;"
+        const [selectResultNotDone] = await db.promise().query(searchQueryNotDone,[station_id])
+        const notdone=selectResultNotDone[0]['notok'];
+
+        const searchQueryRework = "select count(*) as rework from station_yyyy where status=2 and station_id=?;"
+        const [selectResultRework] = await db.promise().query(searchQueryRework,[station_id])
+        const rework=selectResultRework[0]['rework'];
+
+
+        res.status(201).send({ok:done,notok:notdone, rework:rework});
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+
+}
+
+async function workAtStationInDay(req,res){
+    const {station_id,date} = req.body;
+
+    try {
+        // const date='2023-09-05'; //date format YYYY-MM-DD
+        const start=date+' 00:00:00';
+        const end=date+' 23:59:59'
+        const searchQueryWork = "select newt2.product_name,job_name,status,first_name,last_name,intime from (select newt.product_name, employee_id,job_name, status,intime from (select * from station_yyyy where employee_id is not null and status is not null and station_id = ?) as newt left join productyyyy on newt.job_id=productyyyy.job_id) as newt2 left join employee_master on newt2.employee_id=employee_master.employee_id where intime between ? AND ?;"
+        const [selectResultWork] = await db.promise().query(searchQueryWork,[station_id,start,end])
+
+        res.status(201).send(selectResultWork);
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+
+}
+
+export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation,countOfWorkAtStation,workAtStationInDay};
