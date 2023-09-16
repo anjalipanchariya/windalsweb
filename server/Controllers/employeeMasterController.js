@@ -136,7 +136,7 @@ async function login(req, res) {
 
 async function getNamesFromEmployeeMaster(req,res){
   try {
-    const selectQuery = "SELECT DISTINCT first_name,last_name,user_name from employee_master"
+    const selectQuery = "SELECT DISTINCT first_name,last_name,user_name,employee_id from employee_master"
     const [selectResult] = await db.promise().query(selectQuery)
     res.status(201).send(selectResult)
   } catch (error) {

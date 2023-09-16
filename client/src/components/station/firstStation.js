@@ -8,8 +8,8 @@ import { useFormik } from "formik";
 
 const FirstStation = () => {
     
-    const stationName = "A1";
-    const employeeId = "1";
+    const stationName = "S1";
+    const employeeId = "7";
     const [stationAllInfo,setStationAllInfo] = useState("");
     const [stationOneProductInfo,setStationOneProductInfo] = useState("");
     const [availableProducts,setAvailableProducts] = useState([]);
@@ -28,7 +28,7 @@ const FirstStation = () => {
             }
             const createJobIdPromise = createJobId(newValues)
             createJobIdPromise.then((createJobResult)=>{
-                console.log({result1:createJobResult});
+                console.log({createJobResult:createJobResult});
                 if (formik.values.product_name) 
                 {
                     const newProduct = {
@@ -38,7 +38,7 @@ const FirstStation = () => {
                     setProducts([...products, newProduct]);
                     const insertInStationyyyyFirstPromise = insertInStationyyyyFirst(newValues)
                     insertInStationyyyyFirstPromise.then((insertInStationyyyyResult)=>{
-                        console.log({result:insertInStationyyyyResult});
+                        console.log({insertInStationyyyyResult:insertInStationyyyyResult});
                         const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
                         insertInStationyyyyFirstNextStationPromise.then((insertInStationyyyyFirstNextResult)=>{
                             toast.success(insertInStationyyyyFirstNextResult.msg)
