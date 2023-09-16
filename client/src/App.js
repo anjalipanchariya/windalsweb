@@ -15,6 +15,10 @@ import ViewUser from './components/user/viewUser';
 import ViewProduct from './components/product/viewProduct';
 import ViewStation from './components/station/viewStation';
 import StationAllocation from './components/station/allocateStation';
+import FirstStation from './components/station/firstStation';
+import NextStation from './components/station/nextStationAllocation';
+import StationPage from './components/station/stationPage';
+
 
 function App() {
   
@@ -38,6 +42,9 @@ function App() {
         <Route path='/station/updateStation' element={<UpdateStation />}></Route>
         <Route path='/station/viewStation' element={<ViewStation />}></Route>
         <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
+        <Route path='/station/allocateStation' element={<FirstStation />}></Route>
+        <Route path='/station/allocateStation' element={<NextStation />}></Route>
+        <Route path='/station/allocateStation' element={<StationPage />}></Route>
 
         <Route path='/' element={<LoginPage />} />
       </Routes>
