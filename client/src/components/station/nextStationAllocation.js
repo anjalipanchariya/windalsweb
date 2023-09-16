@@ -5,7 +5,7 @@ import { getProductNames, getOneProductStationNames,configureNextStation } from 
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from "formik";
 
-function NextStation() {
+function NextStationAllocation() {
     const formik = useFormik({
         initialValues: {
             productName: "",
@@ -120,4 +120,4 @@ function NextStation() {
     );
 }
 
-export default NextStation;
+export default NextStationAllocation;
