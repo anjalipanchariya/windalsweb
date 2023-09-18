@@ -71,6 +71,7 @@ async function insertInProductMaster(req,res){
  async function updateProductMaster(req,res){
     // const { productId, updatedFields } = req.body;
     const {productName,parameters} = req.body
+    console.log(req.body.token);
     try {
         const updateQuery = "UPDATE product_master SET max_parameter = ?, min_parameter = ?, unit = ? WHERE id = ? "
         const updateData = []

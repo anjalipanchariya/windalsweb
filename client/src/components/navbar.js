@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
+import { logout } from '../helper/helper';
 
 
 function WindalsNav() {
@@ -41,32 +42,13 @@ function WindalsNav() {
             </Nav>
             <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
             
-            <Nav.Link as={Link} to="/login" style={{ margin: 15 }}>Login</Nav.Link>
-            
-            <Button variant="outline-dark">Login</Button>
+            <Button variant="outline-dark" onClick={()=>{
+              logout()
+            }}>Login Out</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      {/* <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/user/adduser' element={<WorkerReg />} />
-        <Route path='/user/deleteuser' element={<DeleteUser />} />
-        <Route path='/user/viewuser' element={<ViewUser />} />
-
-        <Route path='/product/addProduct' element={<AddProduct />}></Route>
-        <Route path='/product/updateproduct' element={<UpdateProduct />}></Route>
-        <Route path='/product/viewproduct' element={<ViewProduct />}></Route>
-        <Route path='/station/addStation' element={< AddStation/>}></Route>
-        <Route path='/station/updateStation' element={<UpdateStation />}></Route>
-        <Route path='/station/viewStation' element={<ViewStation />}></Route>
-        <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
-        <Route path='/station/allocatenextStation' element={<NextStationAllocation />}></Route>
-        <Route path='/station' element={<StationPage />}></Route>
-        <Route path='/firststation' element={<FirstStation />}></Route>
-        
-        <Route path='/login' element={<LoginPage />} />
-      </Routes> */}
     </>
   );
 }

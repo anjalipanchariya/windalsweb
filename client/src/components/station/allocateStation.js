@@ -17,35 +17,37 @@ function StationAllocation() {
     const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
 
     useEffect(() => {
-        const fetchStationsAndWorkers = async () => {
-            try {
-                const stationNames = await getAllStationNames();
-                setStations(stationNames);
-
-                const workerNames = await getAllWorkerNames();
-                setWorkers(workerNames);
-
-                const tempObj = {};
-
-                for (const w of workerNames) {
-                    const { first_name, last_name, employee_id, user_name } = w;
-                    tempObj[first_name + " " + last_name + " " + user_name] = { employee_id, name: first_name + " " + last_name + " " + user_name };
-                }
-
-                setWorkersCompleteName(tempObj);
-
-                // Initialize allocationStation based on stations
-                const initialAllocationStation = stationNames.map((station) => ({
-                    station: station.station_name,
-                    workers: [],
-                }));
-                setAllocationStation(initialAllocationStation);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
         fetchStationsAndWorkers();
     }, []);
+
+    const fetchStationsAndWorkers = async () => {
+        try {
+            const stationNames = await getAllStationNames();
+            setStations(stationNames);
+
+            const workerNames = await getAllWorkerNames();
+            setWorkers(workerNames);
+
+            const tempObj = {};
+
+            for (const w of workerNames) {
+                const { first_name, last_name, employee_id, user_name } = w;
+                tempObj[first_name + " " + last_name + " " + user_name] = { employee_id, name: first_name + " " + last_name + " " + user_name };
+            }
+
+            setWorkersCompleteName(tempObj);
+
+            // Initialize allocationStation based on stations
+            const initialAllocationStation = stationNames.map((station) => ({
+                station: station.station_name,
+                workers: [],
+            }));
+            setAllocationStation(initialAllocationStation);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
 
     const formik = useFormik({
         initialValues: {
@@ -81,7 +83,12 @@ function StationAllocation() {
 
                 toast.promise(addStationAllocationPromise, {
                     loading: "Saving data",
-                    success: (result) => result.msg,
+                    success: (result) => {
+                        formik.resetForm()
+                        fetchStationsAndWorkers()
+                        formik.setFieldValue("stationAllocations",allocationStation)
+                        return result.msg
+                    },
                     error: (err) => err.msg,
                 });
             }

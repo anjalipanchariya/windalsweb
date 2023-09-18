@@ -9,6 +9,7 @@ import {
   insertInStationyyyyFirstNextStation,
   getJobesAtStation,
   updateJobesAtStation,
+  logout,
 } from '../../helper/helper';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -178,10 +179,11 @@ const StationPage = () => {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <button onClick={()=>{logout()}}>LOG OUT</button>
       <h1>STATION NAME:{stationName}</h1>
       <h1>EMPLOYEE ID: {employeeId}</h1>
       <h1>USER NAME: {userName}</h1>
-      {stationOneProductInfo[0] && 
+      {stationOneProductInfo[0] && product_name!=="" &&
         <div>
           <h1>DAILY COUNT: {stationOneProductInfo[0].daily_count}</h1>
           <h1>CYCLE TIME: {stationOneProductInfo[0].cycle_time}</h1>

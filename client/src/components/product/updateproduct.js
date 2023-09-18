@@ -8,12 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { addProduct,getAllProducts,updateProducts,deleteProductParameter,getOneProductAllParameters,getOneProductOneParameter } from "../../helper/helper";
 import WindalsNav from '../navbar';
+import { useNavigate } from 'react-router-dom';
+
 function AddProduct() {
     
     const validationSchema = Yup.object().shape({
         productName:Yup.string().required('Product name is required')
     })
-    
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues: {
             productName : "",
@@ -46,7 +49,13 @@ function AddProduct() {
                             formik.setFieldValue('existingParameters',[])
                             return result.msg
                         },
-                        error: err => { return err.msg}   
+                        error: err => { 
+                            <b>err.msg</b>
+                            if(err.redirectUrl)
+                            {
+                                navigate(err.redirectUrl)
+                            }
+                        }   
                     }
             )
         }

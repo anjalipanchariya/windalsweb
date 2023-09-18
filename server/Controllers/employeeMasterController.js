@@ -1,5 +1,14 @@
 import db from "../Database/connection.js";
 import bcrypt from "bcrypt"
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+import path from 'path'
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '../.env') });
+const JWT_SECRET = process.env.JWT_SECRET;
 
 async function insertIntoEmployeeMaster(req, res) {
     var {
@@ -122,7 +131,13 @@ async function login(req, res) {
             res.status(500).send({ msg: `Internal server error: ${err}` });
             return;
           } else if (result) {
-            res.status(201).send({ msg: "Login successful",employeeId:selectUserResult[0].employee_id,userName:selectUserResult[0].user_name });
+             const token = jwt.sign({
+              userId: selectUserResult[0].employee_id,
+              designation: selectUserResult[0].designation
+            },JWT_SECRET,{
+              expiresIn: "12h"
+            })
+            res.status(201).send({ msg: "Login successful",employeeId:selectUserResult[0].employee_id,userName:selectUserResult[0].user_name,token:token });
             return;
           } else {
             res.status(401).send({ msg: "Invalid password" });

@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export async function addProduct(values){
     try {
@@ -12,8 +13,9 @@ export async function addProduct(values){
 
 export async function updateProducts(productName,existingParameters){
     const values = {ProductName:productName,parameters:existingParameters}
+    const token = localStorage.getItem("token")
     try {
-        const {data,status} = await axios.put("http://localhost:8080/api/ProductMasterUpdate",values)
+        const {data,status} = await axios.put("http://localhost:8080/api/ProductMasterUpdate",values,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data);
@@ -22,6 +24,7 @@ export async function updateProducts(productName,existingParameters){
 
 export async function deleteProductParameter(productId){
     try{
+        const token = localStorage.getItem("token")
         const {data,status} = await axios.delete("http://localhost:8080/api/ProductMasterDelete",{params:{productId}})
         return Promise.resolve(data)
     }catch(error){
@@ -69,7 +72,8 @@ export async function getProductNames(){
 export async function addStation(values){
     console.log(values);
     try {
-        const {data,status} = await axios.post("http://localhost:8080/api/StationMasterInsert",values)
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/StationMasterInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
         console.log(data);
         return Promise.resolve(data)
     } catch (error) {
@@ -107,7 +111,8 @@ export async function getOneStationOneProduct(values){
 
 export async function deleteStation(stationId){
     try {
-        const {data,status} = await  axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId}})
+        const token = localStorage.getItem("token")
+        const {data,status} = await  axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId}},{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -116,7 +121,8 @@ export async function deleteStation(stationId){
 
 export async function updateStation(values){
     try {
-        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterUpdate",values)
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterUpdate",values,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -145,7 +151,8 @@ export async function getOneProductStationNames(productName){
 
 export async function registerUser(values){
     try {
-        const {data,status} = await axios.post("http://localhost:8080/api/EmployeeMasterInsert",values)
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/EmployeeMasterInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -172,7 +179,8 @@ export async function getAllWorkerNames(){
 
 export async function addStationAllocation(values){
     try {
-        const {data,status} = await axios.post("http://localhost:8080/api/StationAllocationInsert",values)
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/StationAllocationInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -198,8 +206,9 @@ export async function configureNextStation(values){
             })
         })
     }
+    const token = localStorage.getItem("token")
     try {
-        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterAddNextStation",newValues)
+        const {data,status} = await axios.put("http://localhost:8080/api/StationMasterAddNextStation",newValues,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -235,7 +244,7 @@ export async function getJobesAtStation(stationId,productName){
 
 export async function updateJobesAtStation(values,stationId,employeeId){
     let formattedString = '';
-    if (values.parameterValues!=null && values.parameterValues!={}) {
+    if (values.parameterValues!==null && values.parameterValues!={}) {
         // Convert parameterValues object to a string
         const parameterString = Object.entries(values.parameterValues)
           .map(([key, value]) => `${key},${value}`)
@@ -244,7 +253,7 @@ export async function updateJobesAtStation(values,stationId,employeeId){
         formattedString += parameterString;
       }
     
-      if (values.reason!="") {
+      if (values.reason!=="") {
         // Append the reason to the string if it exists
         if (formattedString.length > 0) {
           formattedString += `;${values.reason}`;
@@ -278,12 +287,14 @@ export async function loginUser(values){
     try{
         const {data:loginData,status:loginStatus} = await axios.post("http://localhost:8080/api/login",values)
         console.log({loginData:loginData});
+        const {token} = loginData
+        localStorage.setItem("token",token)
         if(loginStatus===201 && loginData.userName==="admin")
         {
             console.log("ADMIN");
             return Promise.resolve(loginData)
         }
-        else if(loginStatus===201 && loginData.userName!="admin")
+        else if(loginStatus===201 && loginData.userName!=="admin")
         {
             const currentDate = new Date();
             const year = currentDate.getFullYear();
@@ -303,4 +314,20 @@ export async function loginUser(values){
     }catch(error){
         return Promise.reject(error.response.data)
     }
+}
+
+export async function verifyLogin(){
+    const token = localStorage.getItem("token")
+    console.log(token);
+    try {
+        const {status} = await axios.get("http://localhost:8080/api/verifyLogin",{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(status)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function logout(){
+    localStorage.removeItem("token");
+    window.location.href = "http://localhost:3000";
 }
