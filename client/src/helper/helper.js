@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 export async function addProduct(values){
     try {
-        const {data,status} = await axios.post("http://localhost:8080/api/ProductMasterInsert",values)
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/ProductMasterInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data);
@@ -25,7 +26,7 @@ export async function updateProducts(productName,existingParameters){
 export async function deleteProductParameter(productId){
     try{
         const token = localStorage.getItem("token")
-        const {data,status} = await axios.delete("http://localhost:8080/api/ProductMasterDelete",{params:{productId}})
+        const {data,status} = await axios.delete("http://localhost:8080/api/ProductMasterDelete",{params:{productId},headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     }catch(error){
         return Promise.reject(error.response.data);
@@ -112,7 +113,7 @@ export async function getOneStationOneProduct(values){
 export async function deleteStation(stationId){
     try {
         const token = localStorage.getItem("token")
-        const {data,status} = await  axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId}},{headers:{"Authorization":`Bearer ${token}`}})
+        const {data,status} = await  axios.delete("http://localhost:8080/api/StationMasterDelete",{params:{stationId},headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)
@@ -177,6 +178,37 @@ export async function getAllWorkerNames(){
     }
 }
 
+export async function getOneEmployee(userName){
+    try {
+        const {data,status} = await axios.get("http://localhost:8080/api/EmployeeMasterGetOne",{params:{userName}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function updateEmployee(values){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.put("http://localhost:8080/api/EmployeeMasterUpdate",values,{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log(error);
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function deleteEmployee(employeeId){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.delete("http://localhost:8080/api/EmployeeMasterDelete",{params:{employeeId},headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log(error);
+        return Promise.reject(error.response.data)
+    }
+}
+
 export async function addStationAllocation(values){
     try {
         const token = localStorage.getItem("token")
@@ -186,6 +218,7 @@ export async function addStationAllocation(values){
         return Promise.reject(error.response.data)
     }
 }
+
 
 export async function createJobId(values){
     try {

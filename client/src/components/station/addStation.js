@@ -151,7 +151,9 @@ function AddStation() {
             {
                 loading: "Deleting data",
                 success: result => {
-                    handleSearch()
+                    editFormFormik.resetForm()
+                    searchFormFormik.resetForm()
+                    setStationData([])
                     return result.msg
                 },
                 error: err => {return err.msg}

@@ -2,7 +2,7 @@ import Router from "express"
 import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames } from "../Controllers/productMasterController.js";
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
-import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee} from "../Controllers/employeeMasterController.js"
+import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster, deleteFromEmployeeMaster} from "../Controllers/employeeMasterController.js"
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
@@ -56,13 +56,13 @@ router.route('/verifyLogin').get(auth,(req,res)=>{
 /**DELETE MEATHODS */
 router.route('/ProductMasterDelete').delete(auth,deleteFromProductMaster)
 router.route('/StationMasterDelete').delete(auth,deleteFromStationMaster)
-router.route('/EmployeeMasterDelete').delete()
+router.route('/EmployeeMasterDelete').delete(auth,deleteFromEmployeeMaster)
 
 /**PUT MEATHOD */
 router.route('/ProductMasterUpdate').put(auth,updateProductMaster);
 router.route('/StationMasterUpdate').put(auth,updateStationMaster)
+router.route('/EmployeeMasterUpdate').put(auth,updateEmployeeMaster)
 router.route('/StationMasterAddNextStation').put(auth,addNextStationInStationMaster)
-router.route('/EmployeeMasterUpdate').put(auth,updateEmployee)
 router.route('/Stationyyyyupdate').put(updateInStationyyyy)
 
 export default router;

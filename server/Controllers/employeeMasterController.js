@@ -68,7 +68,8 @@ async function getAllFromEmployee(req,res){
     try{
         var query = "SELECT employee_id,first_name,last_name,user_name,nick_name,mobile_no,joining_date,leaving_date,designation FROM employee_master"
         const [result] = await db.promise().query(query)
-        res.status(201).send(result)
+        const updatedResult = result.filter((employee)=>employee.user_name!=="admin")
+        res.status(201).send(updatedResult)
     }catch(err){
         console.error("Database error:", err);
         res.status(500).send({msg:`Internal server error: ${err}`})
@@ -76,13 +77,17 @@ async function getAllFromEmployee(req,res){
 }
 
 async function getOneFromEmployee(req,res){
-    const {emp_first_name, emp_last_name, designation} = req.body
+    const {userName} = req.query
     try{
-        var query="SELECT * FROM employee_master WHERE emp_first_name = ? && emp_last_name = ? && designation=?"
-        const [result]= await db.promise().query(query,[emp_first_name,emp_last_name,designation]);
+        var query="SELECT * FROM employee_master WHERE user_name=?"
+        const [result]= await db.promise().query(query,[userName]);
         if(result.length>0)
         {
             res.status(201).send(result)
+        }
+        else if(result[0].user_name==='admin')
+        { 
+          res.status(501).send({msg:"You cant excess admin info"})
         }
         else{
             console.log("Employee does not exist in the database")
@@ -93,27 +98,48 @@ async function getOneFromEmployee(req,res){
     }
 }
 
-async function updateEmployee(req,res){
-    const {employee_id, updatedFields} = req.body
-    try{
-        const setClause= Object.keys(updatedFields).map(key => `${key}=?`).join(",");
-        const values= Object.values(updatedFields);
+async function updateEmployeeMaster(req, res) {
+  let { userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, employeeId } = req.body;
+  joiningDate = new Date(req.body.joiningDate); // Convert to a JavaScript Date object
 
-        values.push(employee_id);
+  try {
+      const updateQuery = `UPDATE employee_master SET user_name=?, first_name=?, last_name=?, nick_name=?, designation=?, joining_date=?, mobile_no=? WHERE employee_id = ?`;
+      const updateResult = await db.promise().query(updateQuery, [userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, employeeId]);
 
-        const query=`UPDATE employee_master SET ${setClause} WHERE employee_id = ?`;
-        const [updateResult]=db.promise().query(query,values);
+      const affectedRows = updateResult.affectedRows;
 
-        if (updateResult.affectedRows === 0) {
-            return res.status(404).send({ msg: "Employee not found" });
-        }
+      if (affectedRows === 0) {
+          return res.status(404).send({ msg: "Employee not found" });
+      }
 
-        res.status(200).send({ msg: "Employee data updated successfully" });
-    }
-    catch(err){
-        console.error("Database error:", err);
-        res.status(500).send({ msg: `Internal server error: ${err}` });
-    }
+      res.status(200).send({ msg: "Employee data updated successfully" });
+  } catch (err) {
+      console.error("Database error:", err);
+      res.status(500).send({ msg: `Internal server error: ${err}` });
+  }
+}
+
+
+async function deleteFromEmployeeMaster(req,res){
+  const {employeeId} = req.query
+  try{
+      var selectQuery = "SELECT employee_id FROM employee_master WHERE employee_id = ?"
+      const [selectResult] = await db.promise().query(selectQuery,[employeeId])
+
+      if(selectResult.length === 0){
+          res.status(404).send({msg:"Employee does not exist in database"})
+          return;
+      }
+
+      var deleteQuery = "DELETE FROM employee_master WHERE employee_id = ?"
+      const [deleteResult] = await db.promise().query(deleteQuery,[employeeId])
+      
+      console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
+      res.status(201).send({msg:`Employee: firstname-${selectResult[0].first_name} lastname-${selectResult[0].last_name} username-${selectResult[0].user_name} deleted from database successfully  `})
+  }catch(err){
+      console.error(`Database error: ${err}`);
+      res.status(500).send({msg:`Internal server error: ${err}`})
+  }
 }
 
 async function login(req, res) {
@@ -155,11 +181,12 @@ async function getNamesFromEmployeeMaster(req,res){
   try {
     const selectQuery = "SELECT DISTINCT first_name,last_name,user_name,employee_id from employee_master"
     const [selectResult] = await db.promise().query(selectQuery)
-    res.status(201).send(selectResult)
+    const updatedResult = selectResult.filter((employee)=>employee.user_name!=='admin')
+    res.status(201).send(updatedResult)
   } catch (error) {
       console.error("Database error:", error);
       res.status(500).send({ msg: `Internal server error: ${error}` });
   }
 }
 
-export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployee,login,getNamesFromEmployeeMaster}
+export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster,login,getNamesFromEmployeeMaster,deleteFromEmployeeMaster}
