@@ -133,15 +133,13 @@ async function countOfWorkAtStation(req,res){
 
 }
 
-async function workAtStationInDay(req,res){
-    const {station_id,date} = req.body;
+async function getJobesSubmitedAtStation(req,res){
+    const {stationId} = req.body;
 
     try {
         // const date='2023-09-05'; //date format YYYY-MM-DD
-        const start=date+' 00:00:00';
-        const end=date+' 23:59:59'
         const searchQueryWork = "select newt2.product_name,job_name,status,first_name,last_name,intime from (select newt.product_name, employee_id,job_name, status,intime from (select * from station_yyyy where employee_id is not null and status is not null and station_id = ?) as newt left join productyyyy on newt.job_id=productyyyy.job_id) as newt2 left join employee_master on newt2.employee_id=employee_master.employee_id where intime between ? AND ?;"
-        const [selectResultWork] = await db.promise().query(searchQueryWork,[station_id,start,end])
+        const [selectResultWork] = await db.promise().query(searchQueryWork,[stationId])
 
         res.status(201).send(selectResultWork);
 
@@ -152,4 +150,57 @@ async function workAtStationInDay(req,res){
 
 }
 
-export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation,countOfWorkAtStation,workAtStationInDay};
+async function workAtStationInDay(req, res) {
+    const { stationId, date } = req.query;
+  
+    try {
+      const start = date + ' 00:00:00';
+      const end = date + ' 23:59:59';
+      const searchQuery =
+        "SELECT newt.product_name, newt.status, newt.parameters, newt.intime, newt.out_time, newt.job_id, job_name FROM (SELECT * FROM station_yyyy WHERE employee_id IS NOT NULL AND status IS NOT NULL AND station_id = ?) as newt LEFT JOIN productyyyy ON newt.job_id=productyyyy.job_id WHERE intime BETWEEN ? AND ?;";
+      const [selectResult] = await db.promise().query(searchQuery, [stationId, start, end]);
+  
+      // Loop through the selectResult array
+      const formattedResults = selectResult.map((entry) => {
+        const { parameters } = entry;
+        const parameterArray = parameters ? parameters.split(';').map((part) => part.trim()) : [];
+        let reason = '';
+        let parameterString = '';
+  
+        // Join the parameterArray elements with '-'
+        if (parameterArray.length > 0) {
+          parameterString = parameterArray.join('-');
+        }
+  
+        // Check if the last element in parameterArray contains a comma
+        if (parameterArray.length > 0) {
+          const lastPart = parameterArray.pop();
+          if (lastPart !== '') {
+            const lastPartParts = lastPart.split(',');
+            if (lastPartParts.length === 2) {
+              reason = lastPartParts[1];
+            } else {
+              parameterArray.push(lastPart); // Add the last part back to the array
+            }
+          }
+        }
+  
+        return { ...entry, parameters: parameterString, reason };
+      });
+  
+      console.log(formattedResults);
+      res.status(201).send(formattedResults);
+    } catch (err) {
+      console.error("Database error:", err);
+      res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+
+export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation};

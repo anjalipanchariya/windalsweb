@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './firstStation.css';
-import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation } from '../../helper/helper';
+import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation,getWorkAtStationInDay } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
@@ -10,12 +10,10 @@ import { useFormik } from "formik";
 const FirstStation = () => {
     
     const { employeeId, userName, stationName } = useParams();
-    // const stationName = "S1";
-    // const employeeId = "7";
     const [stationAllInfo,setStationAllInfo] = useState("");
     const [stationOneProductInfo,setStationOneProductInfo] = useState("");
     const [availableProducts,setAvailableProducts] = useState([]);
-    const [products, setProducts] = useState([]); 
+    const [workAtStationInDay,setWorkAtStationInDay] = useState([])
 
     const formik = useFormik({
         initialValues:{
@@ -33,17 +31,13 @@ const FirstStation = () => {
                 console.log({createJobResult:createJobResult});
                 if (formik.values.product_name) 
                 {
-                    const newProduct = {
-                        job_name: formik.values.job_name,
-                        productName: formik.values.product_name,
-                    };
-                    setProducts([...products, newProduct]);
                     const insertInStationyyyyFirstPromise = insertInStationyyyyFirst(newValues)
                     insertInStationyyyyFirstPromise.then((insertInStationyyyyResult)=>{
                         console.log({insertInStationyyyyResult:insertInStationyyyyResult});
                         const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
                         insertInStationyyyyFirstNextStationPromise.then((insertInStationyyyyFirstNextResult)=>{
                             toast.success(insertInStationyyyyFirstNextResult.msg)
+                            getSubmitedJobs()
                         }).catch((insertInStationyyyyFirstNextErr)=>{
                             toast.error(insertInStationyyyyFirstNextErr.msg)
                         })
@@ -57,6 +51,10 @@ const FirstStation = () => {
             }) 
         }
     })
+
+    useEffect(()=>{
+        getSubmitedJobs()
+    },[stationOneProductInfo])
    
     useEffect(() => {
         const getStationAllInfoPromise = getOneStation(stationName)
@@ -84,7 +82,21 @@ const FirstStation = () => {
         }
     },[formik.values.product_name])
 
+    const getSubmitedJobs = () =>{
+        if(stationOneProductInfo!="")
+        {
+            const stationId = stationOneProductInfo[0].station_id
+            const getWorkAtStationInDayPromise = getWorkAtStationInDay(stationId)
+            getWorkAtStationInDayPromise.then((result)=>{
+                setWorkAtStationInDay(result)
+            }).catch((err)=>{
+                console.log(err);
+                toast.error(err.msg)
+            })
+        }
+    }
     console.log({"stationOneProductInfo":stationOneProductInfo,"stationAllinfo":stationAllInfo});
+    console.log({"workAtStationInDay":workAtStationInDay});
     return (
         <div className="container text-center mt-4">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -124,19 +136,25 @@ const FirstStation = () => {
                 Add Product
             </button>
             <div>
-                <h2>Added Products:</h2>
+                <h2>Jobs Submitted:</h2>
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Job Name</th>
                             <th>Product Name</th>
+                            <th>Job Name</th>
+                            <th>Status</th>
+                            <th>Reason</th>    
+                            <th>Parameter values</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => (
+                        {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
                             <tr key={index}>
-                                <td>{product.job_name}</td>
-                                <td>{product.productName}</td>
+                                <td>{job.product_name}</td>
+                                <td>{job.job_name}</td>
+                                <td>{job.status==1 ? "OK" : "Not-Ok"}</td>
+                                <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
+                                <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
                             </tr>
                         ))}
                     </tbody>

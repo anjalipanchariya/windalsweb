@@ -148,13 +148,13 @@ async function login(req, res) {
       const selectUserQuery = "SELECT password,employee_id,user_name FROM employee_master WHERE user_name = ?";
       const [selectUserResult] = await db.promise().query(selectUserQuery, [userName]);
       if (selectUserResult.length === 0) {
-        res.status(401).send({ msg: "Username does not exist" });
+        res.status(401).send({ msg: "Error:Username does not exist" });
         return;
       } else {
         const hashedPassword = selectUserResult[0].password;
         bcrypt.compare(password, hashedPassword, (err, result) => {
           if (err) {
-            res.status(500).send({ msg: `Internal server error: ${err}` });
+            res.status(500).send({ msg: `Error:Internal server error: ${err}` });
             return;
           } else if (result) {
              const token = jwt.sign({
@@ -163,10 +163,10 @@ async function login(req, res) {
             },JWT_SECRET,{
               expiresIn: "12h"
             })
-            res.status(201).send({ msg: "Login successful",employeeId:selectUserResult[0].employee_id,userName:selectUserResult[0].user_name,token:token });
+            res.status(201).send({ msg: "Done:Login successful",employeeId:selectUserResult[0].employee_id,userName:selectUserResult[0].user_name,token:token });
             return;
           } else {
-            res.status(401).send({ msg: "Invalid password" });
+            res.status(401).send({ msg: "Error:Invalid password" });
             return;
           }
         });
