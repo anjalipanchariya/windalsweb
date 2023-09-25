@@ -10,6 +10,7 @@ import {
   getJobesAtStation,
   updateJobesAtStation,
   logout,
+  getWorkAtStationInDay
 } from '../../helper/helper';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -27,6 +28,7 @@ const StationPage = () => {
   const [product_name, setProductName] = useState("");
   const [jobsAtStation, setJobsAtStation] = useState([]);
   const [parameterNames, setParameterNames] = useState([]); // Store parameter names as an array
+  const [workAtStationInDay,setWorkAtStationInDay] = useState([])
 
   const formik = useFormik({
     initialValues:{
@@ -48,6 +50,7 @@ const StationPage = () => {
         const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
         insertInStationyyyyFirstNextStationPromise.then((result)=>{
           toast.success(result.msg)
+          getSubmitedJobs()
           formik.resetForm()
           setDropdownOptions([])
           setDropdownPosition(null)
@@ -103,6 +106,10 @@ const StationPage = () => {
     }
   }, [stationOneProductInfo]);
 
+  useEffect(()=>{
+    getSubmitedJobs()
+  },[stationOneProductInfo])
+  
   const setJobesAtStationFunction = () => {
     const getJobesAtStationPromise = getJobesAtStation(stationOneProductInfo[0].station_id,stationOneProductInfo[0].product_name);
     getJobesAtStationPromise.then((result) => {
@@ -110,6 +117,20 @@ const StationPage = () => {
     }).catch((err) => {
       toast.error(err.msg);
     });
+  }
+
+  const getSubmitedJobs = () =>{
+    if(stationOneProductInfo!="")
+    {
+        const stationId = stationOneProductInfo[0].station_id
+        const getWorkAtStationInDayPromise = getWorkAtStationInDay(stationId)
+        getWorkAtStationInDayPromise.then((result)=>{
+            setWorkAtStationInDay(result)
+        }).catch((err)=>{
+            console.log(err);
+            toast.error(err.msg)
+        })
+    }
   }
 
   const handleJobIdClick = async (job, event) => {
@@ -175,7 +196,7 @@ const StationPage = () => {
     formik.setFieldValue("parameterValues", updatedParameterValues);
   };
 
-  console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo,formikvalues:formik.values,parameterNames:parameterNames});
+  console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo,formikvalues:formik.values,parameterNames:parameterNames,workAtStationInDay:workAtStationInDay});
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -283,7 +304,35 @@ const StationPage = () => {
             <button onClick={closeModal}>Close Modal</button>
           </div>
       </Modal>
-     {/* jobs name, status, rework, reason  */}
+
+      <div>
+            <h2>Jobs Submitted:</h2>
+              <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Job Id</th>
+                            <th>Job Name</th>
+                            <th>Product Name</th>
+                            <th>Status</th>
+                            <th>Reason</th>    
+                            <th>Parameter values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
+                            <tr key={index}>
+                                <td>{job.job_id}</td>
+                                <td>{job.job_name}</td>
+                                <td>{job.product_name}</td>
+                                <td>{ (job.status==1) ? "OK" : ( (job.status==0) ? "REWORK" : "REDO")}</td>
+                                <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
+                                <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+              </table>
+        </div>
+
     </div>
   );
 };

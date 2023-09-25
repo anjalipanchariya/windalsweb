@@ -14,7 +14,7 @@ const LoginPage = () => {
     initialValues: {
       userName: '',
       password: '',
-      shift:'2'
+      shift:'1'
     },
     validationSchema: Yup.object().shape({
       userName: Yup.string().required('Username is required'),
@@ -34,6 +34,10 @@ const LoginPage = () => {
           loading: "Checking creds",
           success: result =>{
             console.log(result);
+            if (result.msg.includes("Error"))
+            {
+                navigate('http://localhost:3000')
+            }
             if(result.userName == "admin")
             {
               navigate('/admin');

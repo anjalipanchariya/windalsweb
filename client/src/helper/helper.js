@@ -316,6 +316,26 @@ export async function updateJobesAtStation(values,stationId,employeeId){
     }
 }
 
+export async function getWorkAtStationInDay(stationId){
+    const currentDate = new Date();
+
+  // Get year, month, and day
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  // Create the yyyy-mm-dd formatted date string
+  const formattedDate = `${year}-${month}-${day}`;
+    try {
+        const {data,status} = await axios.get("http://localhost:8080/api/StationyyyyWorkAtStationInDay",{params:{stationId,date:formattedDate}})
+        console.log(data);
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log(error);
+        return Promise.reject(error.response.data)
+    }
+}
+
 export async function loginUser(values){
     try{
         const {data:loginData,status:loginStatus} = await axios.post("http://localhost:8080/api/login",values)

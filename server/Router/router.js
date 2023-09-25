@@ -3,7 +3,7 @@ import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaste
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster, deleteFromEmployeeMaster} from "../Controllers/employeeMasterController.js"
-import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay} from "../Controllers/stationyyyyController.js"
+import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig} from "../Controllers/shiftConfigController.js";
@@ -22,7 +22,7 @@ router.route("/StationyyyyInsertFirstNextStation").post(insertInStationyyyyFirst
 router.route("/StationAllocationInsert").post(auth,insertIntoStationAllocation)
 router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
-router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
+// router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
 router.route("/ShiftConfigInsert").post(insertIntoShiftConfig)
 
 
@@ -40,6 +40,8 @@ router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
 router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
 router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOneProduct)
 router.route('/getOneWorkerStation').get(getOneWorkerStation)
+router.route("/StationyyyyWorkAtStationInDay").get(workAtStationInDay)
+router.route('/StationyyyyGetJobsSubmitted').get(getJobesSubmitedAtStation)
 router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
