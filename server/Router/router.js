@@ -6,6 +6,7 @@ import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmp
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
+import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig} from "../Controllers/shiftConfigController.js";
 import { auth } from "../Middleware/auth.js";
 
 const router = Router()
@@ -22,6 +23,7 @@ router.route("/StationAllocationInsert").post(auth,insertIntoStationAllocation)
 router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
 router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
+router.route("/ShiftConfigInsert").post(insertIntoShiftConfig)
 
 
 /**GET MEATHODS */
@@ -38,6 +40,7 @@ router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
 router.route('/StationMasterGetNames').get(getStationNamesFromStationMaster)
 router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOneProduct)
 router.route('/getOneWorkerStation').get(getOneWorkerStation)
+router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
     try{
@@ -57,6 +60,7 @@ router.route('/verifyLogin').get(auth,(req,res)=>{
 router.route('/ProductMasterDelete').delete(auth,deleteFromProductMaster)
 router.route('/StationMasterDelete').delete(auth,deleteFromStationMaster)
 router.route('/EmployeeMasterDelete').delete(auth,deleteFromEmployeeMaster)
+router.route("/ShiftConfigDelete").delete(deleteFromShiftConfig)
 
 /**PUT MEATHOD */
 router.route('/ProductMasterUpdate').put(auth,updateProductMaster);
@@ -64,5 +68,6 @@ router.route('/StationMasterUpdate').put(auth,updateStationMaster)
 router.route('/EmployeeMasterUpdate').put(auth,updateEmployeeMaster)
 router.route('/StationMasterAddNextStation').put(auth,addNextStationInStationMaster)
 router.route('/Stationyyyyupdate').put(updateInStationyyyy)
+router.route("/ShiftConfigUpdate").put(updateShiftConfig)
 
 export default router;

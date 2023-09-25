@@ -283,7 +283,7 @@ const StationPage = () => {
             <button onClick={closeModal}>Close Modal</button>
           </div>
       </Modal>
-
+     {/* jobs name, status, rework, reason  */}
     </div>
   );
 };

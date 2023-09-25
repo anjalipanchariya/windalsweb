@@ -17,6 +17,8 @@ function WindalsNav() {
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+
+
             <Nav className="me-auto">
               <NavDropdown title="Users" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/user/adduser">Add User</NavDropdown.Item>
@@ -40,6 +42,9 @@ function WindalsNav() {
                  */}
               </NavDropdown>
             </Nav>
+
+            <Nav.Link href="/shiftConfig">Shift</Nav.Link> 
+
             <Nav.Link href="#" style={{ margin: 15 }}>My Profile</Nav.Link>
             
             <Button variant="outline-dark" onClick={()=>{

@@ -17,6 +17,7 @@ import StationAllocation from './components/station/allocateStation';
 import FirstStation from './components/station/firstStation';
 import NextStationAllocation from './components/station/nextStationAllocation';
 import StationPage from './components/station/stationPage';
+import ShiftConfig from './components/shift/shiftConfiguration';
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
         <Route path='/station/firststation/:employeeId/:userName/:stationName' element={<FirstStation />}></Route>
         <Route path='/station/allocatenextStation' element={<NextStationAllocation />}></Route>
         <Route path='/station/:employeeId/:userName/:stationName' element={<StationPage />}></Route>
-
+        
+        <Route path='/shiftConfig' element={<ShiftConfig />}></Route>
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </>

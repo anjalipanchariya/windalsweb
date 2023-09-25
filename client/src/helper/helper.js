@@ -360,6 +360,47 @@ export async function verifyLogin(){
     }
 }
 
+export async function addShift(values){
+    console.log(values);
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/ShiftConfigInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
+        console.log(data);
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function getShift(){
+    try {
+        const {data,status} = await axios.get("http://localhost:8080/api/ShiftConfigGet")
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function deleteShift(shiftId){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await  axios.delete("http://localhost:8080/api/ShiftConfigDelete",{params:{shiftId},headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function updateShift(values){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.put("http://localhost:8080/api/ShiftConfigUpdate",values,{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
 export async function logout(){
     localStorage.removeItem("token");
     window.location.href = "http://localhost:3000";
