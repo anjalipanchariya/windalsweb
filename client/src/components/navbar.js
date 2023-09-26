@@ -4,11 +4,22 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
-import { logout } from '../helper/helper';
+import { logout,getOneEmployee } from '../helper/helper';
+import { useEffect, useState } from 'react';
 
 
-function WindalsNav() {
+function WindalsNav({userName}) {
 
+  const [workerData,setWorkerData] = useState("")
+
+  useEffect(()=>{
+    const getWorkerDataPromise = getOneEmployee(userName)
+    getWorkerDataPromise.then((result)=>{
+      setWorkerData(result)
+    })
+  })
+
+  console.log({workerData:workerData});
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
