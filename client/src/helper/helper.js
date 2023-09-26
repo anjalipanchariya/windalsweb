@@ -210,6 +210,7 @@ export async function deleteEmployee(employeeId){
 }
 
 export async function addStationAllocation(values){
+    console.log(values);
     try {
         const token = localStorage.getItem("token")
         const {data,status} = await axios.post("http://localhost:8080/api/StationAllocationInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
@@ -339,12 +340,10 @@ export async function getWorkAtStationInDay(stationId){
 export async function loginUser(values){
     try{
         const {data:loginData,status:loginStatus} = await axios.post("http://localhost:8080/api/login",values)
-        console.log({loginData:loginData});
         const {token} = loginData
-        localStorage.setItem("token",token)
         if(loginStatus===201 && loginData.userName==="admin")
         {
-            console.log("ADMIN");
+            localStorage.setItem("token",token)
             return Promise.resolve(loginData)
         }
         else if(loginStatus===201 && loginData.userName!=="admin")
@@ -354,14 +353,12 @@ export async function loginUser(values){
             const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 because months are zero-based
             const day = String(currentDate.getDate()).padStart(2, "0");
             const formattedDate = `${year}-${month}-${day}`;
-            console.log(formattedDate);
             const {data:workerStationData,status} = await axios.get("http://localhost:8080/api/getOneWorkerStation",{params:{employeeId:loginData.employeeId,date:formattedDate,shift:values.shift}})
-            console.log({workerStationData:workerStationData});
             const finalData = {
                 ...loginData,
                 ...workerStationData
             }
-            console.log({finalData:finalData});
+            localStorage.setItem("token",token)
             return Promise.resolve(finalData)
         }
     }catch(error){
@@ -381,7 +378,6 @@ export async function verifyLogin(){
 }
 
 export async function addShift(values){
-    console.log(values);
     try {
         const token = localStorage.getItem("token")
         const {data,status} = await axios.post("http://localhost:8080/api/ShiftConfigInsert",values,{headers:{"Authorization":`Bearer ${token}`}})
@@ -415,6 +411,26 @@ export async function updateShift(values){
     try {
         const token = localStorage.getItem("token")
         const {data,status} = await axios.put("http://localhost:8080/api/ShiftConfigUpdate",values,{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function getActiveShiftNames(){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.get("http://localhost:8080/api/ShiftConfigGetActiveShiftNames",{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+}
+
+export async function getCurrentShift(){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.get("http://localhost:8080/api/ShiftConfigGetCurrentShift",{headers:{"Authorization":`Bearer ${token}`}})
         return Promise.resolve(data)
     } catch (error) {
         return Promise.reject(error.response.data)

@@ -6,7 +6,7 @@ import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmp
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
-import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig} from "../Controllers/shiftConfigController.js";
+import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
 import { auth } from "../Middleware/auth.js";
 
 const router = Router()
@@ -23,7 +23,7 @@ router.route("/StationAllocationInsert").post(auth,insertIntoStationAllocation)
 router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
 // router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
-router.route("/ShiftConfigInsert").post(insertIntoShiftConfig)
+router.route("/ShiftConfigInsert").post(auth,insertIntoShiftConfig)
 
 
 /**GET MEATHODS */
@@ -43,6 +43,8 @@ router.route('/getOneWorkerStation').get(getOneWorkerStation)
 router.route("/StationyyyyWorkAtStationInDay").get(workAtStationInDay)
 router.route('/StationyyyyGetJobsSubmitted').get(getJobesSubmitedAtStation)
 router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
+router.route("/ShiftConfigGetActiveShiftNames").get(getActiveShiftNames)
+router.route("/ShiftConfigGetCurrentShift").get(getCurrentShift)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
     try{
@@ -62,7 +64,7 @@ router.route('/verifyLogin').get(auth,(req,res)=>{
 router.route('/ProductMasterDelete').delete(auth,deleteFromProductMaster)
 router.route('/StationMasterDelete').delete(auth,deleteFromStationMaster)
 router.route('/EmployeeMasterDelete').delete(auth,deleteFromEmployeeMaster)
-router.route("/ShiftConfigDelete").delete(deleteFromShiftConfig)
+router.route("/ShiftConfigDelete").delete(auth,deleteFromShiftConfig)
 
 /**PUT MEATHOD */
 router.route('/ProductMasterUpdate').put(auth,updateProductMaster);
@@ -70,6 +72,6 @@ router.route('/StationMasterUpdate').put(auth,updateStationMaster)
 router.route('/EmployeeMasterUpdate').put(auth,updateEmployeeMaster)
 router.route('/StationMasterAddNextStation').put(auth,addNextStationInStationMaster)
 router.route('/Stationyyyyupdate').put(updateInStationyyyy)
-router.route("/ShiftConfigUpdate").put(updateShiftConfig)
+router.route("/ShiftConfigUpdate").put(auth,updateShiftConfig)
 
 export default router;
