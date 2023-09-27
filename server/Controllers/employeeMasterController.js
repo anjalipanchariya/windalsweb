@@ -20,6 +20,7 @@ async function insertIntoEmployeeMaster(req, res) {
       designation,
       joiningDate,
       mobileNo,
+      accessGiven
     } = req.body;
     
     if (mobileNo === '') {
@@ -43,12 +44,12 @@ async function insertIntoEmployeeMaster(req, res) {
             res.status(409).send({ msg: `SERVER ERROR: Error in encrypting password: ${err}` });
           } else {
             const insertQuery =
-              "INSERT INTO employee_master (user_name,first_name,last_name,nick_name,password,designation,joining_date,mobile_no) VALUES (?,?,?,?,?,?,?,?)";
+              "INSERT INTO employee_master (user_name,first_name,last_name,nick_name,password,designation,joining_date,mobile_no,access_given) VALUES (?,?,?,?,?,?,?,?,?)";
   
             try {
               const [insertResult] = await db
                 .promise()
-                .query(insertQuery, [userName, firstName, lastName, nickName, hash, designation, joiningDate, mobileNo]);
+                .query(insertQuery, [userName, firstName, lastName, nickName, hash, designation, joiningDate, mobileNo, accessGiven]);
               
               res.status(201).send({ msg: "Record inserted successfully", insertedId: insertResult.insertId });
             } catch (error) {
@@ -66,7 +67,7 @@ async function insertIntoEmployeeMaster(req, res) {
 
 async function getAllFromEmployee(req,res){
     try{
-        var query = "SELECT employee_id,first_name,last_name,user_name,nick_name,mobile_no,joining_date,leaving_date,designation FROM employee_master"
+        var query = "SELECT employee_id,first_name,last_name,user_name,nick_name,mobile_no,joining_date,leaving_date,designation,access_given FROM employee_master"
         const [result] = await db.promise().query(query)
         const updatedResult = result.filter((employee)=>employee.user_name!=="admin")
         res.status(201).send(updatedResult)
@@ -99,12 +100,12 @@ async function getOneFromEmployee(req,res){
 }
 
 async function updateEmployeeMaster(req, res) {
-  let { userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, employeeId } = req.body;
+  let { userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, employeeId, accessGiven } = req.body;
   joiningDate = new Date(req.body.joiningDate); // Convert to a JavaScript Date object
 
   try {
-      const updateQuery = `UPDATE employee_master SET user_name=?, first_name=?, last_name=?, nick_name=?, designation=?, joining_date=?, mobile_no=? WHERE employee_id = ?`;
-      const updateResult = await db.promise().query(updateQuery, [userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, employeeId]);
+      const updateQuery = `UPDATE employee_master SET user_name=?, first_name=?, last_name=?, nick_name=?, designation=?, joining_date=?, mobile_no=?, access_given=? WHERE employee_id = ?`;
+      const updateResult = await db.promise().query(updateQuery, [userName, firstName, lastName, nickName, designation, joiningDate, mobileNo, accessGiven, employeeId]);
 
       const affectedRows = updateResult.affectedRows;
 
@@ -190,3 +191,10 @@ async function getNamesFromEmployeeMaster(req,res){
 }
 
 export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster,login,getNamesFromEmployeeMaster,deleteFromEmployeeMaster}
+
+/** accessOptionsOrder = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
+   "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
+  "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
+  
+  1 for access given 0 for not given
+*/

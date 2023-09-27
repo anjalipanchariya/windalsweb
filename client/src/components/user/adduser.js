@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './adduser.css'
 import { useFormik } from "formik";
 import { registerUser } from "../../helper/helper";
@@ -7,6 +7,12 @@ import WindalsNav from "../navbar";
 
 function WorkerReg(){
    
+  const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
+   "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
+  "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
+  
+  const [accessGiven, setAccessGiven] = useState(new Array(accessOptions.length).fill(false));
+
   const formik = useFormik({
     initialValues:{
       userName:"",
@@ -18,8 +24,11 @@ function WorkerReg(){
       designation:"",
       joiningDate:"",
       mobileNo:"",
+      accessGiven: "000000000000000000"
     },
     onSubmit: values => {
+      values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
+      console.log(values);
       const registerUserPromise = registerUser(values)
       toast.promise(
         registerUserPromise,
@@ -27,6 +36,7 @@ function WorkerReg(){
           loading: "Registering user",
           success: (reuslt) => {
             formik.resetForm()
+            setAccessGiven(new Array(accessOptions.length).fill(false))
             return reuslt.msg 
           },
           error: err => err.msg
@@ -35,6 +45,11 @@ function WorkerReg(){
     }
   })
   
+  const handleAccessOptionCheck = (index) => {
+    const updatedAccess = [...accessGiven];
+    updatedAccess[index] = !updatedAccess[index];
+    setAccessGiven(updatedAccess);
+  }
   
   return(
         <>
@@ -53,6 +68,21 @@ function WorkerReg(){
             <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
             <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
         </form>
+
+        {
+        accessOptions.map((option, index) => (
+          <div key={option}>
+            <label>
+              <input
+                type="checkbox"
+                checked={accessGiven[index]}
+                onChange={() => handleAccessOptionCheck(index)}
+              />
+              {option}
+            </label>
+          </div>
+        ))
+      }
 
         <footer className = "footer">
             <h6>Vishwakarma Institute of Information Technology</h6>

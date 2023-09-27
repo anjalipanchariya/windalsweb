@@ -14,6 +14,12 @@ function DeleteUser() {
   const [workerNames,setWorkerNames] = useState([])
   const [workerUserName,setWorkerUserName] = useState("")
 
+  const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
+   "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
+  "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
+  
+  const [accessGiven, setAccessGiven] = useState(new Array(accessOptions.length).fill(false));
+
   const validationSchema = Yup.object().shape({
       userName:Yup.string().required('User name is required'),
       firstName:Yup.string().required('First name is required'),
@@ -34,9 +40,12 @@ function DeleteUser() {
       designation:"",
       joiningDate:"",
       mobileNo:"",
+      accessGiven:""
     },
     validationSchema:validationSchema,
     onSubmit:(values)=>{
+      values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
+      console.log(values);
       const updateEmployeePromise = updateEmployee(values)
       toast.promise(updateEmployeePromise,{
         loading:"Updating data",
@@ -75,9 +84,12 @@ function DeleteUser() {
       formik.setFieldValue("designation",result[0].designation)
       formik.setFieldValue("mobileNo",result[0].mobile_no)
       formik.setFieldValue("joiningDate",result[0].joining_date)
+      formik.setFieldValue("accessGiven",result[0].access_given)
+      const accessArray = accessOptions.map((option, index) => result[0].access_given[index] === "1");
+      setAccessGiven(accessArray);
     })
   }
-  
+  console.log({formik:formik.values});
   const handleEmployeeDelete = () => {
     const deleteEmployeePromise = deleteEmployee(formik.values.employeeId)
     toast.promise(deleteEmployeePromise,{
@@ -90,6 +102,13 @@ function DeleteUser() {
       error: (err) => err.msg 
     }) 
   }
+
+  const handleAccessOptionCheck = (index) => {
+    const updatedAccess = [...accessGiven];
+    updatedAccess[index] = !updatedAccess[index];
+    setAccessGiven(updatedAccess);
+  }
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -128,6 +147,7 @@ function DeleteUser() {
                   <th>Mobile Number</th>
                   <th>Designation</th>
                   <th>Joining Date</th>
+                  <th>Access Given</th>
                 </tr>
               </thead>
            
@@ -215,6 +235,24 @@ function DeleteUser() {
                           {formik.errors.joiningDate}
                         </Alert>
                     )} 
+                    </td>
+
+                    
+                    <td>
+                      {
+                        accessOptions.map((option, index) => (
+                          <div key={option}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                checked={accessGiven[index]}
+                                onChange={() => handleAccessOptionCheck(index)}
+                              />
+                              {option}
+                            </label>
+                          </div>
+                        ))
+                      }
                     </td>
                     
                     <td>

@@ -21,7 +21,7 @@ function Admin(){
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav />
+            <WindalsNav userName="admin"/>
         </div>
     )
 }

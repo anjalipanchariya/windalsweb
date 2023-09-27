@@ -14,6 +14,7 @@ import {
 } from '../../helper/helper';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import WindalsNav from '../navbar';
 
 const StationPage = () => {
   const { employeeId, userName, stationName } = useParams();
@@ -200,6 +201,7 @@ const StationPage = () => {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <WindalsNav userName={userName}/>
       <button onClick={()=>{logout()}}>LOG OUT</button>
       <h1>STATION NAME:{stationName}</h1>
       <h1>EMPLOYEE ID: {employeeId}</h1>
