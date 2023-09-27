@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-import { loginUser } from '../helper/helper';
+import { loginUser, getCurrentShift } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ const LoginPage = () => {
     initialValues: {
       userName: '',
       password: '',
-      shift:'1'
+      shift:''
     },
     validationSchema: Yup.object().shape({
       userName: Yup.string().required('Username is required'),
@@ -33,7 +33,6 @@ const LoginPage = () => {
         {
           loading: "Checking creds",
           success: result =>{
-            console.log(result);
             if (result.msg.includes("Error"))
             {
                 navigate('http://localhost:3000')
@@ -62,6 +61,16 @@ const LoginPage = () => {
         })
     },
   });
+
+  useEffect(()=>{
+    const getCurrentShiftPromise = getCurrentShift()
+    getCurrentShiftPromise.then((result)=>{
+      console.log(result);
+      formik.setFieldValue("shift",result)
+    }).catch((err)=>{
+      toast.error(err.msg)
+    })
+  },[])
 
   return (
     <div className="container d-flex justify-content-center">

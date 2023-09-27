@@ -67,3 +67,12 @@ CREATE TABLE `station_yyyy` (
   `out_time` datetime DEFAULT NULL
 );
 
+CREATE TABLE `shift_config` (
+  `shift_id` int NOT NULL,
+  `shift_name` varchar(100) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `active` int NOT NULL,
+  PRIMARY KEY (`shift_id`),
+  UNIQUE KEY `shift_name_UNIQUE` (`shift_name`)
+);

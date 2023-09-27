@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Form } from 'react-bootstrap';
+import Select from 'react-select'
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
-import { getAllStationNames, getAllWorkerNames, addStationAllocation, getWorkerAllocation } from "../../helper/helper";
+import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
 
 function StationAllocation() {
@@ -15,10 +16,17 @@ function StationAllocation() {
     const [allocationStation, setAllocationStation] = useState([]);
     const [availableWorkerNames, setAvailableWorkerNames] = useState([]);
     const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
+    const [activeShiftNames,setActiveShiftNames] = useState([]);
     const [allocatedData,setallocatedData] = useState([]);
     
     useEffect(() => {
         fetchStationsAndWorkers();
+        const getActiveShiftNamesPromise = getActiveShiftNames()
+        getActiveShiftNamesPromise.then((result)=>{
+            setActiveShiftNames(result)
+        }).catch((err)=>{
+            toast.error(err.msg)
+        })
     }, []);
 
     const fetchStationsAndWorkers = async () => {
@@ -78,7 +86,7 @@ function StationAllocation() {
                 });
                  const addStationAllocationPromise = addStationAllocation({
                     date: values.date,
-                    shift: values.shift,
+                    shift: values.shift.value,
                     stationAllocations: stationAllocationsWithEmployeeIds,
                 });
 
@@ -125,11 +133,10 @@ function StationAllocation() {
         const getAllocatedPromise = getWorkerAllocation()
         getAllocatedPromise.then(async(result)=>{
             setallocatedData(result)
-            console.log(result);
         }).catch((err)=>{})
-    })
-
-    console.log({ availableWorkerNames: availableWorkerNames });
+    },[])
+    console.log({allocatedData:allocatedData});
+    // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -151,11 +158,12 @@ function StationAllocation() {
 
                     <Form.Group controlId="shift">
                         <Form.Label>Shift:</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="shift"
-                            onChange={formik.handleChange}
+                        <Select
+                            options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
                             value={formik.values.shift}
+                            name="shift"
+                            onChange={(data) => formik.setFieldValue("shift", data)}
+                            isSearchable={true}
                         />
                         {formik.touched.shift && formik.errors.shift && (
                             <div className="error">{formik.errors.shift}</div>
