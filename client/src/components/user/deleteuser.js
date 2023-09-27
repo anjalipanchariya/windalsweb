@@ -1,18 +1,25 @@
 import WindalsNav from '../navbar';
-import { Alert,Button,Form} from 'react-bootstrap';
+import { Alert,Button,Form, Modal} from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { getAllWorkerNames, getOneEmployee, updateEmployee,deleteEmployee } from '../../helper/helper';
+import { getAllWorkerNames, getOneEmployee, updateEmployee,deleteEmployee, resetPassword } from '../../helper/helper';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Prev } from 'react-bootstrap/esm/PageItem';
 
 function DeleteUser() {
   
   const [workerNames,setWorkerNames] = useState([])
   const [workerUserName,setWorkerUserName] = useState("")
+  const [showResetPasswordModal,setShowResetPasswordModal] = useState(false)
+  const [resetPasswordData,setResetPasswordData] = useState({
+    userName: "",
+    newPassword: "",
+    confirmNewPassword: ""
+  })
 
   const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
@@ -45,7 +52,7 @@ function DeleteUser() {
     validationSchema:validationSchema,
     onSubmit:(values)=>{
       values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
-      console.log(values);
+      // console.log(values);
       const updateEmployeePromise = updateEmployee(values)
       toast.promise(updateEmployeePromise,{
         loading:"Updating data",
@@ -75,7 +82,7 @@ function DeleteUser() {
     }
     const getWorkerDataPromise = getOneEmployee(workerUserName.value)
     getWorkerDataPromise.then((result)=>{
-      console.log({result:result});
+      // console.log({result:result});
       formik.setFieldValue("employeeId",result[0].employee_id)
       formik.setFieldValue("userName",result[0].user_name)
       formik.setFieldValue("firstName",result[0].first_name)
@@ -89,7 +96,7 @@ function DeleteUser() {
       setAccessGiven(accessArray);
     })
   }
-  console.log({formik:formik.values});
+  // console.log({formik:formik.values});
   const handleEmployeeDelete = () => {
     const deleteEmployeePromise = deleteEmployee(formik.values.employeeId)
     toast.promise(deleteEmployeePromise,{
@@ -107,6 +114,49 @@ function DeleteUser() {
     const updatedAccess = [...accessGiven];
     updatedAccess[index] = !updatedAccess[index];
     setAccessGiven(updatedAccess);
+  }
+
+  const openResetPasswordModal = () => {
+    setShowResetPasswordModal(true)
+  }
+
+  const closeResetPasswordModal = () => {
+    setShowResetPasswordModal(false)
+    setResetPasswordData({
+      userName: "",
+      newPassword: "",
+      confirmNewPassword: ""
+    })
+  }
+
+  const handleClickOFResetPassword = () => { 
+    if(resetPasswordData.newPassword !== resetPasswordData.confirmNewPassword){
+      return toast.error("Password and confirm-password do not match.")
+    }
+    const resetPasswordPromise = resetPassword(resetPasswordData)
+    toast.promise(resetPasswordPromise,{
+      loading: "Resetting password",
+      success: (result) => {
+        closeResetPasswordModal()
+        setResetPasswordData({
+          userName: "",
+          newPassword: "",
+          confirmNewPassword: ""
+        })  
+        return result.msg
+      },
+      error: (err) => err.msg
+    })
+  }
+
+  const handleResetPasswordModalChange = (e) => {
+    const {name,value} = e.target
+    setResetPasswordData((PrevData)=>{
+      return {
+        ...PrevData,
+        [name]:value
+      }
+    })
   }
 
   return (
@@ -266,13 +316,62 @@ function DeleteUser() {
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </td>
+
+                    <td>
+                      <button type='button' onClick={()=>{
+                        setResetPasswordData((prevData)=>{
+                          return {
+                            ...prevData,
+                            userName:formik.values.userName
+                          }
+                        })
+                        openResetPasswordModal()
+                      }}>
+                        Reset-Password
+                      </button>
+                    </td>    
+
                 </tr>
               </tbody>
             </table>
         }
-
-
       </Form>
+    
+        <Modal
+          show={showResetPasswordModal}
+          onHide={closeResetPasswordModal}
+          backdrop="static"
+          keyboard={false}
+        >
+
+          <Modal.Header closeButton>
+            <Modal.Title>Enter the new password</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+              <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <label>New password</label>
+                    <Form.Control type="password" placeholder="New password" name="newPassword" value={resetPasswordData.newPassword} onChange={(e)=>handleResetPasswordModalChange(e)} />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <label>Confirm new password</label>
+                    <Form.Control type="password" placeholder="Confirm new password" name="confirmNewPassword" value={resetPasswordData.confirmNewPassword} onChange={(e)=>handleResetPasswordModalChange(e)} />
+              </Form.Group>
+              </Form>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="danger" onClick={closeResetPasswordModal}>
+              Close
+            </Button>
+              <Button variant="danger" onClick={handleClickOFResetPassword}>
+                Save
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        
     </div>
   );
 }

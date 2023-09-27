@@ -460,3 +460,14 @@ export async function logout(){
     localStorage.removeItem("token");
     window.location.href = "http://localhost:3000";
 }
+
+export async function resetPassword(values){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.put("http://localhost:8080/api/ResetPassword",values,{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+
+}

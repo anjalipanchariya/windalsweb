@@ -12,14 +12,14 @@ function WindalsNav({userName}) {
 
   const [workerData,setWorkerData] = useState("")
 
-  useEffect(()=>{
-    const getWorkerDataPromise = getOneEmployee(userName)
-    getWorkerDataPromise.then((result)=>{
-      setWorkerData(result)
-    })
-  })
+  // useEffect(()=>{
+  //   const getWorkerDataPromise = getOneEmployee(userName)
+  //   getWorkerDataPromise.then((result)=>{
+  //     setWorkerData(result)
+  //   })
+  // })
 
-  console.log({workerData:workerData});
+  // console.log({workerData:workerData});
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">

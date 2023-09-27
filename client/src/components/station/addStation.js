@@ -177,10 +177,6 @@ function AddStation() {
        setShowEditModal(true)
     };
 
-    const handleUpdate = () => {
-            
-    };
-
     const handleParameterTickBoxChangeForAdd = (parameterName) => {
         if (addFormFormik.values.stationParameter.includes(parameterName)) {
           addFormFormik.setFieldValue(
