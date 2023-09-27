@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './firstStation.css';
-import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation,getWorkAtStationInDay } from '../../helper/helper';
+import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation,getWorkAtStationInDay,logout } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
@@ -100,6 +100,7 @@ const FirstStation = () => {
     return (
         <div className="container text-center mt-4">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <button onClick={()=>{logout()}}>LOG OUT</button>
             <h1>STATION NAME:{stationName}</h1>
             <h1>EMPLOYEE ID: {employeeId}</h1>
             <h1>USER NAME: {userName}</h1>

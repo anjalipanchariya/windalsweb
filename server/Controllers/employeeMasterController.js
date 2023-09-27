@@ -190,7 +190,38 @@ async function getNamesFromEmployeeMaster(req,res){
   }
 }
 
-export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster,login,getNamesFromEmployeeMaster,deleteFromEmployeeMaster}
+async function resetPassword(req,res) {
+  const {userName,newPassword} = req.body
+  try {
+    const selectQuery = "SELECT employee_id FROM employee_master WHERE user_name = ?"
+    const [selectResult] = await db.promise().query(selectQuery,[userName])
+    if(selectResult.length === 0){
+      return res.status(409).send({msg:"No such user exists."})
+    }
+    bcrypt.hash(newPassword, 10, async (err,hashedPassword)=>{
+      if (err) {
+        res.status(409).send({ msg: `SERVER ERROR: Error in encrypting password: ${err}` });
+      } else {
+        const updateQuery =
+          "UPDATE employee_master SET password = ? WHERE user_name = ?"
+        try {
+          const [updateResult] = await db
+            .promise()
+            .query(updateQuery,[hashedPassword,userName])
+          res.status(201).send({ msg: "Password changed successfully"});
+        } catch (error) {
+          console.error("Database error:", error);
+          res.status(500).send({ msg: `Internal server error: ${error}` });
+        }
+      }
+    })
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send({ msg: `Internal server error: ${error}` });
+  }
+}
+
+export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster,login,getNamesFromEmployeeMaster,deleteFromEmployeeMaster,resetPassword}
 
 /** accessOptionsOrder = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 

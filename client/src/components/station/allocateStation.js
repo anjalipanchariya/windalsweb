@@ -95,6 +95,7 @@ function StationAllocation() {
                     success: (result) => {
                         formik.resetForm()
                         fetchStationsAndWorkers()
+                        getStationAllocationData()
                         formik.setFieldValue("stationAllocations",allocationStation)
                         return result.msg
                     },
@@ -130,12 +131,16 @@ function StationAllocation() {
     }
 
     useEffect(()=>{
+        getStationAllocationData()
+    },[])
+
+    const getStationAllocationData = () => {
         const getAllocatedPromise = getWorkerAllocation()
         getAllocatedPromise.then(async(result)=>{
             setallocatedData(result)
         }).catch((err)=>{})
-    },[])
-    console.log({allocatedData:allocatedData});
+    }
+
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
