@@ -219,6 +219,16 @@ export async function addStationAllocation(values){
     }
 }
 
+export async function getWorkerAllocation(values){
+    try{
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.post("http://localhost:8080/api/WorkerAllocation",values,{headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch(error){
+        return Promise.reject(error.response.data)
+    }
+}
+
 
 export async function createJobId(values){
     try {
