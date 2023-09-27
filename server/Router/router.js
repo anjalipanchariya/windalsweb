@@ -5,7 +5,7 @@ import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster, deleteFromEmployeeMaster} from "../Controllers/employeeMasterController.js"
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
-import {getOneWorkerStation, insertIntoStationAllocation} from "../Controllers/stationAllocationController.js"
+import {getOneWorkerStation, insertIntoStationAllocation,getStationAllocated} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
 import { auth } from "../Middleware/auth.js";
 
@@ -45,6 +45,7 @@ router.route('/StationyyyyGetJobsSubmitted').get(getJobesSubmitedAtStation)
 router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route("/ShiftConfigGetActiveShiftNames").get(getActiveShiftNames)
 router.route("/ShiftConfigGetCurrentShift").get(getCurrentShift)
+router.route('/WorkerAllocation').get(getStationAllocated)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
     try{

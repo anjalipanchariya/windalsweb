@@ -220,6 +220,25 @@ export async function addStationAllocation(values){
     }
 }
 
+export async function getWorkerAllocation(){
+    const currentDate = new Date();
+
+  // Get year, month, and day
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  // Create the yyyy-mm-dd formatted date string
+  const formattedDate = `${year}-${month}-${day}`;
+    try{
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.get("http://localhost:8080/api/WorkerAllocation",{params:{date:formattedDate},headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch(error){
+        return Promise.reject(error.response.data)
+    }
+}
+
 
 export async function createJobId(values){
     try {

@@ -4,7 +4,7 @@ import Select from 'react-select'
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
-import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames } from "../../helper/helper";
+import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
 
 function StationAllocation() {
@@ -17,7 +17,8 @@ function StationAllocation() {
     const [availableWorkerNames, setAvailableWorkerNames] = useState([]);
     const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
     const [activeShiftNames,setActiveShiftNames] = useState([]);
-
+    const [allocatedData,setallocatedData] = useState([]);
+    
     useEffect(() => {
         fetchStationsAndWorkers();
         const getActiveShiftNamesPromise = getActiveShiftNames()
@@ -128,6 +129,13 @@ function StationAllocation() {
         setAvailableWorkerNames(filteredAvailableWorkerNames);
     }
 
+    useEffect(()=>{
+        const getAllocatedPromise = getWorkerAllocation()
+        getAllocatedPromise.then(async(result)=>{
+            setallocatedData(result)
+        }).catch((err)=>{})
+    },[])
+    console.log({allocatedData:allocatedData});
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
@@ -166,9 +174,9 @@ function StationAllocation() {
                         Submit
                     </Button>
                 </Form>
-            </div>
+             </div>
 
-            <div className="table-container">
+             <div className="table-container">
                 <Table striped responsive hover className="table">
                     <thead>
                         <tr>
@@ -200,7 +208,53 @@ function StationAllocation() {
                     </tbody>
                 </Table>
             </div>
-        </div>
+
+            <Table striped responsive hover className='table'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Station</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>User Name</th>
+                        <th>Shift Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                
+                Array.isArray(allocatedData) && allocatedData.map((allocateddata,index)=>(
+                   <tr key={index}>
+                        <td>
+                            {index+1}
+                        </td>
+                        <td>
+                            {allocateddata.date}
+                        </td>
+                        <td>
+                            {allocateddata.station_name}
+                        </td>
+                        <td>
+                            {allocateddata.first_name}
+                        </td>
+                        <td>
+                            {allocateddata.last_name}
+                        </td>
+                        <td>
+                            {allocateddata.user_name}
+                        </td>
+                        <td>
+                            {allocateddata.shift_name}
+                        </td>
+                        
+                    </tr>
+                ))
+                }
+
+                </tbody>
+            </Table>
+    </div>
     );
 }
 

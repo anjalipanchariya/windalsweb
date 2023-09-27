@@ -76,3 +76,10 @@ CREATE TABLE `shift_config` (
   PRIMARY KEY (`shift_id`),
   UNIQUE KEY `shift_name_UNIQUE` (`shift_name`)
 );
+
+/** accessOptionsOrder = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
+   "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
+  "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
+  
+  1 for access given 0 for not given
+*/
