@@ -48,9 +48,11 @@ async function getOneWorkerStation(req,res){
 
 async function getStationAllocated(req,res){
     const {date} = req.query
+    console.log(date);
     try{
         const selectQuery= "SELECT station_allocation.station_name ,station_allocation.date, employee_master.first_name, employee_master.last_name, employee_master.user_name,shift_config.shift_name FROM station_allocation JOIN employee_master ON station_allocation.employee_id = employee_master.employee_id JOIN shift_config ON station_allocation.shift_id = shift_config.shift_id WHERE station_allocation.date = ?"
         const [selectResult] = await db.promise().query(selectQuery,[date])
+        console.log(selectResult);
         if(selectResult.length<=0)
         {
             res.status(501).send({msg:"No station has been allocated to any worker yet."})

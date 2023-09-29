@@ -141,6 +141,7 @@ function StationAllocation() {
         }).catch((err)=>{})
     }
 
+    console.log({allocatedData:allocatedData});
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>

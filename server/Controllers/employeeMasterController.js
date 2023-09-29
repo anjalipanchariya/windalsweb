@@ -80,13 +80,13 @@ async function getAllFromEmployee(req,res){
 async function getOneFromEmployee(req,res){
     const {userName} = req.query
     try{
-        var query="SELECT * FROM employee_master WHERE user_name=?"
-        const [result]= await db.promise().query(query,[userName]);
-        if(result.length>0)
+        const selectQuery="SELECT * FROM employee_master WHERE user_name = ?"
+        const [selectResult]= await db.promise().query(selectQuery,[userName]);
+        if(selectResult.length>0)
         {
-            res.status(201).send(result)
+            res.status(201).send(selectResult)
         }
-        else if(result[0].user_name==='admin')
+        else if(selectResult[0].user_name==='admin')
         { 
           res.status(501).send({msg:"You cant excess admin info"})
         }
@@ -225,7 +225,7 @@ export {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmp
 
 /** accessOptionsOrder = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
-  "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
+  "Delete Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker","Configure Shift"] 
   
   1 for access given 0 for not given
 */

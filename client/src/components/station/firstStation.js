@@ -6,6 +6,7 @@ import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyF
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
+import WindalsNav from '../navbar';
 
 const FirstStation = () => {
     
@@ -100,6 +101,7 @@ const FirstStation = () => {
     return (
         <div className="container text-center mt-4">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <WindalsNav />
             <button onClick={()=>{logout()}}>LOG OUT</button>
             <h1>STATION NAME:{stationName}</h1>
             <h1>EMPLOYEE ID: {employeeId}</h1>
