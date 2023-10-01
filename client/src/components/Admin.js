@@ -22,8 +22,7 @@ function Admin(){
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav userName="admin"/>
-            <img src="./images/logo.png" alt='' style={{ height: 400, width: 400 }} />
+            <WindalsNav />
             <Footer/>
         </div>
     )
