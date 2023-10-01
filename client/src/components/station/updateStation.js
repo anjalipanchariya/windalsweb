@@ -2,6 +2,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './updateStation.css';
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function UpdateStation() {
   return (
@@ -79,7 +80,7 @@ function UpdateStation() {
         </div>
       </div>
 
-
+     <Footer/>
     </>
   );
 }

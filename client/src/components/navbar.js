@@ -22,9 +22,9 @@ function WindalsNav({userName}) {
   // console.log({workerData:workerData});
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-body-tertiary" style={{ position: 'fixed', top: 0,left: 0, width: '100%' }}>
         <Container>
-          <img src={process.env.PUBLIC_URL} alt='' style={{ height: 40, width: 50 }} />
+          <img src="./images/logo.png" alt='' style={{ height: 40, width: 50 }} />
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

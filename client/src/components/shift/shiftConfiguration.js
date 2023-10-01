@@ -7,6 +7,7 @@ import { useState,useEffect } from "react";
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
+import Footer from '../footer';
 
 function ShiftConfiguration() {
     const [shiftData,setShiftData] = useState([])
@@ -267,6 +268,7 @@ function ShiftConfiguration() {
 
 
     </div>
+    <Footer/>
     </div>
   )
 }

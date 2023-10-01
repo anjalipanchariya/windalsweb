@@ -6,6 +6,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
+import Footer from '../footer';
+import './allocateStation.css';
 
 function StationAllocation() {
     const today = new Date();
@@ -146,7 +148,11 @@ function StationAllocation() {
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav/>
-            <div>
+            <div className="header-allocate-station">
+                <h2 className="allocate-station-header">Allocate Station</h2>
+            </div>
+            <div className="container">
+            <div className="input-box">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group controlId="date">
                         <Form.Label>Date:</Form.Label>
@@ -182,41 +188,47 @@ function StationAllocation() {
              </div>
 
              <div className="table-container">
-                <Table striped responsive hover className="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Station</th>
-                            <th>Worker</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {formik.values.stationAllocations.map((allocation, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{allocation.station}</td>
-                                <td>
-                                    <Multiselect
-                                        isObject={false}
-                                        options={availableWorkerNames.map(
-                                            (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
-                                        )}
-                                        onSelect={(selectedList, selectedItem) =>
-                                            handleSelect(selectedList, selectedItem, index)
-                                        }
-                                        selectedValues={allocation.workers}
-                                        showCheckbox
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+  <Table striped responsive hover className="table">
+    <thead>
+      
+    </thead>
+    <tbody>
+    <tr>
+        <th>#</th>
+        <th>Station</th>
+        <th>Worker</th>
+      </tr>
+      {formik.values.stationAllocations.map((allocation, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{allocation.station}</td>
+          <td>
+            <Multiselect
+              isObject={false}
+              options={availableWorkerNames.map(
+                (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
+              )}
+              onSelect={(selectedList, selectedItem) =>
+                handleSelect(selectedList, selectedItem, index)
+              }
+              selectedValues={allocation.workers}
+              showCheckbox
+            />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
+</div>
+
             </div>
 
             <Table striped responsive hover className='table'>
                 <thead>
-                    <tr>
+                    
+                </thead>
+                <tbody>
+                <tr>
                         <th>#</th>
                         <th>Date</th>
                         <th>Station</th>
@@ -225,8 +237,6 @@ function StationAllocation() {
                         <th>User Name</th>
                         <th>Shift Name</th>
                     </tr>
-                </thead>
-                <tbody>
                 {
                 
                 Array.isArray(allocatedData) && allocatedData.map((allocateddata,index)=>(
@@ -259,6 +269,7 @@ function StationAllocation() {
 
                 </tbody>
             </Table>
+            <Footer/>
     </div>
     );
 }

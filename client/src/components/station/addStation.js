@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function AddStation() {
     const [productNames,setProductNames] = useState([]);
@@ -439,9 +440,12 @@ function AddStation() {
         
         
         
-        
+            <Footer/>
         </div>
+       
     )
 }
 
 export default AddStation;
+
+

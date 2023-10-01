@@ -4,10 +4,11 @@ import { useFormik } from "formik";
 import { registerUser } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function WorkerReg(){
    
-  const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
+  const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "View Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
   "Modify Next Station Allocated for Product", "View Next Station Allocated for Product", "Allocate Station to Worker", "View Station allocated to worker"] 
   
@@ -55,8 +56,9 @@ function WorkerReg(){
         <>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
         <WindalsNav/>
-        <h1 className="heading">Worker Registration</h1>
+       
         <form className="workerreg">        
+        <h1 className="heading">Worker Registration</h1>
             <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
             <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
             <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
@@ -69,26 +71,57 @@ function WorkerReg(){
             <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
         </form>
 
-        {
-        accessOptions.map((option, index) => (
-          <div key={option}>
-            <label>
-              <input
-                type="checkbox"
-                checked={accessGiven[index]}
-                onChange={() => handleAccessOptionCheck(index)}
-              />
-              {option}
-            </label>
-          </div>
-        ))
-      }
+        <div className="checkbox-groups">
+  <div className="row">
+    {accessOptions.slice(0, 6).map((option, index) => (
+      <div key={option} className="col-md-2">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={accessGiven[index]}
+            onChange={() => handleAccessOptionCheck(index)}
+          />
+          {option}
+        </label>
+      </div>
+    ))}
+  </div>
+  <div className="row">
+    {accessOptions.slice(6, 12).map((option, index) => (
+      <div key={option} className="col-md-2">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={accessGiven[index + 6]}
+            onChange={() => handleAccessOptionCheck(index + 6)}
+          />
+          {option}
+        </label>
+      </div>
+    ))}
+  </div>
+  <div className="row">
+    {accessOptions.slice(12).map((option, index) => (
+      <div key={option} className="col-md-2">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={accessGiven[index + 12]}
+            onChange={() => handleAccessOptionCheck(index + 12)}
+          />
+          {option}
+        </label>
+      </div>
+    ))}
+  </div>
+</div>
 
-        <footer className = "footer">
-            <h6>Vishwakarma Institute of Information Technology</h6>
-        </footer>
+
+
+      <Footer/>
+
         </>
     )
 }
 
-export default WorkerReg;
+export default  WorkerReg;

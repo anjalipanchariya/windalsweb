@@ -1,0 +1,58 @@
+.Form {
+  margin-top: 20px;
+}
+.username-not-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    margin: 30px;
+    text-align: center;
+    background-color: #f4f4f4; /* Light gray background color */
+    padding: 20px; /* Add some padding to the div */
+  }
+
+  /* CSS for the table */
+/* CSS for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* Add a border to the table */
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+   
+  }
+  
+  
+  th {
+    background-color: #f2f2f2; 
+    color: red; 
+  }
+  
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+  }
+  
+  /* Center align the table on the page */
+  .table-container {
+    margin: 0 auto;
+    max-width: 800px; /* Adjust the maximum width as needed */
+  }
+
+  .reset-button {
+    background-color: #d9534f; 
+    color: #fff;
+    border: none; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+  }
+  
+  .reset-button:hover {
+    background-color: #cc0000; 
+  }
+  
