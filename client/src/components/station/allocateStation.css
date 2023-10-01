@@ -32,7 +32,31 @@
     border-radius: 5px;
     background-color: #f4f4f4;
   }
+  .container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+    justify-content: space-between;
+    margin: 20px; /* Add margin around the containers */
+  }
   
+  .input-box {
+    flex: 1;
+    margin: 10px; /* Adjust the margin for spacing */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+  }
+  
+  .table-container {
+    flex: 1;
+    margin: 10px; /* Adjust the margin for spacing */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+  }
+    
   
   
   .form-label {
