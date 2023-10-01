@@ -202,7 +202,7 @@ const StationPage = () => {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <WindalsNav userName={userName}/>
+      <WindalsNav />
       <button onClick={()=>{logout()}}>LOG OUT</button>
       <h1>STATION NAME:{stationName}</h1>
       <h1>EMPLOYEE ID: {employeeId}</h1>

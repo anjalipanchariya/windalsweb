@@ -54,8 +54,8 @@ async function updateShiftConfig(req,res){
         active,shiftId} = req.body
         console.log(req.body);
         try {
-            const selectQuery = "SELECT shift_id FROM shift_config WHERE shift_name=? AND start_time=? AND end_time=?"
-            const [selectResult] = await db.promise().query(selectQuery,[shiftName,startTime,endTime])
+            const selectQuery = "SELECT shift_id FROM shift_config WHERE shift_id=?"
+            const [selectResult] = await db.promise().query(selectQuery,[shiftId])
             if(selectResult.length === 0 ){
                 res.status(409).send({msg:"The shift does not exist."})
             }

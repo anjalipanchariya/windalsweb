@@ -33,22 +33,18 @@ const LoginPage = () => {
         {
           loading: "Checking creds",
           success: result =>{
-            if (result.msg.includes("Error"))
+            if(result.userName === "admin")
             {
-                navigate('http://localhost:3000')
-            }
-            if(result.userName == "admin")
-            {
-              navigate('/admin');
+              navigate(`/${result.userName}/AdminPanel`);
             }
             else{
               if(result.stationName==="S1")
               {
-                navigate(`/station/firststation/${result.employeeId}/${result.userName}/${result.stationName}`);
+                navigate(`/FirstStation/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
               else
               {
-                navigate(`/station/${result.employeeId}/${result.userName}/${result.stationName}`);
+                navigate(`/Station/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
               
             }

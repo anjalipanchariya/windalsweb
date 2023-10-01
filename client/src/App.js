@@ -25,24 +25,26 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/Admin' element={<Admin/>}></Route>
-        <Route path='/user/adduser' element={<WorkerReg />} />
-        <Route path='/user/deleteuser' element={<DeleteUser />} />
-        <Route path='/user/viewuser' element={<ViewUser />} />
-
-        <Route path='/product/addProduct' element={<AddProduct />}></Route>
-        <Route path='/product/updateproduct' element={<UpdateProduct />}></Route>
-        <Route path='/product/viewproduct' element={<ViewProduct />}></Route>
-
-        <Route path='/station/addStation' element={<AddStation />}></Route>
-        <Route path='/station/updateStation' element={<UpdateStation />}></Route>
-        <Route path='/station/viewStation' element={<ViewStation />}></Route>
-        <Route path='/station/allocateStation' element={<StationAllocation />}></Route>
-        <Route path='/station/firststation/:employeeId/:userName/:stationName' element={<FirstStation />}></Route>
-        <Route path='/station/allocatenextStation' element={<NextStationAllocation />}></Route>
-        <Route path='/station/:employeeId/:userName/:stationName' element={<StationPage />}></Route>
+        <Route path='/:userName/AdminPanel' element={<Admin/>}></Route>
         
-        <Route path='/shiftConfig' element={<ShiftConfig />}></Route>
+        <Route path='/:userName/AddUser' element={<WorkerReg />} />
+        <Route path='/:userName/UpdateAndDeleteUser' element={<DeleteUser />} />
+        <Route path='/:userName/ViewUser' element={<ViewUser />} />
+
+        <Route path='/:userName/AddProduct' element={<AddProduct />}></Route>
+        <Route path='/:userName/UpdateAndDeleteProduct' element={<UpdateProduct />}></Route>
+        <Route path='/:userName/viewproduct' element={<ViewProduct />}></Route>
+
+        <Route path='/:userName/AddUpdateAndDeleteStation' element={<AddStation />}></Route>
+        {/* <Route path='/:userName/updateStation' element={<UpdateStation />}></Route> */}
+        <Route path='/:userName/ViewStation' element={<ViewStation />}></Route>
+        <Route path='/:userName/AllocateStationToWorker' element={<StationAllocation />}></Route>
+        <Route path='/:userName/AllocateNextStation' element={<NextStationAllocation />}></Route>
+        
+        <Route path='/Station/:employeeId/:userName/:stationName' element={<StationPage />}></Route>
+        <Route path='/FirstStation/:employeeId/:userName/:stationName' element={<FirstStation />}></Route>
+        
+        <Route path='/:userName/ShiftConfig' element={<ShiftConfig />}></Route>
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </>
