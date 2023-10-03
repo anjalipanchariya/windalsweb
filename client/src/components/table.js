@@ -44,6 +44,40 @@ function Table({ columns, data }) {
     return 0;
   });
 
+  const exportToCSV = () => {
+
+    let csv = '';
+    const arr = []
+
+    for(let j = 0; j<columns.length; j++){
+      arr.push(columns[j]['label'])
+    }
+    
+console.log(arr);
+console.log(columns);
+
+csv += arr.join(',') + '\n';
+    for (let i = 0; i < data.length; i++) {
+      const row = data[i];
+      // const values = columnKeys.map(key => row[key]);
+      const values = Object.values(row);
+      csv += values.join(',') + '\n';
+    }
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'table_data.csv';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="table-container">
       <div className="filter-section">
@@ -58,6 +92,7 @@ function Table({ columns, data }) {
             </option>
           ))}
         </select>
+
         <input
           type="text"
           placeholder="Filter Value"
@@ -65,6 +100,7 @@ function Table({ columns, data }) {
           onChange={(e) => setFilterValue(e.target.value)}
         />
       </div>
+
       <table>
         <thead>
           <tr>
@@ -84,6 +120,7 @@ function Table({ columns, data }) {
             ))}
           </tr>
         </thead>
+
         <tbody>
           {filteredData.map((row, index) => (
             <tr key={index}>
@@ -94,6 +131,8 @@ function Table({ columns, data }) {
           ))}
         </tbody>
       </table>
+      <br />
+      <button onClick={exportToCSV}>Export to CSV</button>
     </div>
   );
 }
