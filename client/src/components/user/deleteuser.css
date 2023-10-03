@@ -4,20 +4,19 @@
 .username-not-table {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    align-items: center; 
+    justify-content: center; 
     margin: 30px;
     text-align: center;
-    background-color: #f4f4f4; /* Light gray background color */
-    padding: 20px; /* Add some padding to the div */
+    background-color: #f4f4f4; 
+    padding: 20px; 
   }
 
-  /* CSS for the table */
-/* CSS for the table */
+ 
 table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #ddd; /* Add a border to the table */
+    border: 1px solid #ddd; 
   }
   
   th, td {
@@ -34,13 +33,13 @@ table {
   
   
   tr:nth-child(even) {
-    background-color: #f2f2f2; /* Light gray background for even rows */
+    background-color: #f2f2f2;
   }
   
-  /* Center align the table on the page */
+  
   .table-container {
     margin: 0 auto;
-    max-width: 800px; /* Adjust the maximum width as needed */
+    max-width: 800px; 
   }
 
   .reset-button {

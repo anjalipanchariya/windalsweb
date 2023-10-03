@@ -298,7 +298,11 @@ function AddStation() {
             <div>
             <Table striped responsive hover className='table'>
                 <thead>
-                    <tr>
+                   
+                </thead>
+                <tbody>
+                      
+                        <tr>
                         <th>#</th>
                         <th>Station Name</th>
                         <th>Product Name</th>
@@ -311,9 +315,7 @@ function AddStation() {
                         <th>Press to Edit</th>
                         <th>Press to delete row</th>
                     </tr>
-                </thead>
-                <tbody>
-                    {   
+                    { 
                         Array.isArray(stationData) && stationData.map((stationdata,index)=>(
                             
                             <tr key={index}>
