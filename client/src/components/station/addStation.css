@@ -1,6 +1,5 @@
 .add-station-container {
     display: flex;
-    /* Use flexbox layout */
     align-items: flex-start;
     justify-content: space-between;
     margin: 5px;
@@ -21,25 +20,96 @@
 }
 
 .header-add-station {
+   
     margin: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
+.add-station-container {
+  
+    background-color: #f0f0f0; 
+    padding: 20px;
+    border: 1px solid #ccc; 
+    margin-bottom: 20px;
+  }
+  
+  
+  .add-station-header {
+    margin-top: 100px;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+ 
+  .add-station-inputs {
+   
+  }
+  
+ 
+  .view-user-section {
+   
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+  
+  
+  
+  
+ 
+  .edit-button,
+  .delete-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: darkred;
+  }
+  
 @media (max-width: 767px) {
     .add-station-inputs {
         max-width: 100%;
-        /* Adjust the max-width for smaller screens */
+    
         padding: 0 20px;
-        /* Add some padding for better readability */
+     
     }
 }
 
 @media (max-width: 767px) {
     .add-station-container {
         flex-direction: column;
-        /* Stack forms vertically on smaller screens */
+       
         align-items: center;
         justify-content: center;
     }
@@ -54,13 +124,13 @@
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    /* This ensures equal spacing */
+   
 }
 
 .styled-table th,
 .styled-table td {
     padding: 8px;
-    /* Add padding for spacing */
+   
     text-align: left;
 }
 

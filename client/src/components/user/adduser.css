@@ -1,3 +1,9 @@
+.workerreg {
+   margin-top: 40px;
+   background-color:  #f4f4f4;
+   margin: 40px 30px 30px 30px;
+}
+
 .workerreg label{
     display: flex;
     flex-direction: column;
@@ -6,27 +12,35 @@
     margin-left: 30vw;
     justify-content: center;
 }
-.footer{
-    text-align: center;
-    margin-top: 100px;
-    background-color: black;
-    color: white;
-    height: 30px;
-}
+
 .workerreg input{
     margin: 12px;
 }
 
 .heading{
     text-align: center;
-    margin-top: 15px;
+    margin-top: 40px;
 }
 .subbtn{
     margin-top: 18px;
-    margin-left: 46vw;
+    margin-left: 10vw;
+    background-color: #d9534f;
+    color: white;
+    border: 0px;
+    border-radius: 6px;
+    align-items: center;
 }
 
 .table{
     display: flex;
     flex-direction: column;
 }
+
+.checkbox-groups {
+    margin-left: 30px;
+    margin-right: 20px;
+     
+}
+  
+ 
+

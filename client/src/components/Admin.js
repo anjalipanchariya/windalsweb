@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import WindalsNav from './navbar';
+import Footer from './footer';
 import toast, {Toaster} from "react-hot-toast";
 import { logout, verifyLogin } from "../helper/helper";
 
@@ -22,6 +23,7 @@ function Admin(){
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav />
+            <Footer/>
         </div>
     )
 }

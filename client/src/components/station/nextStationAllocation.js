@@ -5,6 +5,7 @@ import { getProductNames, getOneProductStationNames,configureNextStation } from 
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from "formik";
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function NextStationAllocation() {
     const formik = useFormik({
@@ -118,6 +119,7 @@ function NextStationAllocation() {
                 </div>
             )}
             <button onClick={formik.handleSubmit}>Save configuration</button>
+            <Footer/>
         </>
     );
 }

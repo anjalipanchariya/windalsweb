@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './ResponsiveTable.css';
 
 const ResponsiveTable = ({ data, columns }) => {
   const [sortColumn, setSortColumn] = useState('');

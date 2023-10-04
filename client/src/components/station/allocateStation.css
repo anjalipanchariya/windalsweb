@@ -1,0 +1,75 @@
+.header-allocate-station {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+}
+
+
+
+  .container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    margin: 20px; 
+    width:100%;
+  }
+  
+  .input-box {
+    flex: 1;
+    margin: 10px; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+  }
+  
+  .table-container {
+    flex: 1;
+    margin: 10px; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+  }
+    
+  
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+ 
+    .table thead th,
+.table tbody td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  
+}
+
+  
+  
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f4; 
+    z-index: 1;
+  }
+  
+  .table tbody td {
+    position: relative;
+    background-color: white; 
+  }
+  
+  

@@ -15,6 +15,7 @@ import {
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
+import Footer from '../footer';
 
 const StationPage = () => {
   const { employeeId, userName, stationName } = useParams();
@@ -334,7 +335,7 @@ const StationPage = () => {
                     </tbody>
               </table>
         </div>
-
+     <Footer/>
     </div>
   );
 };
