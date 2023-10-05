@@ -61,8 +61,8 @@ const LoginPage = () => {
   useEffect(()=>{
     const getCurrentShiftPromise = getCurrentShift()
     getCurrentShiftPromise.then((result)=>{
-      console.log(result);
-      formik.setFieldValue("shift",result)
+      console.log(result.shift_id);
+      formik.setFieldValue("shift",result.shift_id)
     }).catch((err)=>{
       toast.error(err.msg)
     })
