@@ -67,7 +67,7 @@ function WindalsNav() {
             
             <Button variant="outline-dark" onClick={()=>{
               logout()
-            }}>Login Out</Button>
+            }}>Log Out</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>

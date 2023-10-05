@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Form } from 'react-bootstrap';
+import { Table, Button, Form,Alert } from 'react-bootstrap';
 import Select from 'react-select'
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
+import * as Yup from "yup";
 
 function StationAllocation() {
     const today = new Date();
@@ -57,13 +58,22 @@ function StationAllocation() {
         }
     };
 
-
+    const allocateStationSchema= Yup.object().shape({
+    //     date: Yup.string()
+    // .matches(
+    //   /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\d\d$/,
+    //   'Please enter a valid date in dd-mm-yyyy format'
+    // ),
+    date: Yup.date().required().min(today,"previous date not allowed"),
+    shift:Yup.object().required("Required")
+    })
     const formik = useFormik({
         initialValues: {
             date: today.toISOString().substring(0, 10),
             shift: '',
             stationAllocations: allocationStation,
         },
+        validationSchema: allocateStationSchema,
         onSubmit: (values) => {
             // Ensure that all stations have at least one worker
             const isValid = values.stationAllocations.every(
@@ -158,7 +168,7 @@ function StationAllocation() {
                             value={formik.values.date}
                         />
                         {formik.touched.date && formik.errors.date && (
-                            <div className="error">{formik.errors.date}</div>
+                            <Alert variant="danger" className="error-message">{formik.errors.date}</Alert>
                         )}
                     </Form.Group>
 
@@ -172,7 +182,7 @@ function StationAllocation() {
                             isSearchable={true}
                         />
                         {formik.touched.shift && formik.errors.shift && (
-                            <div className="error">{formik.errors.shift}</div>
+                            <Alert variant="danger" className="error-message">{formik.errors.shift}</Alert>
                         )}
                     </Form.Group>
 

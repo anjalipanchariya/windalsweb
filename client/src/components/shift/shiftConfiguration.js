@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal,Table } from 'react-bootstrap';
+import { Button, Form, Modal,Table,Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import { addShift,getShift,deleteShift,updateShift } from '../../helper/helper';
@@ -7,10 +7,28 @@ import { useState,useEffect } from "react";
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
+import * as Yup from "yup";
 
 function ShiftConfiguration() {
     const [shiftData,setShiftData] = useState([])
     const [showEditModal,setShowEditModal] = useState(false);
+
+    const shiftValidationSchema= Yup.object().shape({
+        shiftName:Yup.string().max(100,"too long").required("Required"),
+        startTime:Yup.string()
+        .matches(
+          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+          'Please enter a valid time in HH:MM format'
+        )
+        .required('Time is required'),
+        endTime:Yup.string()
+        .matches(
+          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+          'Please enter a valid time in HH:MM format'
+        )
+        .required('Time is required'),
+        
+    });
 
     const addFormFormik = useFormik({
         initialValues:{
@@ -19,8 +37,12 @@ function ShiftConfiguration() {
             endTime:'',
             active:false
         },
+        validationSchema : shiftValidationSchema,
         onSubmit: async (values) => {
             const addShiftPromise = addShift(values)
+            if (values.startTime === values.endTime) {
+                alert('Start time and end time cannot be the same.');
+              }
             toast.promise(
                 addShiftPromise,
                 {
@@ -31,6 +53,8 @@ function ShiftConfiguration() {
                         return result.msg},
                     error: (err) => {
                         return err.msg}
+
+                        
                 }
             )
             
@@ -44,6 +68,7 @@ function ShiftConfiguration() {
             endTime:'',
             active:false
         },
+        validationSchema : shiftValidationSchema,
         onSubmit: async (values) => {
             const updateShiftPromise = updateShift(values)
             toast.promise(
@@ -133,14 +158,23 @@ function ShiftConfiguration() {
       <Form>
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Control type="text" placeholder="Enter Shift Name" value={addFormFormik.values.shiftName} name="shiftName" onChange={addFormFormik.handleChange}/>
+        {addFormFormik.touched.shiftName && addFormFormik.errors.shiftName ? (
+          <Alert variant="danger" className="error-message">{addFormFormik.errors.shiftName}</Alert>
+        ) : null}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicTime">
         <Form.Control type="time" placeholder="start time" value={addFormFormik.values.startTime} name="startTime" onChange={addFormFormik.handleChange}/>
+        {addFormFormik.touched.startTime && addFormFormik.errors.startTime ? (
+          <Alert variant="danger" className="error-message">{addFormFormik.errors.startTime}</Alert>
+        ) : null}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicTime">
         <Form.Control type="time" placeholder="end time" value={addFormFormik.values.endTime} name="endTime" onChange={addFormFormik.handleChange}/>
+        {addFormFormik.touched.endTime && addFormFormik.errors.endTime ? (
+          <Alert variant="danger" className="error-message">{addFormFormik.errors.endTime}</Alert>
+        ) : null}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -233,11 +267,15 @@ function ShiftConfiguration() {
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <label>Start Time</label>
                             <Form.Control type="time" placeholder="Enter Start Time" value={editFormFormik.values.startTime} name="startTime" onChange={editFormFormik.handleChange} />
+                            {editFormFormik.touched.startTime && editFormFormik.errors.startTime ? (
+                            <Alert variant="danger" className="error-message">{editFormFormik.errors.startTime}</Alert>) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <label>End Time</label>
                             <Form.Control type="time" placeholder="Enter End Time " value={editFormFormik.values.endTime} name="endTime" onChange={editFormFormik.handleChange} />
+                            {editFormFormik.touched.endTime && editFormFormik.errors.endTime ? (
+                            <Alert variant="danger" className="error-message">{editFormFormik.errors.endTime}</Alert>) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
