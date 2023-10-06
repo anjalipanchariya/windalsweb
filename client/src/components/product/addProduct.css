@@ -40,10 +40,12 @@
 
 .product-table {
   text-align: center;
-  margin-left: 19vw;
-  width: 60%;
+  /* margin-left: 19vw; */
+  width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
+  justify-content: center;
+  table-layout: auto;
 }
 
 .product-table th,
@@ -51,10 +53,12 @@
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
+  width: 21%;
 }
 
 .product-table th {
   background-color: #f2f2f2;
+  color: black;
 }
 
 .delete-button {

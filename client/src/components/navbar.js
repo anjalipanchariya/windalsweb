@@ -7,8 +7,8 @@ import {Link, useParams} from 'react-router-dom';
 import { logout,getOneEmployee } from '../helper/helper';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import logo from '../images/logo.png'
 import './navbar.css';
-
 
 function WindalsNav() {
 
@@ -34,7 +34,7 @@ function WindalsNav() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary fixed-top">
         <Container>
-          <img src={process.env.PUBLIC_URL} alt='' style={{ height: 40, width: 50 }} />
+          <img src={logo} alt='' style={{ height: 40, width: 50 }} />
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

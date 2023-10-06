@@ -76,7 +76,7 @@ function NextStationAllocation() {
             </div>
             {formik.values.productName !== "" && (
                 <div className="stattable" style={{ marginTop: 30 }}>
-                    <table>
+                    <table className="table" style={{display:'block'}}>
                         <thead>
                             <tr>
                                 <th>Station</th>
@@ -118,6 +118,7 @@ function NextStationAllocation() {
                     </table>
                 </div>
             )}
+            <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
             <Footer/>
         </>

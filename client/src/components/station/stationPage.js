@@ -15,6 +15,8 @@ import {
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
+import './firstStation.css'
+import '../product/addProduct.css'
 import Footer from '../footer';
 
 const StationPage = () => {
@@ -203,33 +205,35 @@ const StationPage = () => {
 
   console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo,formikvalues:formik.values,parameterNames:parameterNames,workAtStationInDay:workAtStationInDay});
   return (
-    <div>
+    <div className="firststat">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav />
-      <button onClick={()=>{logout()}}>LOG OUT</button>
-      <h1>STATION NAME:{stationName}</h1>
-      <h1>EMPLOYEE ID: {employeeId}</h1>
-      <h1>USER NAME: {userName}</h1>
-      {stationOneProductInfo[0] && product_name!=="" &&
+      {/* <button onClick={() => { logout() }}>Log Out</button> */}
+      <h1>Station {stationName}</h1>
+      <div className='fslist'>
+      <h3>Station Name{stationName}</h3>
+      <h3>Employee Id {employeeId}</h3>
+      <h3>User Name {userName}</h3>
+      </div>
+      {stationOneProductInfo[0] && product_name !== "" &&
         <div>
-          <h1>DAILY COUNT: {stationOneProductInfo[0].daily_count}</h1>
-          <h1>CYCLE TIME: {stationOneProductInfo[0].cycle_time}</h1>
-          <h1>PRODUCT PER HOUR: {stationOneProductInfo[0].product_per_hour}</h1>
-          <h1>PARAMETERS TO BE CHECKED: {stationOneProductInfo[0].report===1 ? stationOneProductInfo[0].station_parameters : "NONE"}</h1>
+          <h1>Daily Count: {stationOneProductInfo[0].daily_count}</h1>
+          <h1>Cycle Time: {stationOneProductInfo[0].cycle_time}</h1>
+          <h1>Product per hour: {stationOneProductInfo[0].product_per_hour}</h1>
+          <h1>Parameters to be checked: {stationOneProductInfo[0].report === 1 ? stationOneProductInfo[0].station_parameters : "NONE"}</h1>
         </div>
       }
       <div className="form-group">
-        <label htmlFor="productSelect">Select a Product:</label>
+        <label style={{fontSize:'1.5rem'}} htmlFor="productSelect">Select a Product:</label>
         <select
-          className="form-control"
           id="productSelect"
           value={product_name}
           name="product_name"
           onChange={(e) => {
-             setProductName(e.target.value)
-             closeModal()
-             formik.resetForm()
-            }}
+            setProductName(e.target.value)
+            closeModal()
+            formik.resetForm()
+          }}
         >
           <option value="">--Select Product--</option>
           {availableProducts.map((product, index) => (
@@ -239,6 +243,7 @@ const StationPage = () => {
           ))}
         </select>
       </div>
+      <br />
       <h3>Job At Station</h3>
       <ul>
         { jobsAtStation.length>0 ? jobsAtStation.map((job) => (
@@ -267,8 +272,7 @@ const StationPage = () => {
 
           <ul>
             {dropdownOptions.map((option) => {
-              if(option!="Parameters")
-              {
+              if (option != "Parameters") {
                 return (<li
                   key={option}
                   onClick={() => handleDropdownOptionClick(option)}
@@ -277,8 +281,7 @@ const StationPage = () => {
                   {option}
                 </li>)
               }
-              else
-              {
+              else {
                 return (
                   parameterNames.map((parameter) => (
                     <div key={parameter}>
@@ -303,19 +306,18 @@ const StationPage = () => {
         contentLabel="Example Modal"
       >
         <h2>Reason</h2>
-          <div>
-            <label htmlFor="reason">Enter a reason:</label>
-            <input type="text" name="reason" id="reason" value={formik.values.reason} onChange={formik.handleChange}/>
-            <button onClick={formik.handleSubmit}>Submit</button>
-            <button onClick={closeModal}>Close Modal</button>
-          </div>
+        <div>
+          <label htmlFor="reason">Enter a reason:</label>
+          <input type="text" name="reason" id="reason" value={formik.values.reason} onChange={formik.handleChange} />
+          <button onClick={formik.handleSubmit}>Submit</button>
+          <button onClick={closeModal}>Close Modal</button>
+        </div>
       </Modal>
-
       { 
         workAtStationInDay.length>0 ? 
           <div>
             <h2>Jobs Submitted:</h2>
-            <table className="table">
+            <table className="product-table">
                   <thead>
                       <tr>
                           <th>Job Id</th>

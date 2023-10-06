@@ -18,15 +18,15 @@ function StationAllocation() {
     const [allocationStation, setAllocationStation] = useState([]);
     const [availableWorkerNames, setAvailableWorkerNames] = useState([]);
     const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
-    const [activeShiftNames,setActiveShiftNames] = useState([]);
-    const [allocatedData,setallocatedData] = useState([]);
-    
+    const [activeShiftNames, setActiveShiftNames] = useState([]);
+    const [allocatedData, setallocatedData] = useState([]);
+
     useEffect(() => {
         fetchStationsAndWorkers();
         const getActiveShiftNamesPromise = getActiveShiftNames()
-        getActiveShiftNamesPromise.then((result)=>{
+        getActiveShiftNamesPromise.then((result) => {
             setActiveShiftNames(result)
-        }).catch((err)=>{
+        }).catch((err) => {
             toast.error(err.msg)
         })
     }, []);
@@ -86,7 +86,7 @@ function StationAllocation() {
                     shift: values.shift,
                     stationAllocations: stationAllocationsWithEmployeeIds
                 });
-                 const addStationAllocationPromise = addStationAllocation({
+                const addStationAllocationPromise = addStationAllocation({
                     date: values.date,
                     shift: values.shift.value,
                     stationAllocations: stationAllocationsWithEmployeeIds,
@@ -98,7 +98,7 @@ function StationAllocation() {
                         formik.resetForm()
                         fetchStationsAndWorkers()
                         getStationAllocationData()
-                        formik.setFieldValue("stationAllocations",allocationStation)
+                        formik.setFieldValue("stationAllocations", allocationStation)
                         return result.msg
                     },
                     error: (err) => err.msg,
@@ -132,41 +132,42 @@ function StationAllocation() {
         setAvailableWorkerNames(filteredAvailableWorkerNames);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getStationAllocationData()
-    },[])
+    }, [])
 
     const getStationAllocationData = () => {
         const getAllocatedPromise = getWorkerAllocation()
-        getAllocatedPromise.then(async(result)=>{
+        getAllocatedPromise.then(async (result) => {
             setallocatedData(result)
-        }).catch((err)=>{})
+        }).catch((err) => { })
     }
 
-    console.log({allocatedData:allocatedData});
+    console.log({ allocatedData: allocatedData });
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav/>
+            <WindalsNav />
             <div className="header-allocate-station">
                 <h2 className="allocate-station-header">Allocate Station</h2>
             </div>
-            <div className="container">
-            <div className="input-box">
-                <Form onSubmit={formik.handleSubmit}>
-                    <Form.Group controlId="date">
-                        <Form.Label>Date:</Form.Label>
-                        <Form.Control
-                            type="date"
-                            name="date"
-                            onChange={formik.handleChange}
-                            value={formik.values.date}
-                        />
-                        {formik.touched.date && formik.errors.date && (
-                            <div className="error">{formik.errors.date}</div>
-                        )}
-                    </Form.Group>
+            <div style={{display:'block', justifyContent:'center'}}>
+                <div className="input-box">
+                    <Form onSubmit={formik.handleSubmit}>
+                        <Form.Group controlId="date">
+                            <Form.Label>Date:</Form.Label>
+                            <Form.Control
+                                type="date"
+                                name="date"
+                                onChange={formik.handleChange}
+                                value={formik.values.date}
+                            />
+                            {formik.touched.date && formik.errors.date && (
+                                <div className="error">{formik.errors.date}</div>
+                            )}
+                        </Form.Group>
+
 
                     <Form.Group controlId="shift">
                         <Form.Label>Shift:</Form.Label>
@@ -182,54 +183,68 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-                    <Button variant="danger" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-             </div>
+                        <Form.Group controlId="shift">
+                            <Form.Label>Shift:</Form.Label>
+                            <Select
+                                options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
+                                value={formik.values.shift}
+                                name="shift"
+                                onChange={(data) => formik.setFieldValue("shift", data)}
+                                isSearchable={true}
+                            />
+                            {formik.touched.shift && formik.errors.shift && (
+                                <div className="error">{formik.errors.shift}</div>
+                            )}
+                        </Form.Group>
+                        <br />
+                        
+                        <Button variant="danger" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                </div>
+                
+                <div>
+                    <table className="table">
+                        <thead>
 
-             <div className="table-container">
-  <Table striped responsive hover className="table">
-    <thead>
-      
-    </thead>
-    <tbody>
-    <tr>
-        <th>#</th>
-        <th>Station</th>
-        <th>Worker</th>
-      </tr>
-      {formik.values.stationAllocations.map((allocation, index) => (
-        <tr key={index}>
-          <td>{index + 1}</td>
-          <td>{allocation.station}</td>
-          <td>
-            <Multiselect
-              isObject={false}
-              options={availableWorkerNames.map(
-                (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
-              )}
-              onSelect={(selectedList, selectedItem) =>
-                handleSelect(selectedList, selectedItem, index)
-              }
-              selectedValues={allocation.workers}
-              showCheckbox
-            />
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </Table>
-</div>
-
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>Station</th>
+                                <th>Worker</th>
+                            </tr>
+                            {formik.values.stationAllocations.map((allocation, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{allocation.station}</td>
+                                    <td>
+                                        <Multiselect
+                                            isObject={false}
+                                            options={availableWorkerNames.map(
+                                                (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
+                                            )}
+                                            onSelect={(selectedList, selectedItem) =>
+                                                handleSelect(selectedList, selectedItem, index)
+                                            }
+                                            selectedValues={allocation.workers}
+                                            showCheckbox
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <Table striped responsive hover className='table'>
                 <thead>
-                    
                 </thead>
                 <tbody>
-                <tr>
+                    <tr>
+
                         <th>#</th>
                         <th>Date</th>
                         <th>Station</th>
@@ -238,40 +253,40 @@ function StationAllocation() {
                         <th>User Name</th>
                         <th>Shift Name</th>
                     </tr>
-                {
-                
-                Array.isArray(allocatedData) && allocatedData.map((allocateddata,index)=>(
-                   <tr key={index}>
-                        <td>
-                            {index+1}
-                        </td>
-                        <td>
-                            {allocateddata.date}
-                        </td>
-                        <td>
-                            {allocateddata.station_name}
-                        </td>
-                        <td>
-                            {allocateddata.first_name}
-                        </td>
-                        <td>
-                            {allocateddata.last_name}
-                        </td>
-                        <td>
-                            {allocateddata.user_name}
-                        </td>
-                        <td>
-                            {allocateddata.shift_name}
-                        </td>
-                        
-                    </tr>
-                ))
-                }
+                    {
+
+                        Array.isArray(allocatedData) && allocatedData.map((allocateddata, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {index + 1}
+                                </td>
+                                <td>
+                                    {allocateddata.date}
+                                </td>
+                                <td>
+                                    {allocateddata.station_name}
+                                </td>
+                                <td>
+                                    {allocateddata.first_name}
+                                </td>
+                                <td>
+                                    {allocateddata.last_name}
+                                </td>
+                                <td>
+                                    {allocateddata.user_name}
+                                </td>
+                                <td>
+                                    {allocateddata.shift_name}
+                                </td>
+
+                            </tr>
+                        ))
+                    }
 
                 </tbody>
             </Table>
-            <Footer/>
-    </div>
+            <Footer />
+        </div>
     );
 }
 

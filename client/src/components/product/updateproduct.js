@@ -139,10 +139,10 @@ function AddProduct() {
     
 
     return (
-        <div >
+        <div className="updateprod">
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <div className="updateprod">
+            <div>
                 <h3>Product name:</h3>
                 {/* <input
                     type="text"
@@ -178,23 +178,17 @@ function AddProduct() {
                 </div>
             </div>
 
-            {   formik.values.existingParameters.length>0 ? 
-                <div>
-                <p style={{ textAlign: 'center', fontWeight:'bold'}}>
-                    Existing parameter
-                </p>
-
-                <table className='product-table'>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Max</th>
-                            <th>Min</th>
-                            <th>Unit</th>
-                            <th>Press to delete row(paramterer)</th>
-                        </tr>
-                    </thead>
+            <table className='product-table'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Max</th>
+                        <th>Min</th>
+                        <th>Unit</th>
+                        <th>Delete row(paramterer)</th>
+                    </tr>
+                </thead>
 
                     <tbody>
                         {Array.isArray(formik.values.existingParameters) && formik.values.existingParameters.map((parameter, index) => (
@@ -244,77 +238,72 @@ function AddProduct() {
             }
             
 
-            { 
-                     formik.values.newParameters.length>0 ? 
-                     <div>
-                    <p style={{ textAlign: 'center', fontWeight:'bold' }}>
-                        New parameter
-                    </p>
+            <p style={{ textAlign: 'center', fontWeight:'bold' }}>
+                New parameter
+            </p>
 
-                    <table striped responsive hover className='product-table'>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Max</th>
-                                <th>Min</th>
-                                <th>Unit</th>
-                                <th>Press to delete row</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(formik.values.newParameters) && formik.values.newParameters.map((parameter, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            value={parameter.parameterName}
-                                            onChange={(e) =>
-                                                handleNewParameterChange(index, 'parameterName', e.target.value)
-                                            }
-                                            name={`newParameters[${index}].parameterName`}
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            value={parameter.maxVal}
-                                            onChange={(e) => handleNewParameterChange(index, 'maxVal', e.target.value)}
-                                            name={`newParameters[${index}].maxVal`}
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            value={parameter.minVal}
-                                            onChange={(e) => handleNewParameterChange(index, 'minVal', e.target.value)}
-                                            name={`newParameters[${index}].minVal`}
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            value={parameter.unit}
-                                            onChange={(e) => handleNewParameterChange(index, 'unit', e.target.value)}
-                                            name={`newParameters[${index}].unit`}
-                                        />
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="delete-button"
-                                            onClick={() => handleNewParametersDeleteRow(index)}
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    </div>   
-                    : null       
-            }
+            <table className='product-table'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Max</th>
+                        <th>Min</th>
+                        <th>Unit</th>
+                        <th>Delete row</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Array.isArray(formik.values.newParameters) && formik.values.newParameters.map((parameter, index) => (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={parameter.parameterName}
+                                    onChange={(e) =>
+                                        handleNewParameterChange(index, 'parameterName', e.target.value)
+                                    }
+                                    name={`newParameters[${index}].parameterName`}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    value={parameter.maxVal}
+                                    onChange={(e) => handleNewParameterChange(index, 'maxVal', e.target.value)}
+                                    name={`newParameters[${index}].maxVal`}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    value={parameter.minVal}
+                                    onChange={(e) => handleNewParameterChange(index, 'minVal', e.target.value)}
+                                    name={`newParameters[${index}].minVal`}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={parameter.unit}
+                                    onChange={(e) => handleNewParameterChange(index, 'unit', e.target.value)}
+                                    name={`newParameters[${index}].unit`}
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleNewParametersDeleteRow(index)}
+                                >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
             
         </div>
     );
