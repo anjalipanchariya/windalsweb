@@ -51,12 +51,12 @@
 }
 
 .table{
-    display: block;
+    /* display: block; */
     align-items: center;
     justify-content: center;
     margin: auto;
     text-align: center;
-    width: 20%;
+    width: 50%;
     
 }
 
@@ -102,10 +102,10 @@
     margin: 20px;
 }
 
-.product-table{
+/* .product-table{
     text-align: center;
     margin-left: 20vw;
     width: 60%;
     margin-top: 20px;
     border-collapse: collapse;
-}
+} */

@@ -210,12 +210,13 @@ function AddStation() {
         <div>
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <div className="header-add-station">
+            {/* <div className="header-add-station">
                 <h2 className="add-station-header">Add Station</h2>
-            </div>
+            </div> */}
             <div className="add-station-container">
                 <div className="add-station-inputs">
                     <Form>
+                        <h3>Add Station</h3>
                         <div className="station-name-id">
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Enter Station Name" value={addFormFormik.values.stationName} name="stationName" onChange={addFormFormik.handleChange} />
@@ -281,6 +282,7 @@ function AddStation() {
                     </Form>
                 </div>
                 <div className="search-station-form">
+                <h4>Search station </h4>
                     <Form>
                         <Form.Group className="mb-3" aria-label="formBasicEmail">
                             <Form.Control type="text" placeholder="Enter Station Name" value={searchFormFormik.values.stationName} name="stationName" onChange={searchFormFormik.handleChange}/>

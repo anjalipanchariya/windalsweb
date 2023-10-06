@@ -71,6 +71,7 @@ const LoginPage = () => {
   return (
     <div className="container d-flex justify-content-center">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <div>
       <div className="col-md-6 bg-light-grey">
         <form className="row g-3" onSubmit={formik.handleSubmit}>
           <div className="col-12">
@@ -109,6 +110,7 @@ const LoginPage = () => {
           </div>
 
         </form>
+      </div>
       </div>
     </div>
   );

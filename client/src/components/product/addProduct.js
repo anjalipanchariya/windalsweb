@@ -95,7 +95,7 @@ const AddProduct = () => {
       <div className="product-name-container">
         <h3 className="product-name">Product name</h3>
 
-        <Select
+        {/* <Select
           className='selectopts'
           placeholder="Select Product"
           options={productnames}
@@ -109,7 +109,7 @@ const AddProduct = () => {
           name="productName"
           isSearchable={true}
           noOptionsMessage={() => "Name not found add in the input box below"}
-        />
+        /> */}
 
         <input
           className="product-input"
@@ -131,7 +131,7 @@ const AddProduct = () => {
         <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
 
-      <table striped responsive hover className="product-table">
+      <table className="product-table">
         <thead>
           <tr>
             <th>#</th>
@@ -139,7 +139,7 @@ const AddProduct = () => {
             <th>Max</th>
             <th>Min</th>
             <th>Unit</th>
-            <th>Press to delete row</th>
+            <th>Delete row</th>
           </tr>
         </thead>
         <tbody>

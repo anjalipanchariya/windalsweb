@@ -7,7 +7,7 @@ import {Link, useParams} from 'react-router-dom';
 import { logout,getOneEmployee } from '../helper/helper';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-
+import logo from '../images/logo.png'
 
 function WindalsNav() {
 
@@ -33,7 +33,7 @@ function WindalsNav() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <img src={process.env.PUBLIC_URL} alt='' style={{ height: 40, width: 50 }} />
+          <img src={logo} alt='' style={{ height: 40, width: 50 }} />
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -67,7 +67,7 @@ function WindalsNav() {
             
             <Button variant="outline-dark" onClick={()=>{
               logout()
-            }}>Login Out</Button>
+            }}>Log Out</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>

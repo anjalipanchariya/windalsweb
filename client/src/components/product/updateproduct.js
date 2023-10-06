@@ -139,10 +139,10 @@ function AddProduct() {
     
 
     return (
-        <div >
+        <div className="updateprod">
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <div className="updateprod">
+            <div>
                 <h3>Product name:</h3>
                 {/* <input
                     type="text"
@@ -189,7 +189,7 @@ function AddProduct() {
                         <th>Max</th>
                         <th>Min</th>
                         <th>Unit</th>
-                        <th>Press to delete row(paramterer)</th>
+                        <th>Delete row(paramterer)</th>
                     </tr>
                 </thead>
 
@@ -242,7 +242,7 @@ function AddProduct() {
                 New parameter
             </p>
 
-            <table striped responsive hover className='product-table'>
+            <table className='product-table'>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -250,7 +250,7 @@ function AddProduct() {
                         <th>Max</th>
                         <th>Min</th>
                         <th>Unit</th>
-                        <th>Press to delete row</th>
+                        <th>Delete row</th>
                     </tr>
                 </thead>
                 <tbody>

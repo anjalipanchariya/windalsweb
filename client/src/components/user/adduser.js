@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { registerUser } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function WorkerReg(){
    
@@ -52,42 +53,84 @@ function WorkerReg(){
   }
   
   return(
-        <>
-        <Toaster position="top-center" reverseOrder={false}></Toaster>
-        <WindalsNav/>
-        <h1 className="heading">Worker Registration</h1>
-        <form className="workerreg">        
-            <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
-            <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
-            <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
-            <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange}/>
-            <input type="number" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
-            <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange}/>
-            <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange}/>
-            <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange}/>
-            <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
-            <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
-        </form>
+    <>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <WindalsNav />
+      <div className="adduser">
 
-        {
-        accessOptions.map((option, index) => (
-          <div key={option}>
-            <label>
-              <input
-                type="checkbox"
-                checked={accessGiven[index]}
-                onChange={() => handleAccessOptionCheck(index)}
-              />
-              {option}
-            </label>
+
+        <form className="workerreg">
+          <h1 className="heading">Worker Registration</h1>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="worklist">
+              <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
+              <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
+              <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
+              <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
+            </div>
+            <div className="worklist">
+              <input type="number" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange} />
+              <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange} />
+              <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange} />
+              <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange} />
+            </div>
           </div>
-        ))
-      }
+          <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button type="submit" onClick={formik.handleSubmit}>Register</button>
+          </div>
 
-        <footer className = "footer">
-            <h6>Vishwakarma Institute of Information Technology</h6>
-        </footer>
-        </>
+        </form>
+        <br />
+        <div className="checkbox-groups">
+          <div className="row">
+            {accessOptions.slice(0, 6).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index]}
+                    onChange={() => handleAccessOptionCheck(index)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <div className="row">
+            {accessOptions.slice(6, 12).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 6]}
+                    onChange={() => handleAccessOptionCheck(index + 6)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <div className="row">
+            {accessOptions.slice(12).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <br />
+      <Footer />
+
+    </>
     )
 }
 
