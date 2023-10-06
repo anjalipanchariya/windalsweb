@@ -177,7 +177,9 @@ function StationAllocation() {
             <div className="header-allocate-station">
                 <h2 className="allocate-station-header">Allocate Station</h2>
             </div>
-            <div className="container">
+
+            <div style={{display:'block', justifyContent:'center'}}>
+
                 <div className="input-box">
                     <Form onSubmit={formik.handleSubmit}>
                         <Form.Group controlId="date">
@@ -193,6 +195,22 @@ function StationAllocation() {
                             )}
                         </Form.Group>
 
+
+
+                    <Form.Group controlId="shift">
+                        <Form.Label>Shift:</Form.Label>
+                        <Select
+                            options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
+                            value={formik.values.shift}
+                            name="shift"
+                            onChange={(data) => formik.setFieldValue("shift", data)}
+                            isSearchable={true}
+                        />
+                        {formik.touched.shift && formik.errors.shift && (
+                            <div className="error">{formik.errors.shift}</div>
+                        )}
+                    </Form.Group>
+
                         <Form.Group controlId="shift">
                             <Form.Label>Shift:</Form.Label>
                             <Select
@@ -206,19 +224,19 @@ function StationAllocation() {
                                 <div className="error">{formik.errors.shift}</div>
                             )}
                         </Form.Group>
-
+                        <br />
+                        
                         <Button variant="danger" type="submit">
                             Submit
                         </Button>
-
                     </Form>
                     <Button onClick={fetchData}>
                         Fetchdata
                     </Button>
                 </div>
-
-                <div className="table-container">
-                    <Table striped responsive hover className="table">
+                
+                <div>
+                    <table className="table">
                         <thead>
 
                         </thead>
@@ -251,9 +269,8 @@ function StationAllocation() {
                                 </tr>
                             ))}
                         </tbody>
-                    </Table>
+                    </table>
                 </div>
-
             </div>
 
             <Table striped responsive hover className='table'>

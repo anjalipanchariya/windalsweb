@@ -1,8 +1,29 @@
-.centered-text {
-    text-align: center;
-    color: red;
-}
 
 .form-group {
+    justify-content: center;
     text-align: center;
+}
+
+
+
+.form-group select{
+    width: 15vw;
+}
+.firststat{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+
+.fslist{
+    display: flex;
+    margin-left: 20vw;
+    
+}
+
+.fslist h3{
+    margin: 30px;
 }

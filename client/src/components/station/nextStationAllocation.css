@@ -1,7 +1,6 @@
 
 .product-select {
     text-align: center;
-    margin-top: 20px;
   }
   
   .select-control {
@@ -15,7 +14,7 @@
     align-self: center;
   }
   
-  table {
+  /* table {
     width: 200%;
     align-items: center;
     margin: 20px auto; 
@@ -35,7 +34,7 @@
     background-color: #f2f2f2;
     font-weight: bold;
     text-align: left;
-  }
+  } */
   
   button {
     display: block;

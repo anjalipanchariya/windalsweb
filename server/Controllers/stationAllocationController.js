@@ -2,7 +2,7 @@ import db from "../Database/connection.js";
 
 async function insertIntoStationAllocation(req,res){
     const {date,shift,stationAllocations} = req.body
-    console.log(stationAllocations);
+    // console.log(stationAllocations);
     try {
         const selectQuery = "SELECT employee_id FROM station_allocation WHERE date = ? AND shift_id = ?"
         const [selectResult] = await db.promise().query(selectQuery,[date,shift])
@@ -28,7 +28,7 @@ async function insertIntoStationAllocation(req,res){
 
 async function getOneWorkerStation(req,res){
     const {employeeId,date,shift} = req.query
-    console.log(req.query);
+    // console.log(req.query);
     try {
         const selectQuery = "SELECT station_name FROM station_allocation WHERE employee_id=? AND date=? AND shift_id=?"
         const [selectResult] = await db.promise().query(selectQuery,[employeeId,date,shift])
@@ -48,11 +48,11 @@ async function getOneWorkerStation(req,res){
 
 async function getStationAllocated(req,res){
     const {date} = req.query
-    console.log(date);
+    // console.log(date);
     try{
         const selectQuery= "SELECT station_allocation.station_name ,station_allocation.date, employee_master.first_name, employee_master.last_name, employee_master.user_name,shift_config.shift_name FROM station_allocation JOIN employee_master ON station_allocation.employee_id = employee_master.employee_id JOIN shift_config ON station_allocation.shift_id = shift_config.shift_id WHERE station_allocation.date = ?"
         const [selectResult] = await db.promise().query(selectQuery,[date])
-        console.log(selectResult);
+        // console.log(selectResult);
         if(selectResult.length<=0)
         {
             res.status(501).send({msg:"No station has been allocated to any worker yet."})

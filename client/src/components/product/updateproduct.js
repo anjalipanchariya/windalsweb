@@ -139,10 +139,10 @@ function AddProduct() {
     
 
     return (
-        <div >
+        <div className="updateprod">
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <div className="updateprod">
+            <div>
                 <h3>Product name:</h3>
                 {/* <input
                     type="text"
@@ -177,8 +177,69 @@ function AddProduct() {
                     <Button onClick={formik.handleSubmit}>Save</Button>
                 </div>
             </div>
-            <p style={{ textAlign: 'center', fontWeight:'bold'}}>
-                Existing parameter
+
+            <table className='product-table'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Max</th>
+                        <th>Min</th>
+                        <th>Unit</th>
+                        <th>Delete row(paramterer)</th>
+                    </tr>
+                </thead>
+
+                    <tbody>
+                        {Array.isArray(formik.values.existingParameters) && formik.values.existingParameters.map((parameter, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                    {parameter.parameterName}
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={parameter.maxVal}
+                                        onChange={(e) => handleExistingParameterChange(index, 'maxVal', e.target.value)}
+                                        name={`existingParameters[${index}].maxVal`}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={parameter.minVal}
+                                        onChange={(e) => handleExistingParameterChange(index, 'minVal', e.target.value)}
+                                        name={`existingParameters[${index}].minVal`}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={parameter.unit}
+                                        onChange={(e) => handleExistingParameterChange(index, 'unit', e.target.value)}
+                                        name={`existingParameters[${index}].unit`}
+                                    />
+                                </td>
+                                <td>
+                                    <button
+                                        className="delete-button"
+                                        onClick={() => handleExistingParametersDeleteRow(index, parameter.id)}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                </div>
+                : null 
+            }
+            
+
+            <p style={{ textAlign: 'center', fontWeight:'bold' }}>
+                New parameter
             </p>
 
             <table className='product-table'>
@@ -189,68 +250,7 @@ function AddProduct() {
                         <th>Max</th>
                         <th>Min</th>
                         <th>Unit</th>
-                        <th>Press to delete row(paramterer)</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {Array.isArray(formik.values.existingParameters) && formik.values.existingParameters.map((parameter, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                                {parameter.parameterName}
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    value={parameter.maxVal}
-                                    onChange={(e) => handleExistingParameterChange(index, 'maxVal', e.target.value)}
-                                    name={`existingParameters[${index}].maxVal`}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    value={parameter.minVal}
-                                    onChange={(e) => handleExistingParameterChange(index, 'minVal', e.target.value)}
-                                    name={`existingParameters[${index}].minVal`}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    value={parameter.unit}
-                                    onChange={(e) => handleExistingParameterChange(index, 'unit', e.target.value)}
-                                    name={`existingParameters[${index}].unit`}
-                                />
-                            </td>
-                            <td>
-                                <button
-                                    className="delete-button"
-                                    onClick={() => handleExistingParametersDeleteRow(index, parameter.id)}
-                                >
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-
-            <p style={{ textAlign: 'center', fontWeight:'bold' }}>
-                New parameter
-            </p>
-
-            <table striped responsive hover className='product-table'>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Max</th>
-                        <th>Min</th>
-                        <th>Unit</th>
-                        <th>Press to delete row</th>
+                        <th>Delete row</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -304,7 +304,7 @@ function AddProduct() {
                 </tbody>
             </table>
 
-
+            
         </div>
     );
 }

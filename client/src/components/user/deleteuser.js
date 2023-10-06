@@ -192,7 +192,7 @@ function DeleteUser() {
 
         {
             formik.values.userName!=="" && 
-            <div className='table-container'>
+            <div className='table-container' style={{width:80}}>
             <table>
               <thead>
                 <tr>
