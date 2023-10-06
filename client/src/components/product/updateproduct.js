@@ -233,9 +233,9 @@ function AddProduct() {
                         ))}
                     </tbody>
                 </table>
-                </div>
-                : null 
-            }
+                
+                
+            
             
 
             <p style={{ textAlign: 'center', fontWeight:'bold' }}>

@@ -211,19 +211,7 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-                        <Form.Group controlId="shift">
-                            <Form.Label>Shift:</Form.Label>
-                            <Select
-                                options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
-                                value={formik.values.shift}
-                                name="shift"
-                                onChange={(data) => formik.setFieldValue("shift", data)}
-                                isSearchable={true}
-                            />
-                            {formik.touched.shift && formik.errors.shift && (
-                                <div className="error">{formik.errors.shift}</div>
-                            )}
-                        </Form.Group>
+
                         <br />
                         
                         <Button variant="danger" type="submit">
