@@ -52,7 +52,10 @@ function ViewStation() {
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>
+      <div style={{marginTop:'15vh'}}>
       <Table columns={columns} data={stations} />
+      </div>
+      
       <Footer/>
     </>
   );

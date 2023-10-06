@@ -208,7 +208,7 @@ function AddStation() {
 
 
     return (
-        <div>
+        <div style={{marginTop:'20vh'}}>
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             {/* <div className="header-add-station">

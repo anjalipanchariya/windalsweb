@@ -69,7 +69,7 @@ const LoginPage = () => {
   },[])
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
       <div className="col-md-6 bg-light-grey">

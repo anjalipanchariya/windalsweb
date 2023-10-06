@@ -108,12 +108,13 @@ const AddProduct = () => {
             {formik.errors.productName}
           </Alert>
         )}
-      </div>
+      
 
       <div className="parameter-buttons">
         <Button className="add-parameter-button" onClick={addRow}>Add parameter</Button>
         <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
+      
 
     { formik.values.parameters.length>0 ? 
       <table className="product-table">
@@ -205,6 +206,7 @@ const AddProduct = () => {
       </table>
        : null
       }
+      </div>
     </div>
   );
 };
