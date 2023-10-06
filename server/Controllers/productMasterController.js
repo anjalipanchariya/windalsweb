@@ -60,7 +60,7 @@ async function insertInProductMaster(req,res){
         var deleteQuery = "DELETE FROM product_master WHERE id = ?"
         const [deleteResult] = await db.promise().query(deleteQuery,[productId])
         
-        console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
+        // console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
         res.status(201).send({msg:`Parameter: ${selectResult[0].parameter} of product: ${selectResult[0].product_name} deleted from database successfully  `})
     }catch(err){
         console.error(`Database error: ${err}`);

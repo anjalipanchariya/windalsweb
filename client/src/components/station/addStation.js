@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import WindalsNav from "../navbar";
+import Footer from '../footer';
 
 function AddStation() {
     const [productNames,setProductNames] = useState([]);
@@ -299,7 +300,11 @@ function AddStation() {
             <div>
             <Table striped responsive hover className='table'>
                 <thead>
-                    <tr>
+                   
+                </thead>
+                <tbody>
+                      
+                        <tr>
                         <th>#</th>
                         <th>Station Name</th>
                         <th>Product Name</th>
@@ -312,9 +317,7 @@ function AddStation() {
                         <th>Press to Edit</th>
                         <th>Press to delete row</th>
                     </tr>
-                </thead>
-                <tbody>
-                    {   
+                    { 
                         Array.isArray(stationData) && stationData.map((stationdata,index)=>(
                             
                             <tr key={index}>
@@ -441,9 +444,12 @@ function AddStation() {
         
         
         
-        
+            <Footer/>
         </div>
+       
     )
 }
 
 export default AddStation;
+
+

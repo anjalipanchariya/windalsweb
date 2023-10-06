@@ -3,6 +3,7 @@ import { getAllUsers } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
 import WindalsNav from '../navbar';
+import Footer from '../footer';
 
 function ViewUser() { // Changed the function name to start with an uppercase letter
 
@@ -78,6 +79,7 @@ function ViewUser() { // Changed the function name to start with an uppercase le
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>
       <Table columns={columns} data={users} />
+      <Footer/>
     </>
   );
 }

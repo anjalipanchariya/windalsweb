@@ -35,7 +35,7 @@ const AddProduct = () => {
   const formik = useFormik({
     initialValues: {
       productName: '',
-      parameters: [{ parameterName: '', minVal: '', maxVal: '', unit: '' }],
+      parameters: [],
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -46,7 +46,7 @@ const AddProduct = () => {
           loading: 'Uploading data', // This should be a plain string
           success:  result => {
                      formik.resetForm();
-                     formik.setFieldValue("parameter",[{ parameterName: '', minVal: '', maxVal: '', unit: '' }])
+                     formik.setFieldValue("parameters",[])
                     return result.msg
                 },
           error: err => <b>{err.msg}</b>
@@ -95,22 +95,6 @@ const AddProduct = () => {
       <div className="product-name-container">
         <h3 className="product-name">Product name</h3>
 
-        {/* <Select
-          className='selectopts'
-          placeholder="Select Product"
-          options={productnames}
-          value={{
-            value: formik.values.productName,
-            label: formik.values.productName === '' ? 'Enter Product Name' : formik.values.productName
-          }}
-          onChange={(selectedOption) =>
-            formik.setFieldValue('productName', selectedOption.value)
-          }
-          name="productName"
-          isSearchable={true}
-          noOptionsMessage={() => "Name not found add in the input box below"}
-        /> */}
-
         <input
           className="product-input"
           type="text"
@@ -131,6 +115,7 @@ const AddProduct = () => {
         <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
 
+    { formik.values.parameters.length>0 ? 
       <table className="product-table">
         <thead>
           <tr>
@@ -218,6 +203,8 @@ const AddProduct = () => {
           ))}
         </tbody>
       </table>
+       : null
+      }
     </div>
   );
 };

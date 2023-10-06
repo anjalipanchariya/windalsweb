@@ -99,8 +99,11 @@ const StationPage = () => {
       {
         const parameterNamesArray = stationOneProductInfo[0].station_parameters.split(',');
         setParameterNames(parameterNamesArray);
-      }
-      
+      }  
+    }
+    else{
+      setWorkAtStationInDay([])
+      setJobsAtStation([])
     }
   }, [product_name]);
 
@@ -243,7 +246,7 @@ const StationPage = () => {
       <br />
       <h3>Job At Station</h3>
       <ul>
-        {jobsAtStation.map((job) => (
+        { jobsAtStation.length>0 ? jobsAtStation.map((job) => (
           <li
             key={job.job_id}
             onClick={(e) => handleJobIdClick(job, e)}
@@ -251,7 +254,7 @@ const StationPage = () => {
           >
             {job.job_name}
           </li>
-        ))}
+        )) : product_name == "" ? "Product is not selected" : "null"}
       </ul>
 
       {formik.values.selectedJob != null && (
@@ -310,35 +313,39 @@ const StationPage = () => {
           <button onClick={closeModal}>Close Modal</button>
         </div>
       </Modal>
-
-      <div>
-        <h3>Jobs Submitted:</h3>
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Job Id</th>
-              <th>Job Name</th>
-              <th>Product Name</th>
-              <th>Status</th>
-              <th>Reason</th>
-              <th>Parameter values</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
-              <tr key={index}>
-                <td>{job.job_id}</td>
-                <td>{job.job_name}</td>
-                <td>{job.product_name}</td>
-                <td>{(job.status == 1) ? "OK" : ((job.status == 0) ? "REWORK" : "REDO")}</td>
-                <td>{(job.reason != "" || job.reason != null) ? job.reason : "N.A"}</td>
-                <td>{(job.parameters != "" || job.parameters != null) ? job.parameters : "N.A"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <Footer />
+      { 
+        workAtStationInDay.length>0 ? 
+          <div>
+            <h2>Jobs Submitted:</h2>
+            <table className="product-table">
+                  <thead>
+                      <tr>
+                          <th>Job Id</th>
+                          <th>Job Name</th>
+                          <th>Product Name</th>
+                          <th>Status</th>
+                          <th>Reason</th>    
+                          <th>Parameter values</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
+                          <tr key={index}>
+                              <td>{job.job_id}</td>
+                              <td>{job.job_name}</td>
+                              <td>{job.product_name}</td>
+                              <td>{ (job.status==1) ? "OK" : ( (job.status==0) ? "REWORK" : "Not-Ok")}</td>
+                              <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
+                              <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
+                          </tr>
+                      ))}
+                  </tbody>
+            </table>
+          </div>
+        : null
+      }
+      
+     <Footer/>
     </div>
   );
 };

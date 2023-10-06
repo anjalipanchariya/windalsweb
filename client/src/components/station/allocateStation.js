@@ -168,6 +168,21 @@ function StationAllocation() {
                             )}
                         </Form.Group>
 
+
+                    <Form.Group controlId="shift">
+                        <Form.Label>Shift:</Form.Label>
+                        <Select
+                            options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
+                            value={formik.values.shift}
+                            name="shift"
+                            onChange={(data) => formik.setFieldValue("shift", data)}
+                            isSearchable={true}
+                        />
+                        {formik.touched.shift && formik.errors.shift && (
+                            <div className="error">{formik.errors.shift}</div>
+                        )}
+                    </Form.Group>
+
                         <Form.Group controlId="shift">
                             <Form.Label>Shift:</Form.Label>
                             <Select
@@ -222,15 +237,14 @@ function StationAllocation() {
                         </tbody>
                     </table>
                 </div>
-
             </div>
 
             <Table striped responsive hover className='table'>
                 <thead>
-
                 </thead>
                 <tbody>
                     <tr>
+
                         <th>#</th>
                         <th>Date</th>
                         <th>Station</th>

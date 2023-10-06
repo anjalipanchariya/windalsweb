@@ -20,15 +20,7 @@
     margin-left: 22vw;
   }
   
-  /* .table-container {
-    flex: 1;
-    margin: 200px; 
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f4f4f4;
-  } */
-    
+ 
   
   
   .form-label {
@@ -51,7 +43,6 @@
     text-align: left;
     border-bottom: 1px solid #ddd;
     background-color: white;
-  
 }
 
   
