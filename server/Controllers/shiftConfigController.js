@@ -52,7 +52,7 @@ async function updateShiftConfig(req,res){
         startTime,
         endTime,
         active,shiftId} = req.body
-        console.log(req.body);
+        // console.log(req.body);
         try {
             const selectQuery = "SELECT shift_id FROM shift_config WHERE shift_id=?"
             const [selectResult] = await db.promise().query(selectQuery,[shiftId])

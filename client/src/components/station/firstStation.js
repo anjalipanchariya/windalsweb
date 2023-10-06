@@ -46,7 +46,7 @@ const FirstStation = () => {
                     }).catch((insertInStationyyyyErr)=>{
                         toast.error(insertInStationyyyyErr.msg)
                     })
-                    formik.resetForm(); 
+                    formik.setFieldValue('job_name',"") 
                 }
             }).catch((createJobErr)=>{
                 toast.error(createJobErr.msg)
@@ -139,31 +139,34 @@ const FirstStation = () => {
             <button className="btn btn-danger" onClick={formik.handleSubmit}>
                 Add Product
             </button>
-            <div>
-                <h2>Jobs Submitted:</h2>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Job Name</th>
-                            <th>Status</th>
-                            <th>Reason</th>    
-                            <th>Parameter values</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
-                            <tr key={index}>
-                                <td>{job.product_name}</td>
-                                <td>{job.job_name}</td>
-                                <td>{job.status==1 ? "OK" : "Not-Ok"}</td>
-                                <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
-                                <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
+            { workAtStationInDay.length>0 ? 
+                <div>
+                    <h2>Jobs Submitted:</h2>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Job Name</th>
+                                <th>Status</th>
+                                <th>Reason</th>    
+                                <th>Parameter values</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
+                                <tr key={index}>
+                                    <td>{job.product_name}</td>
+                                    <td>{job.job_name}</td>
+                                    <td>{job.status==1 ? "OK" : "Not-Ok"}</td>
+                                    <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
+                                    <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                : "null"}
+            
             <Footer/>
         </div>
     );

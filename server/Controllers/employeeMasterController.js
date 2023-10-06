@@ -91,7 +91,7 @@ async function getOneFromEmployee(req,res){
           res.status(501).send({msg:"You cant excess admin info"})
         }
         else{
-            console.log("Employee does not exist in the database")
+            res.status(501).send({msg:"Employee does not exist in the database"})
         }
     }catch(err){
         console.error("Database error",err);
@@ -135,7 +135,7 @@ async function deleteFromEmployeeMaster(req,res){
       var deleteQuery = "DELETE FROM employee_master WHERE employee_id = ?"
       const [deleteResult] = await db.promise().query(deleteQuery,[employeeId])
       
-      console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
+      // console.log({"Rows deleted":deleteResult.affectedRows,"Row deleted":selectResult});
       res.status(201).send({msg:`Employee: firstname-${selectResult[0].first_name} lastname-${selectResult[0].last_name} username-${selectResult[0].user_name} deleted from database successfully  `})
   }catch(err){
       console.error(`Database error: ${err}`);

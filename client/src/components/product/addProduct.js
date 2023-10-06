@@ -35,7 +35,7 @@ const AddProduct = () => {
   const formik = useFormik({
     initialValues: {
       productName: '',
-      parameters: [{ parameterName: '', minVal: '', maxVal: '', unit: '' }],
+      parameters: [],
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -46,7 +46,7 @@ const AddProduct = () => {
           loading: 'Uploading data', // This should be a plain string
           success:  result => {
                      formik.resetForm();
-                     formik.setFieldValue("parameter",[{ parameterName: '', minVal: '', maxVal: '', unit: '' }])
+                     formik.setFieldValue("parameters",[])
                     return result.msg
                 },
           error: err => <b>{err.msg}</b>
@@ -95,22 +95,6 @@ const AddProduct = () => {
       <div className="product-name-container">
         <h3 className="product-name">Product name</h3>
 
-        <Select
-          className='selectopts'
-          placeholder="Select Product"
-          options={productnames}
-          value={{
-            value: formik.values.productName,
-            label: formik.values.productName === '' ? 'Enter Product Name' : formik.values.productName
-          }}
-          onChange={(selectedOption) =>
-            formik.setFieldValue('productName', selectedOption.value)
-          }
-          name="productName"
-          isSearchable={true}
-          noOptionsMessage={() => "Name not found add in the input box below"}
-        />
-
         <input
           className="product-input"
           type="text"
@@ -131,93 +115,97 @@ const AddProduct = () => {
         <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
 
-      <table striped responsive hover className="product-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Max</th>
-            <th>Min</th>
-            <th>Unit</th>
-            <th>Press to delete row</th>
-          </tr>
-        </thead>
-        <tbody>
-          {formik.values.parameters.map((parameter, index) => (
-            <tr key={index} className={index % 2 === 0 ? 'light-red-row' : 'red-row'}>
-              <td>{index + 1}</td>
-              <td>
-                <input
-                  type="text"
-                  value={parameter.parameterName}
-                  onChange={(e) =>
-                    handleParameterChange(index, 'parameterName', e.target.value)
-                  }
-                  name={`parameters[${index}].parameterName`}
-                />
-                {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.parameterName && (
-                  <Alert variant="danger" className="error-message">
-                    {formik.errors.parameters[index].parameterName}
-                  </Alert>
-                )}
-              </td>
-              <td>
-                <input
-                  type="number"
-                  value={parameter.maxVal}
-                  onChange={(e) =>
-                    handleParameterChange(index, 'maxVal', e.target.value)
-                  }
-                  name={`parameters[${index}].maxVal`}
-                />
-                {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.maxVal && (
-                  <Alert variant="danger" className="error-message">
-                    {formik.errors.parameters[index].maxVal}
-                  </Alert>
-                )}
-              </td>
-              <td>
-                <input
-                  type="number"
-                  value={parameter.minVal}
-                  onChange={(e) =>
-                    handleParameterChange(index, 'minVal', e.target.value)
-                  }
-                  name={`parameters[${index}].minVal`}
-                />
-                {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.minVal && (
-                  <Alert variant="danger" className="error-message">
-                    {formik.errors.parameters[index].minVal}
-                  </Alert>
-                )}
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={parameter.unit}
-                  onChange={(e) =>
-                    handleParameterChange(index, 'unit', e.target.value)
-                  }
-                  name={`parameters[${index}].unit`}
-                />
-                {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.unit && (
-                  <Alert variant="danger" className="error-message">
-                    {formik.errors.parameters[index].unit}
-                  </Alert>
-                )}
-              </td>
-              <td>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteRow(index)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      { formik.values.parameters.length>0 ? 
+            <table striped responsive hover className="product-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Max</th>
+                <th>Min</th>
+                <th>Unit</th>
+                <th>Press to delete row</th>
+              </tr>
+            </thead>
+              <tbody>
+                {formik.values.parameters.map((parameter, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'light-red-row' : 'red-row'}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={parameter.parameterName}
+                        onChange={(e) =>
+                          handleParameterChange(index, 'parameterName', e.target.value)
+                        }
+                        name={`parameters[${index}].parameterName`}
+                      />
+                      {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.parameterName && (
+                        <Alert variant="danger" className="error-message">
+                          {formik.errors.parameters[index].parameterName}
+                        </Alert>
+                      )}
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={parameter.maxVal}
+                        onChange={(e) =>
+                          handleParameterChange(index, 'maxVal', e.target.value)
+                        }
+                        name={`parameters[${index}].maxVal`}
+                      />
+                      {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.maxVal && (
+                        <Alert variant="danger" className="error-message">
+                          {formik.errors.parameters[index].maxVal}
+                        </Alert>
+                      )}
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={parameter.minVal}
+                        onChange={(e) =>
+                          handleParameterChange(index, 'minVal', e.target.value)
+                        }
+                        name={`parameters[${index}].minVal`}
+                      />
+                      {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.minVal && (
+                        <Alert variant="danger" className="error-message">
+                          {formik.errors.parameters[index].minVal}
+                        </Alert>
+                      )}
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={parameter.unit}
+                        onChange={(e) =>
+                          handleParameterChange(index, 'unit', e.target.value)
+                        }
+                        name={`parameters[${index}].unit`}
+                      />
+                      {formik.touched.parameters && formik.touched.parameters[index] && formik.errors.parameters?.[index]?.unit && (
+                        <Alert variant="danger" className="error-message">
+                          {formik.errors.parameters[index].unit}
+                        </Alert>
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDeleteRow(index)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+        : null
+      }
+      
     </div>
   );
 };
