@@ -8,27 +8,42 @@ import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
 import * as Yup from "yup";
+import moment from 'moment';
 
 function ShiftConfiguration() {
     const [shiftData,setShiftData] = useState([])
     const [showEditModal,setShowEditModal] = useState(false);
 
-    const shiftValidationSchema= Yup.object().shape({
-        shiftName:Yup.string().max(100,"too long").required("Required"),
-        startTime:Yup.string()
-        .matches(
-          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
-          'Please enter a valid time in HH:MM format'
-        )
-        .required('Time is required'),
-        endTime:Yup.string()
-        .matches(
-          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
-          'Please enter a valid time in HH:MM format'
-        )
-        .required('Time is required'),
-        
-    });
+    const shiftValidationSchema = Yup.object().shape({
+        shiftName: Yup.string().max(100, "Too long").required("Required"),
+        startTime: Yup.string()
+          .required("Start time is required")
+          .test(
+            "is-greater",
+            "End time should be greater than start time",
+            function (value) {
+              const { startTime, endTime } = this.parent;
+              if (startTime === endTime) {
+                return false; // Start and end times are equal, return false
+              }
+              return moment(value, "HH:mm").isSameOrAfter(moment(startTime, "HH:mm"));
+            }
+          ),
+        endTime: Yup.string()
+          .required("End time is required")
+          .test(
+            "is-greater",
+            "End time should be greater than start time",
+            function (value) {
+              const { startTime, endTime } = this.parent;
+              if (startTime === endTime) {
+                return false; // Start and end times are equal, return false
+              }
+              return moment(value, "HH:mm").isSameOrAfter(moment(startTime, "HH:mm"));
+            }
+          ),
+      });
+      
 
     const addFormFormik = useFormik({
         initialValues:{

@@ -5,6 +5,7 @@ import { registerUser } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from "../navbar";
 import * as Yup from "yup";
+import { Alert } from "react-bootstrap";
 
 function WorkerReg(){
   const today = new Date();
@@ -23,7 +24,12 @@ function WorkerReg(){
     password:Yup.string().required(),
     confirmPassword:Yup.string().required(),
     designation:Yup.string().required(),
-    mobileNo:Yup.string().required(),
+    mobileNo: Yup.string()
+    .required()
+    .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits")
+    .test("is-positive", "Mobile number must be positive", (value) => {
+      return parseInt(value) > 0;
+    }),
     accessGiven:Yup.string().required(),
     joiningDate: Yup.date()
     .required()
@@ -39,7 +45,7 @@ function WorkerReg(){
       password:"",
       confirmPassword:"",
       designation:"",
-      joiningDate:today.toISOString(), // Set the initial value to the current date
+      joiningDate:today.toISOString().substring(0, 10), // Set the initial value to the current date
       mobileNo:"",
       accessGiven: "000000000000000000"
     },
@@ -77,40 +83,40 @@ function WorkerReg(){
         <form className="workerreg">        
             <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
             { formik.errors.userName ? (
-          <div>{formik.errors.userName}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>
         ) : null}
             <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
             { formik.errors.firstName ? (
-          <div>{formik.errors.firstName}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.firstName}</Alert>
         ) : null}
             <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
             { formik.errors.lastName ? (
-          <div>{formik.errors.lastName}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.lastName}</Alert>
         ) : null}
             <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange}/>
             { formik.errors.nickName ? (
-          <div>{formik.errors.nickName}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.nickName}</Alert>
         ) : null}
-            <input type="number" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
+            <input type="text" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
             { formik.errors.mobileNo ? (
-          <div>{formik.errors.mobileNo}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.mobileNo}</Alert>
         ) : null}
             <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange}/>
             { formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.password}</Alert>
         ) : null}
             <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange}/>
             { formik.errors.confirmPassword ? (
-          <div>{formik.errors.confirmPassword}</div>
-        ) : null}
+          <Alert variant="danger" className="error-message">{formik.errors.confirmPasswor}</Alert>)
+           : null}
             <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange}/>
             { formik.errors.designation ? (
-          <div>{formik.errors.designation}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.designation}</Alert>
         ) : null}
             <label>Joining date:</label>
             <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
             { formik.errors.joiningDate ? (
-          <div>{formik.errors.joiningDate}</div>
+          <Alert variant="danger" className="error-message">{formik.errors.joiningDate}</Alert>
         ) : null}
             <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
         </form>

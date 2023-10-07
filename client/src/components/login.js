@@ -6,6 +6,7 @@ import { loginUser, getCurrentShift } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 const LoginPage = () => {
 
@@ -85,8 +86,9 @@ const LoginPage = () => {
               value={formik.values.userName}
               onChange={formik.handleChange}
             />
+            {formik.touched.userName && formik.errors.userName?(<Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>):null}
           </div>
-          {formik.errors.userName && formik.errors.userName}
+          
           <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
@@ -99,7 +101,7 @@ const LoginPage = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
-          {formik.errors.password && formik.errors.password}
+          {formik.touched.password && formik.errors.password?(<Alert variant="danger" className="error-message">{formik.errors.password}</Alert>):null}
           </div>
 
           <div className="col-12">
