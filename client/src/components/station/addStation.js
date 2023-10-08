@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Form, Modal,Table } from 'react-bootstrap';
+import { Button, Form, Modal,Table,Alert } from 'react-bootstrap';
 import './addStation.css'
 import { useState } from "react";
 import { useFormik } from "formik";
@@ -8,13 +8,25 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import WindalsNav from "../navbar";
+import * as Yup from "yup";
 import Footer from '../footer';
+
 
 function AddStation() {
     const [productNames,setProductNames] = useState([]);
     const [productParameters,setProductParameters] = useState([]);
     const [stationData,setStationData] = useState([])
     const [showEditModal,setShowEditModal] = useState(false);
+
+    const stationValidationSchema= Yup.object().shape({
+        stationName:Yup.string().required("Required"),
+        productName:Yup.string().required("Required"),
+        reportType:Yup.string().required("Required"),
+        stationParameter:Yup.array().min(1, "At least one option must be selected").required("Required"),
+        cycleTime:Yup.number().min(0,"Value cannot be negative").required("Required"),
+        dailyCount:Yup.number().min(0,"Value cannot be negative").required("Required"),
+        productPerHour:Yup.number().min(0,"Value cannot be negative").required("Required")
+    })
     
     const addFormFormik = useFormik({
         initialValues:{
@@ -26,6 +38,7 @@ function AddStation() {
             dailyCount:'',
             productPerHour: ''
         },
+        validationSchema:stationValidationSchema,
         onSubmit: async (values) => {
             const addStationPromise = addStation(values)
             toast.promise(
@@ -42,16 +55,22 @@ function AddStation() {
         }
     })
 
+    const searchValidationSchema= Yup.object().shape({
+        stationName:Yup.string().required("Required"),
+        productName:Yup.string().required("Required")
+    })
     const searchFormFormik = useFormik({
         initialValues:{
             stationName:"",
             productName:"",
         },
+        validationSchema:searchValidationSchema,
         onSubmit: (values) => {
             handleSearch()
         }
     })
 
+    
     const editFormFormik = useFormik({
         initialValues:{
             stationId:'',
@@ -63,6 +82,7 @@ function AddStation() {
             dailyCount:'',
             productPerHour: ''
         },
+        validationSchema:stationValidationSchema,
         onSubmit: async (values) => {
             const updateStationPromise = updateStation(values)
             toast.promise(
@@ -221,8 +241,11 @@ function AddStation() {
                         <div className="station-name-id">
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Enter Station Name" value={addFormFormik.values.stationName} name="stationName" onChange={addFormFormik.handleChange} />
+                                { addFormFormik.errors.stationName ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.stationName}</Alert>) : null}
                             </Form.Group>
 
+                            <Form.Group>
                             <Form.Select className="mb-3 select-param" aria-label="Default select example" value={addFormFormik.values.productName} name="productName" onChange={addFormFormik.handleChange}>
                                 <option values="">--Select Product--</option>
                                 {
@@ -231,7 +254,9 @@ function AddStation() {
                                     ))
                                 }
                             </Form.Select>
-
+                            { addFormFormik.errors.productName ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.productName}</Alert>) : null}
+                            </Form.Group>
                             {/* <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Control type="text" placeholder="Work" onChange={(event) => { setWork(event.target.value) }} />
                                     <Form.Text className="text-muted">
@@ -240,14 +265,20 @@ function AddStation() {
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="number" placeholder="Enter Cycle Time" value={addFormFormik.values.cycleTime} name="cycleTime" onChange={addFormFormik.handleChange} />
+                                { addFormFormik.errors.cycleTime ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.cycleTime}</Alert>) : null}
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="number" placeholder="Enter Daily Count " value={addFormFormik.values.dailyCount} name="dailyCount" onChange={addFormFormik.handleChange} />
+                                { addFormFormik.errors.dailyCount ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.dailyCount}</Alert>) : null}
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="number" placeholder="Enter Product to be producted per hour" value={addFormFormik.values.productPerHour} name="productPerHour" onChange={addFormFormik.handleChange} />
+                                { addFormFormik.errors.productPerHour ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.productPerHour}</Alert>) : null}
                             </Form.Group>
 
                             <Form.Select className="mb-3 select-param" aria-label="Default select example" value={addFormFormik.values.reportType} name="reportType" onChange={addFormFormik.handleChange}>
@@ -255,7 +286,8 @@ function AddStation() {
                                 <option value="0">Okay/Not okay</option>
                                 <option value="1">Parameters</option>
                             </Form.Select>
-
+                            { addFormFormik.errors.reportType ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.reportType}</Alert>) : null}
                             {
                                 addFormFormik.values.reportType === "1" && 
                                 <Form>
@@ -270,6 +302,8 @@ function AddStation() {
                                             />
                                             {parameter}
                                         </label>
+                                        { addFormFormik.errors.stationParameter ? (
+                                <Alert variant="danger" className="error-message">{addFormFormik.errors.stationParameter}</Alert>) : null}
                                         </div>
                                     ))}
                                 </Form>
@@ -287,10 +321,14 @@ function AddStation() {
                     <Form>
                         <Form.Group className="mb-3" aria-label="formBasicEmail">
                             <Form.Control type="text" placeholder="Enter Station Name" value={searchFormFormik.values.stationName} name="stationName" onChange={searchFormFormik.handleChange}/>
+                            { searchFormFormik.errors.stationName ? (
+                                <Alert variant="danger" className="error-message">{searchFormFormik.errors.stationName}</Alert>) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3" aria-label="formBasicEmail">
                             <Form.Control type="text" placeholder="Enter Product Name" value={searchFormFormik.values.productName} name="productName" onChange={searchFormFormik.handleChange}/>
+                            { searchFormFormik.errors.productName ? (
+                                <Alert variant="danger" className="error-message">{searchFormFormik.errors.productName}</Alert>) : null}
                         </Form.Group>
                     </Form>
                     <Button variant="danger" className="search-station-button" onClick={searchFormFormik.handleSubmit}>Search</Button>
@@ -390,16 +428,22 @@ function AddStation() {
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <label>Cycle Time</label>
                             <Form.Control type="number" placeholder="Enter Cycle Time" value={editFormFormik.values.cycleTime} name="cycleTime" onChange={editFormFormik.handleChange} />
+                            { addFormFormik.errors.cycleTime ? (
+                                <div>{addFormFormik.errors.cycleTime}</div>) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <label>Daily Count</label>
                             <Form.Control type="number" placeholder="Enter Daily Count " value={editFormFormik.values.dailyCount} name="dailyCount" onChange={editFormFormik.handleChange} />
+                            { addFormFormik.errors.dailyCount ? (
+                                <div>{addFormFormik.errors.dailyCount}</div>) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <label>Product per hour</label>
                             <Form.Control type="number" placeholder="Enter Product to be producted per hour" value={editFormFormik.values.productPerHour} name="productPerHour" onChange={editFormFormik.handleChange} />
+                            { addFormFormik.errors.productPerHour ? (
+                                <div>{addFormFormik.errors.productPerHour}</div>) : null}
                         </Form.Group>
                         
                         <label>Report Type</label>
@@ -423,6 +467,8 @@ function AddStation() {
                                             />
                                             {parameter}
                                         </label>
+                                        { addFormFormik.errors.stationParameter ? (
+                                <div>{addFormFormik.errors.stationParameter}</div>) : null}
                                         </div>
                                     ))}
                                 </div>

@@ -15,8 +15,39 @@ import {getProductNames} from "../../helper/helper";
 function AddProduct() {
 
     const validationSchema = Yup.object().shape({
-        productName: Yup.string().required('Product name is required')
-    })
+
+        productName:Yup.string().required('Product name is required'),
+        newParameters:Yup.array().of(
+            Yup.object().shape({
+              parameterName: Yup.string()
+                .required('Name is required')
+                .matches(/^[A-Za-z]+$/, 'Parameter name should contain only letters'),
+              minVal: Yup.number()
+                .required('Min value is required')
+                .typeError('Min value must be a number')
+                .lessThan(Yup.ref('maxVal'), 'Min value should be less than max value'),
+              maxVal: Yup.number()
+                .required('Max value is required')
+                .typeError('Max value must be a number'),
+              unit: Yup.string().required('Unit is required')
+            })
+        ),
+        existingParameters:Yup.array().of(
+            Yup.object().shape({
+              
+              minVal: Yup.number()
+                .required('Min value is required')
+                .typeError('Min value must be a number')
+                .lessThan(Yup.ref('maxVal'), 'Min value should be less than max value'),
+              maxVal: Yup.number()
+                .required('Max value is required')
+                .typeError('Max value must be a number'),
+              unit: Yup.string().required('Unit is required')
+            })
+        )
+});
+    const navigate = useNavigate()
+
 
     const formik = useFormik({
         initialValues: {
@@ -28,21 +59,23 @@ function AddProduct() {
         onSubmit: async (values) => {
             const updateProductsPromise = updateProducts(values.productName, values.existingParameters)
             toast.promise(
-                updateProductsPromise,
-                {
-                    loading: 'Updating data',
-                    success: result => {
-                        if (values.newParameters.length > 0) {
-                            const addValues = { productName: values.productName, parameters: values.newParameters }
-                            const addProductPromise = addProduct(addValues);
-                            toast.promise(
-                                addProductPromise,
-                                {
-                                    loading: 'Adding New parameters',
-                                    success: addResult => {
-                                        formik.setFieldValue('newParameters', [])
-                                        return addResult.msg
-                                    }
+
+                    updateProductsPromise,
+                    {
+                        loading: 'Updating data',
+                        success: result => {
+                            if(values.newParameters.length>0){
+                                const addValues = {productName: values.productName,newParameters:values.newParameters}
+                                const addProductPromise = addProduct(addValues);
+                                toast.promise(
+                                    addProductPromise,
+                                    {
+                                        loading: 'Adding New newParameters',
+                                        success: addResult => {
+                                            formik.setFieldValue('newParameters',[])
+                                            return addResult.msg
+                                        }
+
                                 }
                             )
                         }
@@ -50,7 +83,12 @@ function AddProduct() {
                         formik.setFieldValue('existingParameters', [])
                         return result.msg
                     },
-                    error: err => { return err.msg }
+                    error: err => { 
+                      <b>err.msg</b>
+                      if(err.redirectUrl){
+                        navigate(err.redirectUrl)
+                      } 
+                    }
                 }
             )
         }
@@ -77,8 +115,10 @@ function AddProduct() {
 
     const handleSearch = () => {
         const getAllProductParameterPromise = getOneProductAllParameters(formik.values.productName)
+
         getAllProductParameterPromise.then((result) => {
             const parameters = result.map((parameter) => {
+
                 return {
                     id: parameter.id,
                     parameterName: parameter.parameter,
@@ -87,8 +127,10 @@ function AddProduct() {
                     unit: parameter.unit
                 }
             })
-            formik.setFieldValue('existingParameters', parameters)
-        }).catch((err) => {
+
+            formik.setFieldValue('existingParameters',newParameters)
+        }).catch((err)=>{
+
             toast.error(err.msg)
         })
     }
@@ -193,49 +235,66 @@ function AddProduct() {
                     </tr>
                 </thead>
 
-                    <tbody>
-                        {Array.isArray(formik.values.existingParameters) && formik.values.existingParameters.map((parameter, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>
-                                    {parameter.parameterName}
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={parameter.maxVal}
-                                        onChange={(e) => handleExistingParameterChange(index, 'maxVal', e.target.value)}
-                                        name={`existingParameters[${index}].maxVal`}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={parameter.minVal}
-                                        onChange={(e) => handleExistingParameterChange(index, 'minVal', e.target.value)}
-                                        name={`existingParameters[${index}].minVal`}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={parameter.unit}
-                                        onChange={(e) => handleExistingParameterChange(index, 'unit', e.target.value)}
-                                        name={`existingParameters[${index}].unit`}
-                                    />
-                                </td>
-                                <td>
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => handleExistingParametersDeleteRow(index, parameter.id)}
-                                    >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <tbody>
+                    {Array.isArray(formik.values.existingParameters) && formik.values.existingParameters.map((parameter, index) => (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                                {parameter.parameterName}
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    value={parameter.maxVal}
+                                    onChange={(e) => handleExistingParameterChange(index, 'maxVal', e.target.value)}
+                                    name={`existingParameters[${index}].maxVal`}
+                                />
+                                {formik.touched.existingParameters && formik.touched.existingParameters[index] && formik.errors.existingParameters?.[index]?.maxVal && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.existingParameters[index].maxVal}
+                  </Alert>
+                )}
+                                
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    value={parameter.minVal}
+                                    onChange={(e) => handleExistingParameterChange(index, 'minVal', e.target.value)}
+                                    name={`existingParameters[${index}].minVal`}
+                                />
+                                {formik.touched.existingParameters && formik.touched.existingParameters[index] && formik.errors.existingParameters?.[index]?.minVal && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.existingParameters[index].minVal}
+                  </Alert>
+                )}
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={parameter.unit}
+                                    onChange={(e) => handleExistingParameterChange(index, 'unit', e.target.value)}
+                                    name={`existingParameters[${index}].unit`}
+                                />
+                                {formik.touched.existingParameters && formik.touched.existingParameters[index] && formik.errors.existingParameters?.[index]?.unit && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.existingParameters[index].unit}
+                  </Alert>
+                )}
+                            </td>
+                            <td>
+                                <button
+                                className="delete-button"
+                                onClick={() => handleExistingParametersDeleteRow(index,parameter.id)}
+                                >
+                                <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
 
 
             <p style={{ textAlign: 'center', fontWeight:'bold' }}>
@@ -258,14 +317,21 @@ function AddProduct() {
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
-                                <input
-                                    type="text"
-                                    value={parameter.parameterName}
-                                    onChange={(e) =>
-                                        handleNewParameterChange(index, 'parameterName', e.target.value)
-                                    }
-                                    name={`newParameters[${index}].parameterName`}
-                                />
+
+                            <input
+                                type="text"
+                                value={parameter.parameterName}
+                                onChange={(e) =>
+                                    handleNewParameterChange(index, 'parameterName', e.target.value)
+                                }
+                                name={`newParameters[${index}].parameterName`}
+                            />
+                            {formik.touched.newParameters && formik.touched.newParameters[index] && formik.errors.newParameters?.[index]?.parameterName && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.newParameters[index].parameterName}
+                  </Alert>
+                )}
+
                             </td>
                             <td>
                                 <input
@@ -274,6 +340,11 @@ function AddProduct() {
                                     onChange={(e) => handleNewParameterChange(index, 'maxVal', e.target.value)}
                                     name={`newParameters[${index}].maxVal`}
                                 />
+                                {formik.touched.newParameters && formik.touched.newParameters[index] && formik.errors.newParameters?.[index]?.maxVal && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.newParameters[index].maxVal}
+                  </Alert>
+                )}
                             </td>
                             <td>
                                 <input
@@ -282,6 +353,11 @@ function AddProduct() {
                                     onChange={(e) => handleNewParameterChange(index, 'minVal', e.target.value)}
                                     name={`newParameters[${index}].minVal`}
                                 />
+                                {formik.touched.newParameters && formik.touched.newParameters[index] && formik.errors.newParameters?.[index]?.minVal && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.newParameters[index].minVal}
+                  </Alert>
+                )}
                             </td>
                             <td>
                                 <input
@@ -290,6 +366,11 @@ function AddProduct() {
                                     onChange={(e) => handleNewParameterChange(index, 'unit', e.target.value)}
                                     name={`newParameters[${index}].unit`}
                                 />
+                                {formik.touched.newParameters && formik.touched.newParameters[index] && formik.errors.newParameters?.[index]?.unit && (
+                  <Alert variant="danger" className="error-message">
+                    {formik.errors.newParameters[index].unit}
+                  </Alert>
+                )}
                             </td>
                             <td>
                                 <button

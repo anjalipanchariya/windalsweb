@@ -5,16 +5,35 @@ import { getProductNames, getOneProductStationNames,configureNextStation } from 
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from "formik";
 import WindalsNav from "../navbar";
+import * as Yup from 'yup';
+import { Alert } from "react-bootstrap";
 import Footer from '../footer';
 
+
 function NextStationAllocation() {
+    let shouldSubmit = true;
+
+    // const [condition,setCondition] = useState(false);
+    const nextStationAllocationSchema=Yup.object().shape({
+        productName:Yup.object().required("Required")
+
+
+    })
     const formik = useFormik({
         initialValues: {
             productName: "",
             nextStationAllocation: [] // Initialize as an empty array of objects
         },
+        validationSchema: nextStationAllocationSchema,
         onSubmit: (values) => {
             console.log(values);
+            values.nextStationAllocation.map((value)=>{
+                if(value.nextStation==-1){
+                    alert("Few fields are not filled")
+                    shouldSubmit=false;
+                }
+            })
+            if (shouldSubmit) {
             const configureNextStationPromise = configureNextStation(values)
             toast.promise(configureNextStationPromise,{
                 loading: "Saving configuration",
@@ -24,6 +43,7 @@ function NextStationAllocation() {
                 error:(err) => err.msg
 
             })
+        }
         }
     });
 
@@ -42,6 +62,7 @@ function NextStationAllocation() {
 
     useEffect(() => {
         if (formik.values.productName !== "") {
+
             const getStationNamesPromise = getOneProductStationNames(formik.values.productName);
             getStationNamesPromise.then((result) => {
                 if (result.length <= 0) {
@@ -51,7 +72,7 @@ function NextStationAllocation() {
                 // Initialize nextStationAllocation based on stationNames
                 const nextStationAllocation = stationNames.map((stationName) => ({
                     currentStation: stationName,
-                    nextStation: null // Initialize as null
+                    nextStation: -1 // Initialize as null
                 }));
                 setNextStationAllocation(nextStationAllocation);
                 formik.setFieldValue("nextStationAllocation", nextStationAllocation); // Update formik value
@@ -61,6 +82,7 @@ function NextStationAllocation() {
         }
     }, [formik.values.productName]);
 
+    console.log({formik:formik.values});
     return (
         <>
         <div className="product-select">
@@ -76,6 +98,9 @@ function NextStationAllocation() {
                     onChange={(data) => formik.setFieldValue("productName", data)}
                     isSearchable={true}
                 />
+                 { formik.errors.productName ? (
+          <Alert variant="danger" className="error-message">{formik.errors.productName}</Alert>
+        ) : null}
             </div>
             {formik.values.productName !== "" && (
                 <div className="stattable" style={{ marginTop: 30 }}>
