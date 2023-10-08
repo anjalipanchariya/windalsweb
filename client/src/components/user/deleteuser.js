@@ -190,29 +190,143 @@ function DeleteUser() {
         </div>
         </div>
 
+        <br />
+
         {
             formik.values.userName!=="" && 
-            <div className='table-container' style={{width:80}}>
+            <div className='delusertable' >
             <table>
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Nick Name</th>
-                  <th>Mobile Number</th>
-                  <th>Designation</th>
-                  <th>Joining Date</th>
-                  <th>Access Given</th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-
-                </tr>
-              </thead>
-           
+            
               <tbody>
                 <tr>
+                  <th>User Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.userName && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.userName}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>First Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.firstName && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.firstName}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Last Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.lastName && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.lastName}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Nick Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.nickName && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.nickName}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Mobile Number</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.mobileNo && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.mobileNo}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Designation</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.designation} name="designation" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.designation && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.designation}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Joining Date</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="text" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
+                    </Form.Group>
+                    {
+                      formik.errors.joiningDate && (
+                        <Alert variant="danger" className="paramererName-error-message">
+                          {formik.errors.joiningDate}
+                        </Alert>
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Access Given</th>
+                  <td>{
+                        accessOptions.map((option, index) => (
+                          <div key={option}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                checked={accessGiven[index]}
+                                onChange={() => handleAccessOptionCheck(index)}
+                              />
+                              {option}
+                            </label>
+                          </div>
+                        ))
+                      }</td>
+                </tr>
+                <tr>
+                  <th>Edit</th>
+                  <td><button className="delete-button" onClick={formik.handleSubmit} >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button></td>
+                </tr>
+                <tr>
+                  <th>Delete</th>
+                  <td><button className="delete-button" onClick={()=>{handleEmployeeDelete()}}>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button></td>
+                </tr>
+                <tr>
+                  <th>Reset Password</th>
+                  <td><button type='button' className="reset-button" onClick={()=>{
+                        setResetPasswordData((prevData)=>{
+                          return {
+                            ...prevData,
+                            userName:formik.values.userName
+                          }
+                        })
+                        openResetPasswordModal()
+                      }}>
+                        Reset-Password
+                      </button></td>
+                </tr>
+                {/* <tr>
+                
                     <td>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
@@ -341,7 +455,7 @@ function DeleteUser() {
                       </button>
                     </td>    
 
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             </div>
