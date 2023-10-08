@@ -79,7 +79,7 @@ function WorkerReg(){
   
   return(
 
-        <>
+        <div>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
         <WindalsNav/>
         <h1 className="heading">Worker Registration</h1>
@@ -170,10 +170,10 @@ function WorkerReg(){
             ))}
           </div>
         </div>
-      </div>
+      
       <br />
       <Footer />
-    </>
+    </div>
     )}
 
 export default  WorkerReg;

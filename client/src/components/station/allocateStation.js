@@ -186,7 +186,7 @@ function StationAllocation() {
     console.log({ allocatedData: allocatedData });
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
-        <>
+        <div>
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
@@ -319,9 +319,9 @@ function StationAllocation() {
             </Table>
             <br />
             
-        </div>
+        
         <Footer />
-        </>
+        </div>
     );
 }
 
