@@ -62,16 +62,17 @@ const LoginPage = () => {
   useEffect(()=>{
     const getCurrentShiftPromise = getCurrentShift()
     getCurrentShiftPromise.then((result)=>{
-      console.log(result);
-      formik.setFieldValue("shift",result)
+      console.log(result.shift_id);
+      formik.setFieldValue("shift",result.shift_id)
     }).catch((err)=>{
       toast.error(err.msg)
     })
   },[])
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <div>
       <div className="col-md-6 bg-light-grey">
         <form className="row g-3" onSubmit={formik.handleSubmit}>
           <div className="col-12">
@@ -111,6 +112,7 @@ const LoginPage = () => {
           </div>
 
         </form>
+      </div>
       </div>
     </div>
   );

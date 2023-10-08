@@ -52,7 +52,7 @@ async function updateShiftConfig(req,res){
         startTime,
         endTime,
         active,shiftId} = req.body
-        console.log(req.body);
+        // console.log(req.body);
         try {
             const selectQuery = "SELECT shift_id FROM shift_config WHERE shift_id=?"
             const [selectResult] = await db.promise().query(selectQuery,[shiftId])
@@ -106,7 +106,6 @@ async function getCurrentShift(req,res) {
     try {
         const selectQuery = "SELECT shift_id FROM shift_config WHERE active = 1 AND CURTIME() BETWEEN start_time AND end_time"
         const [selectResult] = await db.promise().query(selectQuery)
-        console.log(selectResult);
         if(selectResult.length == 0)
         {
             return res.status(409).send({msg:"There are no active shifts."})

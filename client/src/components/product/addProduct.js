@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table, Button, Alert } from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {  Button, Alert } from 'react-bootstrap';
 import './addProduct.css';
 import { addProduct } from '../../helper/helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import WindalsNav from '../navbar';
 import * as Yup from 'yup';
+import Select from 'react-select'
+import { getProductNames } from "../../helper/helper";
+import Table from '../table'
 
 const AddProduct = () => {
   const validationSchema = Yup.object().shape({
@@ -32,7 +35,7 @@ const AddProduct = () => {
   const formik = useFormik({
     initialValues: {
       productName: '',
-      parameters: [{ parameterName: '', minVal: '', maxVal: '', unit: '' }],
+      parameters: [],
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -43,7 +46,7 @@ const AddProduct = () => {
           loading: 'Uploading data', // This should be a plain string
           success:  result => {
                      formik.resetForm();
-                     formik.setFieldValue("parameter",[{ parameterName: '', minVal: '', maxVal: '', unit: '' }])
+                     formik.setFieldValue("parameters",[])
                     return result.msg
                 },
           error: err => <b>{err.msg}</b>
@@ -72,13 +75,26 @@ const AddProduct = () => {
     formik.setFieldValue('parameters', updatedParameters);
   };
 
+//anjali code
+  const [productnames, setproductnames] = useState([]);
+  useEffect(() => {
+    const getProductNamesPromise = getProductNames()
+    const arr = [];
+    getProductNamesPromise.then(async (result) => {
+      const productnames = await result.map((product) => {
+        return arr.push({ value: product.product_name, label: product.product_name })
+      })
+      setproductnames(arr)
+    }).catch((err) => { })
+  }, [])
   return (
     <div className="productadd">
       <WindalsNav />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
       <div className="product-name-container">
-        <h3 className="product-name">Product name:</h3>
+        <h3 className="product-name">Product name</h3>
+
         <input
           className="product-input"
           type="text"
@@ -92,14 +108,16 @@ const AddProduct = () => {
             {formik.errors.productName}
           </Alert>
         )}
-      </div>
+      
 
       <div className="parameter-buttons">
         <Button className="add-parameter-button" onClick={addRow}>Add parameter</Button>
         <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
+      
 
-      <Table striped responsive hover className="product-table">
+    { formik.values.parameters.length>0 ? 
+      <table className="product-table">
         <thead>
           <tr>
             <th>#</th>
@@ -107,7 +125,7 @@ const AddProduct = () => {
             <th>Max</th>
             <th>Min</th>
             <th>Unit</th>
-            <th>Press to delete row</th>
+            <th>Delete row</th>
           </tr>
         </thead>
         <tbody>
@@ -185,7 +203,10 @@ const AddProduct = () => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
+       : null
+      }
+      </div>
     </div>
   );
 };

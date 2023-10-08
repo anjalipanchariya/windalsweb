@@ -7,6 +7,8 @@ import { useFormik } from "formik";
 import WindalsNav from "../navbar";
 import * as Yup from 'yup';
 import { Alert } from "react-bootstrap";
+import Footer from '../footer';
+
 
 function NextStationAllocation() {
     let shouldSubmit = true;
@@ -83,7 +85,10 @@ function NextStationAllocation() {
     console.log({formik:formik.values});
     return (
         <>
-            <div className="product-select">
+        <div className="product-select">
+
+        
+            <div >
                 <Toaster position="top-center" reverseOrder={false}></Toaster>
                 <WindalsNav/>
                 <Select
@@ -99,7 +104,7 @@ function NextStationAllocation() {
             </div>
             {formik.values.productName !== "" && (
                 <div className="stattable" style={{ marginTop: 30 }}>
-                    <table>
+                    <table className="table" style={{display:'block'}}>
                         <thead>
                             <tr>
                                 <th>Station</th>
@@ -141,7 +146,10 @@ function NextStationAllocation() {
                     </table>
                 </div>
             )}
+            <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
+            </div>
+            <Footer/>
         </>
     );
 }

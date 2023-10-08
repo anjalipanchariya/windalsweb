@@ -9,6 +9,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
 import * as Yup from "yup";
 import moment from 'moment';
+import Footer from '../footer';
+import './shiftConfiguration.css';
+
 
 function ShiftConfiguration() {
     const [shiftData,setShiftData] = useState([])
@@ -167,8 +170,10 @@ function ShiftConfiguration() {
     <div>
         <WindalsNav />
         <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <h1>Shift Configuration</h1>
-      <p>Add a new shift</p>
+        <div className="form-container">
+  <h1>Shift Configuration</h1>
+  <p>Add a new shift</p>
+
 
       <Form>
       <Form.Group className="mb-3" controlId="formBasicName">
@@ -192,26 +197,31 @@ function ShiftConfiguration() {
         ) : null}
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
+
+    <Form.Group className="mb-3" controlId="formBasicCheckbox">
       <div>
-        <label> Active </label>
-         <input
-         type="checkbox"
-         name="active"
-         checked={addFormFormik.values.active}
-         onChange={handleTickBoxChangeAdd}
+        <label>Active</label>
+        <input
+          type="checkbox"
+          name="active"
+          checked={addFormFormik.values.active}
+          onChange={handleTickBoxChangeAdd}
         />
-        </div>
-      </Form.Group>
-      <Button variant="primary" type="submit" onClick={addFormFormik.handleSubmit}>
-        Submit
-      </Button>
-    </Form>
+      </div>
+    </Form.Group>
+
+    <Button className="submit-button" variant="primary" type="submit" onClick={addFormFormik.handleSubmit}>
+  Submit
+</Button>
+  </Form>
+</div>
 
     <div>
     <Table striped responsive hover className='table'>
                 <thead>
-                    <tr>
+                </thead>
+                <tbody>
+                <tr>
                         <th>#</th>
                         <th>Shift Name</th>
                         <th>Start time</th>
@@ -220,8 +230,6 @@ function ShiftConfiguration() {
                         <th>edit</th>
                         <th>delete</th>
                     </tr>
-                </thead>
-                <tbody>
                 {
                 
                 Array.isArray(shiftData) && shiftData.map((shiftdata,index)=>(
@@ -320,6 +328,7 @@ function ShiftConfiguration() {
 
 
     </div>
+    <Footer/>
     </div>
   )
 }

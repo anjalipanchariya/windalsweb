@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './firstStation.css';
+import '../product/addProduct.css'
+import Footer from '../footer';
 import { getOneStation,createJobId,insertInStationyyyyFirst,insertInStationyyyyFirstNextStation,getWorkAtStationInDay,logout } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import WindalsNav from '../navbar';
+import Table from '../table'
 
 const FirstStation = () => {
     
@@ -45,7 +48,7 @@ const FirstStation = () => {
                     }).catch((insertInStationyyyyErr)=>{
                         toast.error(insertInStationyyyyErr.msg)
                     })
-                    formik.resetForm(); 
+                    formik.setFieldValue('job_name',"") 
                 }
             }).catch((createJobErr)=>{
                 toast.error(createJobErr.msg)
@@ -99,19 +102,21 @@ const FirstStation = () => {
     console.log({"stationOneProductInfo":stationOneProductInfo,"stationAllinfo":stationAllInfo});
     console.log({"workAtStationInDay":workAtStationInDay});
     return (
-        <div className="container text-center mt-4">
+        <div className="firststat">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav />
-            <button onClick={()=>{logout()}}>LOG OUT</button>
-            <h1>STATION NAME:{stationName}</h1>
-            <h1>EMPLOYEE ID: {employeeId}</h1>
-            <h1>USER NAME: {userName}</h1>
-            <h1 className="centered-text">First Station</h1>
+            {/* <button onClick={()=>{logout()}}>Log Out</button> */}
+            <h1>First Station</h1>
+            <div className='fslist'>
+            <h3>Station Name {stationName}</h3>
+            <h3>Employee ID {employeeId}</h3>
+            <h3>Username {userName}</h3>
+            </div>
+            <br />
             <div className="form-group">
-                <label htmlFor="job_nameInput">Enter the Job Name:</label>
+                <label style={{fontSize:'1.5rem'}} htmlFor="job_nameInput">Enter the Job Name:</label>
                 <input
                     type="text"
-                    className="form-control"
                     id="job_nameInput"
                     value={formik.values.job_name}
                     name="job_name"
@@ -119,9 +124,8 @@ const FirstStation = () => {
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="productSelect">Select a Product:</label>
+                <label style={{fontSize:'1.5rem'}} htmlFor="productSelect">Select a Product:</label>
                 <select
-                    className="form-control"
                     id="productSelect"
                     value={formik.values.product_name}
                     name="product_name"
@@ -134,36 +138,45 @@ const FirstStation = () => {
                         </option>
                     ))}
                 </select>
-            </div>
-            <button className="btn btn-danger" onClick={formik.handleSubmit}>
+                <br />
+                <br />
+                <button className="btn btn-danger" style={{width:200}} onClick={formik.handleSubmit}>
                 Add Product
             </button>
-            <div>
-                <h2>Jobs Submitted:</h2>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Job Name</th>
-                            <th>Status</th>
-                            <th>Reason</th>    
-                            <th>Parameter values</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
-                            <tr key={index}>
-                                <td>{job.product_name}</td>
-                                <td>{job.job_name}</td>
-                                <td>{job.status==1 ? "OK" : "Not-Ok"}</td>
-                                <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
-                                <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
             </div>
+            <br />
             
+            <br />
+          
+            { workAtStationInDay.length>0 ? 
+                <div>
+                    <h2>Jobs Submitted:</h2>
+                    <table className="product-table" style={{width:'100%'}}>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Job Name</th>
+                                <th>Status</th>
+                                <th>Reason</th>    
+                                <th>Parameter values</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.isArray(workAtStationInDay) && workAtStationInDay.map((job, index) => (
+                                <tr key={index}>
+                                    <td>{job.product_name}</td>
+                                    <td>{job.job_name}</td>
+                                    <td>{job.status==1 ? "OK" : "Not-Ok"}</td>
+                                    <td>{(job.reason!="" || job.reason!=null) ? job.reason : "N.A"}</td>
+                                    <td>{(job.parameters!="" || job.parameters!=null) ? job.parameters : "N.A"}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                : "null"}
+            
+            <Footer/>
         </div>
     );
 };

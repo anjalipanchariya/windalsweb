@@ -1,4 +1,5 @@
 import WindalsNav from '../navbar';
+import Footer from '../footer';
 import { Alert,Button,Form, Modal} from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,6 +10,7 @@ import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Prev } from 'react-bootstrap/esm/PageItem';
+import './deleteuser.css';
 
 function DeleteUser() {
   
@@ -160,10 +162,12 @@ function DeleteUser() {
   }
 
   return (
+    <>
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>
-      <Form style={{ margin: 30 }}>
+      <Form style={{ margin: '15vh' , alignItems:'center',textAlign:'center'}}>
+      <div className='username-not-table'  style={{ margin: 30 , alignItems:'center',textAlign:'center'}}>
         <h3 style={{ width: 500, textAlign: 'center' }}>Enter Username of the User to Delete</h3>
 
         <div className='form' style={{margin: "10px"}}>
@@ -184,9 +188,11 @@ function DeleteUser() {
             Search Worker
           </Button>
         </div>
+        </div>
 
         {
             formik.values.userName!=="" && 
+            <div className='table-container' style={{width:80}}>
             <table>
               <thead>
                 <tr>
@@ -198,6 +204,10 @@ function DeleteUser() {
                   <th>Designation</th>
                   <th>Joining Date</th>
                   <th>Access Given</th>
+                  <th> </th>
+                  <th> </th>
+                  <th> </th>
+
                 </tr>
               </thead>
            
@@ -318,7 +328,7 @@ function DeleteUser() {
                     </td>
 
                     <td>
-                      <button type='button' onClick={()=>{
+                      <button type='button' className="reset-button" onClick={()=>{
                         setResetPasswordData((prevData)=>{
                           return {
                             ...prevData,
@@ -334,6 +344,7 @@ function DeleteUser() {
                 </tr>
               </tbody>
             </table>
+            </div>
         }
       </Form>
     
@@ -373,6 +384,9 @@ function DeleteUser() {
         </Modal>
         
     </div>
+    <Footer/>
+    </>
+    
   );
 }
 

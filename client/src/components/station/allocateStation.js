@@ -7,6 +7,9 @@ import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
 import * as Yup from "yup";
+import Footer from '../footer';
+import './allocateStation.css';
+
 
 function StationAllocation() {
     const today = new Date();
@@ -17,15 +20,15 @@ function StationAllocation() {
     const [allocationStation, setAllocationStation] = useState([]);
     const [availableWorkerNames, setAvailableWorkerNames] = useState([]);
     const [selectedWorkers, setSelectedWorkers] = useState([]); // Maintain a list of selected workers
-    const [activeShiftNames,setActiveShiftNames] = useState([]);
-    const [allocatedData,setallocatedData] = useState([]);
-    
+    const [activeShiftNames, setActiveShiftNames] = useState([]);
+    const [allocatedData, setallocatedData] = useState([]);
+
     useEffect(() => {
         fetchStationsAndWorkers();
         const getActiveShiftNamesPromise = getActiveShiftNames()
-        getActiveShiftNamesPromise.then((result)=>{
+        getActiveShiftNamesPromise.then((result) => {
             setActiveShiftNames(result)
-        }).catch((err)=>{
+        }).catch((err) => {
             toast.error(err.msg)
         })
     }, []);
@@ -58,6 +61,7 @@ function StationAllocation() {
         }
     };
 
+
     const allocateStationSchema= Yup.object().shape({
     //     date: Yup.string()
     // .matches(
@@ -67,6 +71,18 @@ function StationAllocation() {
     date: Yup.date().required().min(today,"previous date not allowed"),
     shift:Yup.object().required("Required")
     })
+
+    function fetchData() {
+        try {
+            setAllocationStation(JSON.parse(localStorage.getItem('allocationdata'))['stationAllocations']);
+            formik.setFieldValue("stationAllocations", allocationStation);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+
+    }
+
+
     const formik = useFormik({
         initialValues: {
             date: today.toISOString().substring(0, 10),
@@ -83,6 +99,13 @@ function StationAllocation() {
             if (!isValid) {
                 toast.error("All stations must have at least one worker.");
             } else {
+                const tempdata = {
+                    date: values.date,
+                    shift: values.shift.value,
+                    stationAllocations: allocationStation
+                }
+                localStorage.setItem('allocationdata', JSON.stringify(tempdata));
+
                 // Map selected names to employee_ids when submitting the form
                 const stationAllocationsWithEmployeeIds = values.stationAllocations.map((allocation) => ({
                     station: allocation.station,
@@ -94,7 +117,7 @@ function StationAllocation() {
                     shift: values.shift,
                     stationAllocations: stationAllocationsWithEmployeeIds
                 });
-                 const addStationAllocationPromise = addStationAllocation({
+                const addStationAllocationPromise = addStationAllocation({
                     date: values.date,
                     shift: values.shift.value,
                     stationAllocations: stationAllocationsWithEmployeeIds,
@@ -106,7 +129,7 @@ function StationAllocation() {
                         formik.resetForm()
                         fetchStationsAndWorkers()
                         getStationAllocationData()
-                        formik.setFieldValue("stationAllocations",allocationStation)
+                        formik.setFieldValue("stationAllocations", allocationStation)
                         return result.msg
                     },
                     error: (err) => err.msg,
@@ -129,6 +152,15 @@ function StationAllocation() {
         filterAvailableWorkerNames();
     }
 
+    function handleRemove(selectedList, removedItem, stationIndex) {
+        console.log({ removedItem: removedItem, selectedList: selectedList });
+        // Update the selected names for a specific station
+        const updatedAllocation = [...formik.values.stationAllocations];
+        updatedAllocation[stationIndex].workers = selectedList;
+        formik.setFieldValue("stationAllocations", updatedAllocation);
+        filterAvailableWorkerNames();
+    }
+
     const filterAvailableWorkerNames = () => {
         // Combine the selected workers from all stations
         const allSelectedWorkers = formik.values.stationAllocations.flatMap((allocation) => allocation.workers);
@@ -140,22 +172,24 @@ function StationAllocation() {
         setAvailableWorkerNames(filteredAvailableWorkerNames);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getStationAllocationData()
-    },[])
+    }, [])
 
     const getStationAllocationData = () => {
         const getAllocatedPromise = getWorkerAllocation()
-        getAllocatedPromise.then(async(result)=>{
+        getAllocatedPromise.then(async (result) => {
             setallocatedData(result)
-        }).catch((err)=>{})
+        }).catch((err) => { })
     }
 
-    console.log({allocatedData:allocatedData});
+    console.log({ allocatedData: allocatedData });
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
+        <>
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+
             <WindalsNav/>
             <div>
                 <Form onSubmit={formik.handleSubmit}>
@@ -172,6 +206,7 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
+
                     <Form.Group controlId="shift">
                         <Form.Label>Shift:</Form.Label>
                         <Select
@@ -186,47 +221,61 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-                    <Button variant="danger" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-             </div>
 
-             <div className="table-container">
-                <Table striped responsive hover className="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Station</th>
-                            <th>Worker</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {formik.values.stationAllocations.map((allocation, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{allocation.station}</td>
-                                <td>
-                                    <Multiselect
-                                        isObject={false}
-                                        options={availableWorkerNames.map(
-                                            (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
-                                        )}
-                                        onSelect={(selectedList, selectedItem) =>
-                                            handleSelect(selectedList, selectedItem, index)
-                                        }
-                                        selectedValues={allocation.workers}
-                                        showCheckbox
-                                    />
-                                </td>
+                        <br />
+                        
+                        <Button variant="danger" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                    <Button onClick={fetchData}>
+                        Fetchdata
+                    </Button>
+                </div>
+                
+                <div>
+                    <table className="table">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>Station</th>
+                                <th>Worker</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                            {formik.values.stationAllocations.map((allocation, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{allocation.station}</td>
+                                    <td>
+                                        <Multiselect
+                                            isObject={false}
+                                            options={availableWorkerNames.map(
+                                                (worker) => `${worker.first_name} ${worker.last_name} ${worker.user_name}`
+                                            )}
+                                            onSelect={(selectedList, selectedItem) =>
+                                                handleSelect(selectedList, selectedItem, index)
+                                            }
+                                            onRemove={(selectedList, removedItem) =>
+                                                handleRemove(selectedList, removedItem, index)
+                                            }
+                                            selectedValues={allocation.workers}
+                                            showCheckbox
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <Table striped responsive hover className='table'>
                 <thead>
+
+                </thead>
+                <tbody>
                     <tr>
                         <th>#</th>
                         <th>Date</th>
@@ -236,41 +285,43 @@ function StationAllocation() {
                         <th>User Name</th>
                         <th>Shift Name</th>
                     </tr>
-                </thead>
-                <tbody>
-                {
-                
-                Array.isArray(allocatedData) && allocatedData.map((allocateddata,index)=>(
-                   <tr key={index}>
-                        <td>
-                            {index+1}
-                        </td>
-                        <td>
-                            {allocateddata.date}
-                        </td>
-                        <td>
-                            {allocateddata.station_name}
-                        </td>
-                        <td>
-                            {allocateddata.first_name}
-                        </td>
-                        <td>
-                            {allocateddata.last_name}
-                        </td>
-                        <td>
-                            {allocateddata.user_name}
-                        </td>
-                        <td>
-                            {allocateddata.shift_name}
-                        </td>
-                        
-                    </tr>
-                ))
-                }
+                    {
+
+                        Array.isArray(allocatedData) && allocatedData.map((allocateddata, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {index + 1}
+                                </td>
+                                <td>
+                                    {allocateddata.date}
+                                </td>
+                                <td>
+                                    {allocateddata.station_name}
+                                </td>
+                                <td>
+                                    {allocateddata.first_name}
+                                </td>
+                                <td>
+                                    {allocateddata.last_name}
+                                </td>
+                                <td>
+                                    {allocateddata.user_name}
+                                </td>
+                                <td>
+                                    {allocateddata.shift_name}
+                                </td>
+
+                            </tr>
+                        ))
+                    }
 
                 </tbody>
             </Table>
-    </div>
+            <br />
+            
+        </div>
+        <Footer />
+        </>
     );
 }
 

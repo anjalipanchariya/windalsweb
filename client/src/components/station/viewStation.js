@@ -3,6 +3,8 @@ import { getStations } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
 import WindalsNav from '../navbar';
+import Footer from '../footer';
+
 
 function ViewStation() {
   const [stations, setStations] = useState([]);
@@ -50,7 +52,11 @@ function ViewStation() {
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>
+      <div style={{marginTop:'15vh'}}>
       <Table columns={columns} data={stations} />
+      </div>
+      
+      <Footer/>
     </>
   );
 }

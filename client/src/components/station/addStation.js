@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import WindalsNav from "../navbar";
 import * as Yup from "yup";
+import Footer from '../footer';
+
 
 function AddStation() {
     const [productNames,setProductNames] = useState([]);
@@ -226,15 +228,16 @@ function AddStation() {
 
 
     return (
-        <div>
+        <div style={{marginTop:'20vh'}}>
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <div className="header-add-station">
+            {/* <div className="header-add-station">
                 <h2 className="add-station-header">Add Station</h2>
-            </div>
+            </div> */}
             <div className="add-station-container">
                 <div className="add-station-inputs">
                     <Form>
+                        <h3>Add Station</h3>
                         <div className="station-name-id">
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Enter Station Name" value={addFormFormik.values.stationName} name="stationName" onChange={addFormFormik.handleChange} />
@@ -314,6 +317,7 @@ function AddStation() {
                     </Form>
                 </div>
                 <div className="search-station-form">
+                <h4>Search station </h4>
                     <Form>
                         <Form.Group className="mb-3" aria-label="formBasicEmail">
                             <Form.Control type="text" placeholder="Enter Station Name" value={searchFormFormik.values.stationName} name="stationName" onChange={searchFormFormik.handleChange}/>
@@ -334,7 +338,11 @@ function AddStation() {
             <div>
             <Table striped responsive hover className='table'>
                 <thead>
-                    <tr>
+                   
+                </thead>
+                <tbody>
+                      
+                        <tr>
                         <th>#</th>
                         <th>Station Name</th>
                         <th>Product Name</th>
@@ -347,9 +355,7 @@ function AddStation() {
                         <th>Press to Edit</th>
                         <th>Press to delete row</th>
                     </tr>
-                </thead>
-                <tbody>
-                    {   
+                    { 
                         Array.isArray(stationData) && stationData.map((stationdata,index)=>(
                             
                             <tr key={index}>
@@ -484,9 +490,12 @@ function AddStation() {
         
         
         
-        
+            <Footer/>
         </div>
+       
     )
 }
 
 export default AddStation;
+
+
