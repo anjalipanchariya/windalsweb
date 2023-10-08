@@ -2,6 +2,7 @@
 .productadd {
   /* margin-top: 30px; */
   text-align: center;
+  margin-top: 20vh;
 }
 
 .product-name-container {
@@ -41,8 +42,9 @@
 .product-table {
   text-align: center;
   /* margin-left: 19vw; */
-  width: 100%;
-  margin-top: 20px;
+  width: 80%;
+  margin-top: 15px;
+  margin-bottom: 15px;
   border-collapse: collapse;
   justify-content: center;
   table-layout: auto;

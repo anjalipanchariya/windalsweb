@@ -6,6 +6,12 @@
  
 }
 
+.allocstat{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
   
   .input-box {
     width: 50%;
@@ -17,7 +23,8 @@
     border-radius: 5px;
     background-color: #f4f4f4;
     align-items: center;
-    margin-left: 22vw;
+    /* margin-left: 22vw; */
+    margin-top: 15vh;
   }
   
  
