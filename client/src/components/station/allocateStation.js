@@ -59,6 +59,15 @@ function StationAllocation() {
         }
     };
 
+    function fetchData() {
+        try {
+            setAllocationStation(JSON.parse(localStorage.getItem('allocationdata'))['stationAllocations']);
+            formik.setFieldValue("stationAllocations", allocationStation);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -75,6 +84,13 @@ function StationAllocation() {
             if (!isValid) {
                 toast.error("All stations must have at least one worker.");
             } else {
+                const tempdata = {
+                    date: values.date,
+                    shift: values.shift.value,
+                    stationAllocations: allocationStation
+                }
+                localStorage.setItem('allocationdata', JSON.stringify(tempdata));
+
                 // Map selected names to employee_ids when submitting the form
                 const stationAllocationsWithEmployeeIds = values.stationAllocations.map((allocation) => ({
                     station: allocation.station,
@@ -121,6 +137,15 @@ function StationAllocation() {
         filterAvailableWorkerNames();
     }
 
+    function handleRemove(selectedList, removedItem, stationIndex) {
+        console.log({ removedItem: removedItem, selectedList: selectedList });
+        // Update the selected names for a specific station
+        const updatedAllocation = [...formik.values.stationAllocations];
+        updatedAllocation[stationIndex].workers = selectedList;
+        formik.setFieldValue("stationAllocations", updatedAllocation);
+        filterAvailableWorkerNames();
+    }
+
     const filterAvailableWorkerNames = () => {
         // Combine the selected workers from all stations
         const allSelectedWorkers = formik.values.stationAllocations.flatMap((allocation) => allocation.workers);
@@ -152,7 +177,7 @@ function StationAllocation() {
             <WindalsNav />
             <div className="header-allocate-station">
                 <h2 className="allocate-station-header">Allocate Station</h2>
-            </div>
+
             <div className="allocstat">
                 <div className="input-box">
                     <Form onSubmit={formik.handleSubmit}>
@@ -170,6 +195,7 @@ function StationAllocation() {
                         </Form.Group>
 
 
+
                     <Form.Group controlId="shift">
                         <Form.Label>Shift:</Form.Label>
                         <Select
@@ -184,25 +210,16 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-                        <Form.Group controlId="shift">
-                            <Form.Label>Shift:</Form.Label>
-                            <Select
-                                options={activeShiftNames.map((shift) => ({ label: shift.shift_name, value: shift.shift_id }))}
-                                value={formik.values.shift}
-                                name="shift"
-                                onChange={(data) => formik.setFieldValue("shift", data)}
-                                isSearchable={true}
-                            />
-                            {formik.touched.shift && formik.errors.shift && (
-                                <div className="error">{formik.errors.shift}</div>
-                            )}
-                        </Form.Group>
+
                         <br />
                         
                         <Button variant="danger" type="submit">
                             Submit
                         </Button>
                     </Form>
+                    <Button onClick={fetchData}>
+                        Fetchdata
+                    </Button>
                 </div>
                 
                 <div>
@@ -229,6 +246,9 @@ function StationAllocation() {
                                             onSelect={(selectedList, selectedItem) =>
                                                 handleSelect(selectedList, selectedItem, index)
                                             }
+                                            onRemove={(selectedList, removedItem) =>
+                                                handleRemove(selectedList, removedItem, index)
+                                            }
                                             selectedValues={allocation.workers}
                                             showCheckbox
                                         />
@@ -242,10 +262,10 @@ function StationAllocation() {
 
             <Table striped responsive hover className='table'>
                 <thead>
+
                 </thead>
                 <tbody>
                     <tr>
-
                         <th>#</th>
                         <th>Date</th>
                         <th>Station</th>

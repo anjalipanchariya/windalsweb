@@ -236,9 +236,7 @@ function AddProduct() {
                         ))}
                     </tbody>
                 </table>
-               
-                
-    
+
 
             <p style={{ textAlign: 'center', fontWeight:'bold' }}>
                 New parameter
