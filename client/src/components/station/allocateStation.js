@@ -63,13 +63,17 @@ function StationAllocation() {
 
 
     const allocateStationSchema= Yup.object().shape({
-    //     date: Yup.string()
-    // .matches(
-    //   /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\d\d$/,
-    //   'Please enter a valid date in dd-mm-yyyy format'
-    // ),
-    date: Yup.date().required().min(today,"previous date not allowed"),
-    shift:Yup.object().required("Required")
+        date: Yup.string()
+        .test(
+          'is-present-or-future',
+          'Date must be in the present or future',
+          function (value) {
+            const currentDate = new Date().toISOString().substring(0, 10); // Get current date as a string in YYYY-MM-DD format
+            return !value || value >= currentDate;
+          }
+        )
+        .required('Date is required'),
+      shift: Yup.string().required('Shift is required'),
     })
 
     function fetchData() {
@@ -91,6 +95,7 @@ function StationAllocation() {
         },
         validationSchema: allocateStationSchema,
         onSubmit: (values) => {
+
             // Ensure that all stations have at least one worker
             const isValid = values.stationAllocations.every(
                 (allocation) => allocation.workers.length > 0
@@ -184,13 +189,15 @@ function StationAllocation() {
     }
 
     console.log({ allocatedData: allocatedData });
+    console.log({date:formik.values.date});
+
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <div>
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-            <WindalsNav/>
+            {/* <WindalsNav/> */}
             <div>
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group controlId="date">

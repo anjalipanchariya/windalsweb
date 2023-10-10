@@ -11,7 +11,7 @@ import { addProduct, getAllProducts, updateProducts, deleteProductParameter, get
 import WindalsNav from '../navbar';
 import Select from 'react-select';
 import {getProductNames} from "../../helper/helper";
-
+import { useNavigate } from 'react-router-dom';
 function AddProduct() {
 
     const validationSchema = Yup.object().shape({
@@ -117,7 +117,7 @@ function AddProduct() {
         const getAllProductParameterPromise = getOneProductAllParameters(formik.values.productName)
 
         getAllProductParameterPromise.then((result) => {
-            const parameters = result.map((parameter) => {
+            const newParameters = result.map((parameter) => {
 
                 return {
                     id: parameter.id,
