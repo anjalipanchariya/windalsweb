@@ -3,10 +3,18 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+    border: 2px solid black;
+    width: 50%;
+    background-color: #f7f7f7;
+    border-radius: 10px;
  }
  
  .adduser{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
      justify-content: center;
+     margin-top: 12vh;
      
  }
  .worklist{
@@ -30,7 +38,7 @@
  
  .heading{
      text-align: center;
-     margin-top: 15vh;
+     margin-top: 5vh;
  }
  .subbtn{
      margin-top: 18px;
@@ -48,11 +56,16 @@
  }
  
  .checkbox-groups {
-     margin-left: 30px;
-     margin-right: 20px;
-      
+     margin: 3vh;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: center;
+     margin-left: 54vh;
  }
+
+ 
    
-  
+
  
  
