@@ -58,4 +58,40 @@
     .reset-button:hover {
       background-color: #cc0000; 
     }
-    
+
+    .delusertable td{
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .delusertable {
+      margin: 0 auto;
+      width: 72%;
+      text-align: center;
+      align-items: center;
+      
+    }
+
+    .delete-button{
+      background-color: #d9534f; 
+      color: #fff;
+      border: none; 
+      padding: 10px 20px; 
+      cursor: pointer; 
+      border-radius: 5px; 
+      width: 50px;
+      margin-left: 9vw;
+    }
+
+    .reset-button {
+      background-color: #d9534f; 
+      color: #fff;
+      border: none; 
+      padding: 10px 20px; 
+      cursor: pointer; 
+      border-radius: 5px; 
+      width: 200px;
+      margin-left: 3.6vw;
+    }
+

@@ -197,8 +197,9 @@ function StationAllocation() {
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-            {/* <WindalsNav/> */}
-            <div>
+            <WindalsNav/>
+            <div className="allocstat">
+                <div className="input-box">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group controlId="date">
                         <Form.Label>Date:</Form.Label>
@@ -228,13 +229,14 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-
                         <br />
                         
                         <Button variant="danger" type="submit">
                             Submit
                         </Button>
                     </Form>
+                    </div>
+                    <br />
                     <Button onClick={fetchData}>
                         Fetchdata
                     </Button>
