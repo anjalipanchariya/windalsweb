@@ -8,8 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 152px;
-    
+    margin-left: 15px;
   }
 
   
@@ -50,12 +49,13 @@
   
   /* Filter section styles */
   .filter-section {
-    margin: 10px 0;
+    margin: 10px ;
   }
   
   .filter-section select,
   .filter-section input[type="text"] {
     padding: 5px;
+    margin: 20px;
     font-family: Arial, sans-serif; /* Use your preferred font here */
   }
   

@@ -72,12 +72,13 @@ const LoginPage = () => {
     <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
-      <div className="col-md-6 bg-light-grey">
-        <form className="row g-3" onSubmit={formik.handleSubmit}>
+      <div className="col-md-6 bg-light-grey d-flex flex-wrap align-items-center">
+        <form className="row g-3 " onSubmit={formik.handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
               Username
             </label>
+            
             <input
               type="text"
               className="form-control"
@@ -86,8 +87,9 @@ const LoginPage = () => {
               value={formik.values.userName}
               onChange={formik.handleChange}
             />
+            {formik.errors.userName && formik.errors.userName}
           </div>
-          {formik.errors.userName && formik.errors.userName}
+          
           <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
@@ -103,7 +105,7 @@ const LoginPage = () => {
           {formik.errors.password && formik.errors.password}
           </div>
 
-          <div className="col-12">
+          <div className="col-12 d-flex flex-column align-items-center">
            <button type="button" className="btn btn-danger" onClick={formik.handleSubmit}>
            Login
            </button>

@@ -49,14 +49,14 @@ function Table({ columns, data }) {
     let csv = '';
     const arr = []
 
-    for(let j = 0; j<columns.length; j++){
+    for (let j = 0; j < columns.length; j++) {
       arr.push(columns[j]['label'])
     }
-    
-console.log(arr);
-console.log(columns);
 
-csv += arr.join(',') + '\n';
+    console.log(arr);
+    console.log(columns);
+
+    csv += arr.join(',') + '\n';
     for (let i = 0; i < data.length; i++) {
       const row = data[i];
       // const values = columnKeys.map(key => row[key]);
@@ -77,7 +77,7 @@ csv += arr.join(',') + '\n';
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   };
-
+  console.log(columns);
   return (
     <div className="table-container">
       <div className="filter-section">
@@ -124,9 +124,13 @@ csv += arr.join(',') + '\n';
         <tbody>
           {filteredData.map((row, index) => (
             <tr key={index}>
-              {columns.map((col) => (
+              {
+                
+              columns.map((col) => (
+                
                 <td key={col.field}>{row[col.field]}</td>
-              ))}
+              ))
+              }
             </tr>
           ))}
         </tbody>

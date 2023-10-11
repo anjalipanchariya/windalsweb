@@ -3,6 +3,7 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
  }
  
  .adduser{
@@ -11,9 +12,11 @@
  }
  .worklist{
      display: flex;
-     flex-direction: column;
-     width: 200px;
+     flex-direction: row;
+     justify-content: center;
+     
  }
+
  
  .workerreg label{
      display: flex;
@@ -25,7 +28,8 @@
  }
  
  .workerreg input{
-     margin: 12px;
+     margin: 20px 44px;
+     width: 20%;
  }
  
  .heading{
@@ -52,7 +56,15 @@
      margin-right: 20px;
       
  }
-   
+
+ .checkbox-row{
+    display: flex;
+    flex-wrap: wrap;
+ }   
   
+ .checkbox-row h5{
+    margin-right: 10px;
+    
+ } 
  
  

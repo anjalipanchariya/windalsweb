@@ -18,7 +18,7 @@ import FirstStation from './components/station/firstStation';
 import NextStationAllocation from './components/station/nextStationAllocation';
 import StationPage from './components/station/stationPage';
 import ShiftConfig from './components/shift/shiftConfiguration';
-
+import ViewShifts from './components/shift/viewShift';
 
 function App() {
   
@@ -45,6 +45,7 @@ function App() {
         <Route path='/FirstStation/:employeeId/:userName/:stationName' element={<FirstStation />}></Route>
         
         <Route path='/:userName/ShiftConfig' element={<ShiftConfig />}></Route>
+        <Route path='/:userName/ViewShifts' element={<ViewShifts />}></Route>
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </>
