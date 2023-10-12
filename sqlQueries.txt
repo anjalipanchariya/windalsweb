@@ -67,15 +67,7 @@ CREATE TABLE `station_yyyy` (
   `out_time` datetime DEFAULT NULL
 );
 
-CREATE TABLE `shift_config` (
-  `shift_id` int NOT NULL,
-  `shift_name` varchar(100) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  `active` int NOT NULL,
-  PRIMARY KEY (`shift_id`),
-  UNIQUE KEY `shift_name_UNIQUE` (`shift_name`)
-);
+
 
 /** accessOptionsOrder = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "Veiw Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
@@ -83,3 +75,27 @@ CREATE TABLE `shift_config` (
   
   1 for access given 0 for not given
 */
+
+CREATE TABLE `shift_config` (
+  `shift_id` int NOT NULL AUTO_INCREMENT,
+  `shift_name` varchar(45) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `active` tinyint NOT NULL,
+  PRIMARY KEY (`shift_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+updated:
+
+
+CREATE TABLE `station_yyyy` (
+  `station_id` int NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `job_id` int NOT NULL,
+  `employee_id` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `parameters` varchar(1000) DEFAULT NULL,
+  `intime` datetime NOT NULL,
+  `out_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

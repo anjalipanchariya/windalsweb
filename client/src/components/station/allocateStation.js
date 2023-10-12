@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Form } from 'react-bootstrap';
+import { Table, Button, Form,Alert } from 'react-bootstrap';
 import Select from 'react-select'
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import Multiselect from "multiselect-react-dropdown";
 import { getAllStationNames, getAllWorkerNames, addStationAllocation, getActiveShiftNames, getWorkerAllocation } from "../../helper/helper";
 import WindalsNav from "../navbar";
+import * as Yup from "yup";
 import Footer from '../footer';
 import './allocateStation.css';
+
 
 function StationAllocation() {
     const today = new Date();
@@ -59,6 +61,21 @@ function StationAllocation() {
         }
     };
 
+
+    const allocateStationSchema= Yup.object().shape({
+        date: Yup.string()
+        .test(
+          'is-present-or-future',
+          'Date must be in the present or future',
+          function (value) {
+            const currentDate = new Date().toISOString().substring(0, 10); // Get current date as a string in YYYY-MM-DD format
+            return !value || value >= currentDate;
+          }
+        )
+        .required('Date is required'),
+      shift: Yup.string().required('Shift is required'),
+    })
+
     function fetchData() {
         try {
             setAllocationStation(JSON.parse(localStorage.getItem('allocationdata'))['stationAllocations']);
@@ -69,13 +86,16 @@ function StationAllocation() {
 
     }
 
+
     const formik = useFormik({
         initialValues: {
             date: today.toISOString().substring(0, 10),
             shift: '',
             stationAllocations: allocationStation,
         },
+        validationSchema: allocateStationSchema,
         onSubmit: (values) => {
+
             // Ensure that all stations have at least one worker
             const isValid = values.stationAllocations.every(
                 (allocation) => allocation.workers.length > 0
@@ -169,31 +189,29 @@ function StationAllocation() {
     }
 
     console.log({ allocatedData: allocatedData });
+    console.log({date:formik.values.date});
+
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <>
-        
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav />
-            <div className="header-allocate-station">
-                <h2 className="allocate-station-header">Allocate Station</h2>
 
+            <WindalsNav/>
             <div className="allocstat">
                 <div className="input-box">
-                    <Form onSubmit={formik.handleSubmit}>
-                        <Form.Group controlId="date">
-                            <Form.Label>Date:</Form.Label>
-                            <Form.Control
-                                type="date"
-                                name="date"
-                                onChange={formik.handleChange}
-                                value={formik.values.date}
-                            />
-                            {formik.touched.date && formik.errors.date && (
-                                <div className="error">{formik.errors.date}</div>
-                            )}
-                        </Form.Group>
-
+                <Form onSubmit={formik.handleSubmit}>
+                    <Form.Group controlId="date">
+                        <Form.Label>Date:</Form.Label>
+                        <Form.Control
+                            type="date"
+                            name="date"
+                            onChange={formik.handleChange}
+                            value={formik.values.date}
+                        />
+                        {formik.touched.date && formik.errors.date && (
+                            <Alert variant="danger" className="error-message">{formik.errors.date}</Alert>
+                        )}
+                    </Form.Group>
 
 
                     <Form.Group controlId="shift">
@@ -206,10 +224,9 @@ function StationAllocation() {
                             isSearchable={true}
                         />
                         {formik.touched.shift && formik.errors.shift && (
-                            <div className="error">{formik.errors.shift}</div>
+                            <Alert variant="danger" className="error-message">{formik.errors.shift}</Alert>
                         )}
                     </Form.Group>
-
 
                         <br />
                         
@@ -308,13 +325,12 @@ function StationAllocation() {
                 </tbody>
             </Table>
             <br />
-            
         </div>
         <br />
         <br />
         
         <Footer />
-        </>
+        </div>
     );
 }
 

@@ -180,9 +180,6 @@ function ShiftConfiguration() {
     //         }
     //     });
     // });
-
-    
-    
     
     return (
         <div>

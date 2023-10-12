@@ -10,7 +10,8 @@ function StationCard(props){
        
         <Card style={{ width: '14rem', margin:20}}>
       <Card.Body>
-        <Card.Title>Station {props.number}</Card.Title>
+        <Card.Title>Station NO:{props.number}</Card.Title>
+        <Card.Title>Station Name:{props.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Worker name : {props.worker}</Card.Subtitle>
         <Card.Subtitle className="mb-2 text-muted">
         </Card.Subtitle>

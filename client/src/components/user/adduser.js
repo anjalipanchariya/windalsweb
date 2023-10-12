@@ -4,9 +4,13 @@ import { useFormik } from "formik";
 import { registerUser } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from "../navbar";
+import * as Yup from "yup";
+import { Alert } from "react-bootstrap";
 import Footer from '../footer';
 
+
 function WorkerReg(){
+  const today = new Date();
    
   const accessOptions = [ "Add User", "View User", "Delete User", "Modify User", "Add Product", "View Product", "Delete Product", "Modify Product",
    "Add Station", "View Station", "Delete Station", "Modify Station", "Allocate Next Station for Product", "Update Next Station Allocated for Product", 
@@ -14,6 +18,26 @@ function WorkerReg(){
   
   const [accessGiven, setAccessGiven] = useState(new Array(accessOptions.length).fill(false));
 
+  const userValidationSchema= Yup.object().shape({
+    userName:Yup.string().required(),
+    firstName:Yup.string().required(),
+    lastName:Yup.string().required(),
+    nickName:Yup.string().required(),
+    password:Yup.string().required(),
+    confirmPassword:Yup.string().required(),
+    designation:Yup.string().required(),
+    mobileNo: Yup.string()
+    .required()
+    .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits")
+    .test("is-positive", "Mobile number must be positive", (value) => {
+      return parseInt(value) > 0;
+    }),
+    accessGiven:Yup.string().required(),
+    joiningDate: Yup.date()
+    .required()
+    .max(today, "Joining date cannot be in the future")
+    
+  })
   const formik = useFormik({
     initialValues:{
       userName:"",
@@ -23,10 +47,11 @@ function WorkerReg(){
       password:"",
       confirmPassword:"",
       designation:"",
-      joiningDate:"",
+      joiningDate:today.toISOString().substring(0, 10), // Set the initial value to the current date
       mobileNo:"",
       accessGiven: "000000000000000000"
     },
+    validationSchema:userValidationSchema,
     onSubmit: values => {
       values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
       console.log(values);
@@ -53,12 +78,12 @@ function WorkerReg(){
   }
   
   return(
-    <>
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <WindalsNav />
-      <div className="adduser">
 
-
+        <div>
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
+        <WindalsNav/>
+        
+        <div className="adduser">
         <form className="workerreg">
           <h1 className="heading">User Registration</h1>
           <div style={{ display: 'flex', flexDirection:'column' }}>
@@ -77,7 +102,7 @@ function WorkerReg(){
             </div>
           </div>
           <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom:'2vh' }}>
             <button type="submit" onClick={formik.handleSubmit}>Register</button>
           </div>
 
@@ -172,9 +197,10 @@ function WorkerReg(){
           <br />
         </div>
       </div>
+      
       <br />
       <Footer />
-    </>
+    </div>
     )}
 
 export default  WorkerReg;
