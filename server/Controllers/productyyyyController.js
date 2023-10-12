@@ -4,7 +4,7 @@ async function insertInProductyyyy(req,res){
     const {product_name, station_id, job_name } = req.body;
     
     try {
-        const searchQuery = "SELECT job_name FROM productyyyy WHERE job_name=? AND product_name=?"
+        const searchQuery = "SELECT job_name FROM productyyyy WHERE job_name=?"
         const [selectResult] = await db.promise().query(searchQuery,[job_name,product_name])
         if(selectResult.length>0)
         {
