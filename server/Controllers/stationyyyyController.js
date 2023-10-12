@@ -9,7 +9,7 @@ async function insertInStationyyyyFirst(req,res){
         const job_id=selectResult[0]["job_id"];
         
 
-        const insertQuery = "INSERT INTO station_yyyy (product_name, station_id, job_id, employee_id,status,intime) VALUES (?, ?, ?,?,1,NOW())";
+        const insertQuery = "INSERT INTO station_yyyy (product_name, station_id, job_id, employee_id,status,intime,out_time) VALUES (?, ?, ?,?,1,NOW(),NOW())";
         const [insertResult] = await db.promise().query(insertQuery, [product_name, station_id, job_id,employee_id]);
             
         res.status(201).send({ msg: "Record inserted successfully"});
@@ -78,7 +78,7 @@ async function updateInStationyyyy(req,res){
         // console.log(intime)
 
 
-        const updateQuery = "UPDATE station_yyyy SET employee_id = ?, status = ?, parameters = ? WHERE (intime = ?) and (station_id = ?) and (product_name = ?) and (job_id = ?);";
+        const updateQuery = "UPDATE station_yyyy SET employee_id = ?, status = ?, parameters = ? ,out_time=NOW() WHERE (intime = ?) and (station_id = ?) and (product_name = ?) and (job_id = ?);";
         const [updateResult] = await db.promise().query(updateQuery, [employee_id,status,parameters,intime,station_id,product_name, job_id]);
             
         res.status(201).send({ msg: "Record updated successfully"});
@@ -190,16 +190,51 @@ async function workAtStationInDay(req, res) {
   }
 }
 
+async function productReport(req,res){
+    const {lastStationId,product_name} = req.body;
+
+    try {
+        
+        const searchQueryWork = "select date(temp.out_time) as 'date' ,time(temp.out_time) as 'time',productyyyy.job_name from (select job_id , out_time from station_yyyy  where status=1 and station_id=? and product_name=?) as temp inner join productyyyy on productyyyy.job_id=temp.job_id;"
+        const [selectResultWork] = await db.promise().query(searchQueryWork,[lastStationId,product_name])
+
+        res.status(201).send(selectResultWork);
+
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
+
+} 
+
+async function jobDetailsReport(req,res){
+    const {job_name} = req.body;
+
+    try {
+        const searchQueryJob = "SELECT job_id FROM productyyyy WHERE job_name=?"
+        const [selectResultJob] = await db.promise().query(searchQueryJob,[job_name])
+        if(selectResultJob.length==0)
+        {
+            
+            res.status(409).send({ msg: `These job name does not exist.` });
+
+        } 
+        else{
+            const job_id=selectResultJob[0]["job_id"];
 
 
+            const searchQueryWork = "select first_name,last_name,station_name, temp2.product_name,status,intime,out_time from (select station_name, temp1.product_name, employee_id,status,intime,out_time from (select station_id,product_name, employee_id,status,intime,out_time from station_yyyy where job_id=?) as temp1 inner join station_master on temp1.station_id=station_master.station_id) as temp2 inner join employee_master on temp2.employee_id=employee_master.employee_id;"
+            const [selectResultWork] = await db.promise().query(searchQueryWork,[job_id])
 
+            res.status(201).send(selectResultWork);
+        }
+        
 
-  
-  
-  
-  
-  
-  
-  
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send({ msg: `Internal server error: ${err}` });
+    }
 
-export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation};
+} 
+
+export {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy, jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation,productReport,jobDetailsReport};

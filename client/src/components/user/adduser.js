@@ -81,53 +81,38 @@ function WorkerReg(){
         <div>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
         <WindalsNav/>
-        <h1 className="heading">Worker Registration</h1>
-        <form className="workerreg">        
-            <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
-            { formik.errors.userName && formik.touched.userName ? (
-          <Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>
-        ) : null}
-            <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
-            { formik.errors.firstName && formik.touched.firstName ? (
-          <Alert variant="danger" className="error-message">{formik.errors.firstName}</Alert>
-        ) : null}
-            <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
-            { formik.errors.lastName && formik.touched.lastName ? (
-          <Alert variant="danger" className="error-message">{formik.errors.lastName}</Alert>
-        ) : null}
-            <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange}/>
-            { formik.errors.nickName && formik.touched.nickName ? (
-          <Alert variant="danger" className="error-message">{formik.errors.nickName}</Alert>
-        ) : null}
-            <input type="text" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
-            { formik.errors.mobileNo && formik.touched.mobileNo ? (
-          <Alert variant="danger" className="error-message">{formik.errors.mobileNo}</Alert>
-        ) : null}
-            <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange}/>
-            { formik.errors.password && formik.touched.password ? (
-          <Alert variant="danger" className="error-message">{formik.errors.password}</Alert>
-        ) : null}
-            <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange}/>
-            { formik.errors.confirmPassword && formik.touched.confirmPassword ? (
-          <Alert variant="danger" className="error-message">{formik.errors.confirmPassword}</Alert>)
-           : null}
-            <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange}/>
-            { formik.errors.designation && formik.touched.designation ? (
-          <Alert variant="danger" className="error-message">{formik.errors.designation}</Alert>
-        ) : null}
-            <label>Joining date:</label>
-            <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
-            { formik.errors.joiningDate && formik.touched.joiningDate ? (
-          <Alert variant="danger" className="error-message">{formik.errors.joiningDate}</Alert>
-        ) : null}
-            <button className="subbtn" type="button" onClick={formik.handleSubmit}>Register</button>
+        
+        <div className="adduser">
+        <form className="workerreg">
+          <h1 className="heading">User Registration</h1>
+          <div style={{ display: 'flex', flexDirection:'column' }}>
+            <div className="worklist">
+              
+              <input type='text' placeholder="Username" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
+              <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
+              <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
+              <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
+            </div>
+            <div className="worklist">
+              <input type="number" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange} />
+              <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange} />
+              <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange} />
+              <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange} />
+            </div>
+          </div>
+          <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom:'2vh' }}>
+            <button type="submit" onClick={formik.handleSubmit}>Register</button>
+          </div>
+
         </form>
-
-
         <br />
+        
         <div className="checkbox-groups">
-          <div className="row">
-            {accessOptions.slice(0, 6).map((option, index) => (
+        <hr />
+          <div className="checkbox-row">
+            <h5>User Access - </h5>
+            {accessOptions.slice(0, 4).map((option, index) => (
               <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
@@ -140,8 +125,11 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(6, 12).map((option, index) => (
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Product Access - </h5>
+            {accessOptions.slice(4, 8).map((option, index) => (
               <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
@@ -154,8 +142,11 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(12).map((option, index) => (
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Station Access - </h5>
+            {accessOptions.slice(8,12).map((option, index) => (
               <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
@@ -168,7 +159,43 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Allocation Access - </h5>
+            {accessOptions.slice(12,18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Shift Access - </h5>
+            {accessOptions.slice(18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <br />
         </div>
+      </div>
       
       <br />
       <Footer />

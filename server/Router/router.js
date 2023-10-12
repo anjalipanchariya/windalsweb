@@ -3,7 +3,7 @@ import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaste
 import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster, deleteFromEmployeeMaster, resetPassword} from "../Controllers/employeeMasterController.js"
-import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation} from "../Controllers/stationyyyyController.js"
+import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation,productReport,jobDetailsReport} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation,getStationAllocated} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
@@ -23,6 +23,8 @@ router.route("/StationyyyyInsertFirstNextStation").post(insertInStationyyyyFirst
 router.route("/StationAllocationInsert").post(auth,insertIntoStationAllocation)
 router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
+router.route("/StationyyyyProductReport").post(productReport)
+router.route("/StationyyyyJobReport").post(jobDetailsReport)
 // router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
 router.route("/ShiftConfigInsert").post(auth,insertIntoShiftConfig)
 router.route("/loginLogInsert").post(insertInLoginLog)

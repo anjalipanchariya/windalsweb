@@ -190,31 +190,17 @@ function DeleteUser() {
         </div>
         </div>
 
+        <br />
+
         {
             formik.values.userName!=="" && 
-            <div className='table-container' style={{width:80}}>
+            <div className='delusertable' >
             <table>
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Nick Name</th>
-                  <th>Mobile Number</th>
-                  <th>Designation</th>
-                  <th>Joining Date</th>
-                  <th>Access Given</th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-
-                </tr>
-              </thead>
-           
+            
               <tbody>
                 <tr>
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <th>User Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -222,11 +208,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.userName}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>First Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -234,11 +220,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.firstName}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Last Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -246,11 +232,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.lastName}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Nick Name</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -258,11 +244,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.nickName}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Mobile Number</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -270,11 +256,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.mobileNo}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Designation</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.designation} name="designation" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -282,11 +268,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.designation}
                         </Alert>
-                    )} 
-                    </td>
-
-                    <td>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Joining Date</th>
+                  <td><Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
                     </Form.Group>
                     {
@@ -294,12 +280,11 @@ function DeleteUser() {
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.joiningDate}
                         </Alert>
-                    )} 
-                    </td>
-
-                    
-                    <td>
-                      {
+                    )} </td>
+                </tr>
+                <tr>
+                  <th>Access Given</th>
+                  <td>{
                         accessOptions.map((option, index) => (
                           <div key={option}>
                             <label>
@@ -312,23 +297,23 @@ function DeleteUser() {
                             </label>
                           </div>
                         ))
-                      }
-                    </td>
-                    
-                    <td>
-                      <button className="edit-button" onClick={formik.handleSubmit} >
+                      }</td>
+                </tr>
+                <tr>
+                  <th>Edit</th>
+                  <td><button className="delete-button" onClick={formik.handleSubmit} >
                         <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                    </td>
-                    
-                    <td>
-                      <button className="delete-button" onClick={()=>{handleEmployeeDelete()}}>
+                      </button></td>
+                </tr>
+                <tr>
+                  <th>Delete</th>
+                  <td><button className="delete-button" onClick={()=>{handleEmployeeDelete()}}>
                         <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </td>
-
-                    <td>
-                      <button type='button' className="reset-button" onClick={()=>{
+                      </button></td>
+                </tr>
+                <tr>
+                  <th>Reset Password</th>
+                  <td><button type='button' className="reset-button" onClick={()=>{
                         setResetPasswordData((prevData)=>{
                           return {
                             ...prevData,
@@ -338,10 +323,9 @@ function DeleteUser() {
                         openResetPasswordModal()
                       }}>
                         Reset-Password
-                      </button>
-                    </td>    
-
+                      </button></td>
                 </tr>
+                
               </tbody>
             </table>
             </div>

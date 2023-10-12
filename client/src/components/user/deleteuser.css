@@ -12,40 +12,23 @@
       padding: 20px; 
     }
   
-   
-  /* table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid #ddd; 
-    }
-    
-    th, td {
-      padding: 8px;
-      text-align: left;
-     
-    }
-    
-    
-    th {
-      background-color: #f2f2f2; 
-      color: red; 
-    }
-    
-    
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    } */
-    
-    
-    .table-container {
-      margin: 0 auto;
-      width: 70%;
-      margin: 50px;
-      display: flex;
-      margin-left: 50vw;
-      /* max-width: 800px; */
-    }
   
+    
+    .delusertable td{
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .delusertable {
+      margin: 0 auto;
+      width: 72%;
+      text-align: center;
+      align-items: center;
+      
+    }
+
+
     .reset-button {
       background-color: #d9534f; 
       color: #fff;
@@ -53,9 +36,24 @@
       padding: 10px 20px; 
       cursor: pointer; 
       border-radius: 5px; 
+      width: 200px;
+      margin-left: 3.6vw;
     }
     
     .reset-button:hover {
       background-color: #cc0000; 
     }
-    
+
+
+    .delete-button{
+      background-color: #d9534f; 
+      color: #fff;
+      border: none; 
+      padding: 10px 20px; 
+      cursor: pointer; 
+      border-radius: 5px; 
+      width: 50px;
+      margin-left: 9vw;
+    }
+
+

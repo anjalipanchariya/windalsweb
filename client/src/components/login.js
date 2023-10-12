@@ -81,12 +81,13 @@ const LoginPage = () => {
     <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
-      <div className="col-md-6 bg-light-grey">
-        <form className="row g-3" onSubmit={formik.handleSubmit}>
+      <div className="col-md-10 bg-light-grey d-flex flex-wrap align-items-center">
+        <form className="row g-3 " onSubmit={formik.handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
               Username
             </label>
+            
             <input
               type="text"
               className="form-control"
@@ -113,7 +114,7 @@ const LoginPage = () => {
           {formik.touched.password && formik.errors.password?(<Alert variant="danger" className="error-message">{formik.errors.password}</Alert>):null}
           </div>
 
-          <div className="col-12">
+          <div className="col-12 d-flex flex-column align-items-center">
            <button type="button" className="btn btn-danger" onClick={formik.handleSubmit}>
            Login
            </button>

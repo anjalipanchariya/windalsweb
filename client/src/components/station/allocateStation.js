@@ -193,12 +193,12 @@ function StationAllocation() {
 
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
-        <div>
-        <div>
+        <>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-            {/* <WindalsNav/> */}
-            <div>
+            <WindalsNav/>
+            <div className="allocstat">
+                <div className="input-box">
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group controlId="date">
                         <Form.Label>Date:</Form.Label>
@@ -228,13 +228,13 @@ function StationAllocation() {
                         )}
                     </Form.Group>
 
-
                         <br />
                         
                         <Button variant="danger" type="submit">
                             Submit
                         </Button>
                     </Form>
+                    <br />
                     <Button onClick={fetchData}>
                         Fetchdata
                     </Button>
@@ -325,7 +325,9 @@ function StationAllocation() {
                 </tbody>
             </Table>
             <br />
-            
+        </div>
+        <br />
+        <br />
         
         <Footer />
         </div>
