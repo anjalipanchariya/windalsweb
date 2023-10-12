@@ -60,9 +60,24 @@
   }
   
   .green-value{
-    background-color: rgb(150, 221, 150);
+    background-color: rgb(131, 230, 131);
   }
 
   .red-value{
-    background-color: rgb(219, 143, 143);
+    background-color: rgb(255, 168, 168);
   }
+
+  .shifttable{
+    width: 100%;
+    padding-left: 20px;
+  }
+
+  .shifttable td{
+    padding: 15px;
+  }
+
+  .shifttable th{
+    padding: 20px;
+  }
+
+  

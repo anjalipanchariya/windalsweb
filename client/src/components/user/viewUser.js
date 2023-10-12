@@ -82,6 +82,8 @@ function ViewUser() { // Changed the function name to start with an uppercase le
       <div style={{marginTop:'20vh'}}>
       <Table columns={columns} data={users} />
       </div>
+      <br />
+      <br />
       
       <Footer/>
     </>

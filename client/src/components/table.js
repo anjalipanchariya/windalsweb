@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './table.css'
-
+import './table.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSolid, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 function Table({ columns, data }) {
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
@@ -81,24 +82,33 @@ function Table({ columns, data }) {
   return (
     <div className="table-container">
       <div className="filter-section">
-        <select
-          onChange={(e) => setFilterColumn(e.target.value)}
-          value={filterColumn}
-        >
-          <option value="">--Select Column--</option>
-          {columns.map((col) => (
-            <option key={col.field} value={col.field}>
-              {col.label}
-            </option>
-          ))}
-        </select>
+        <div className='box'>
+          <select
+            onChange={(e) => setFilterColumn(e.target.value)}
+            value={filterColumn}
+          >
+            <option value="">Select Column</option>
+            {columns.map((col) => (
+              <option key={col.field} value={col.field}>
+                {col.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
+{/* 
         <input
           type="text"
           placeholder="Filter Value"
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
-        />
+        /> */}
+        <div class="search-container">
+          <input class="search" id="searchleft" type="search" name="q" placeholder="Filter Value" value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)} />
+          <label class="button searchbutton" for="searchleft"><span class="mglass">&#9906;</span></label>
+        </div>
+
       </div>
 
       <table>
@@ -125,11 +135,11 @@ function Table({ columns, data }) {
           {filteredData.map((row, index) => (
             <tr key={index}>
               {
-                
-              columns.map((col) => (
-                
-                <td key={col.field}>{row[col.field]}</td>
-              ))
+
+                columns.map((col) => (
+
+                  <td key={col.field}>{row[col.field]}</td>
+                ))
               }
             </tr>
           ))}

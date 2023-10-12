@@ -72,7 +72,7 @@ const LoginPage = () => {
     <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
-      <div className="col-md-6 bg-light-grey d-flex flex-wrap align-items-center">
+      <div className="col-md-10 bg-light-grey d-flex flex-wrap align-items-center">
         <form className="row g-3 " onSubmit={formik.handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">

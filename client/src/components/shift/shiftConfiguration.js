@@ -138,19 +138,19 @@ function ShiftConfiguration() {
         rows.forEach((row) => {
             if (row.innerHTML === 'yes') {
                 const parent = row.parentNode;
-                parent.style.backgroundColor = '#96DD96';
+                parent.style.backgroundColor = 'rgb(131, 230, 131)';
             }
 
             else if (row.innerHTML === 'no') {
                 const parent = row.parentNode;
-                parent.style.backgroundColor = '#DB8F8F';
+                parent.style.backgroundColor = 'rgb(255, 168, 168)';
             }
         });
         console.log("page is loaded")
     }
 
     function loadRowBackgroundColors() {
-        var tableRows = document.querySelectorAll("td");
+        var tableRows = document.querySelectorAll("tr");
     
         tableRows.forEach(function (row) {
             var rowId = row.textContent;
@@ -246,12 +246,14 @@ function ShiftConfiguration() {
                         </Button>
                     </Form>
                 </div>
-                <button onClick={ctg}>refresh</button>
+                <br />
+
+                <button onClick={ctg}>Refresh Table</button>
                 {/* <button onClick={window.location.reload()}>Refresh Page</button> */}
                 <br />
                
                 <div>
-                    <table striped responsive>
+                    <table className='shifttable'>
                         <thead>
                         </thead>
                         <tbody>
@@ -261,29 +263,29 @@ function ShiftConfiguration() {
                                 <th>Start time</th>
                                 <th>End time</th>
                                 <th>Active</th>
-                                <th>edit</th>
-                                <th>delete</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                             {
 
                                 Array.isArray(shiftData) && shiftData.map((shiftdata, index) => (
                                     <tr key={index}>
-                                        <td id='tabletd'>
+                                        <td>
                                             {index + 1}
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             {shiftdata.shift_name}
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             {shiftdata.start_time}
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             {shiftdata.end_time}
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             {shiftdata.active == 1 ? "yes" : "no"}
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             <button
                                                 className="edit-button"
                                                 onClick={() => handleEdit(shiftdata)}
@@ -291,9 +293,9 @@ function ShiftConfiguration() {
                                                 <FontAwesomeIcon icon={faEdit} />
                                             </button>
                                         </td>
-                                        <td id='tabletd'>
+                                        <td>
                                             <button
-                                                className="delete-button"
+                                                className="edit-button"
                                                 onClick={() => handleDelete(shiftdata.shift_id)}
                                             >
                                                 <FontAwesomeIcon icon={faTrash} />

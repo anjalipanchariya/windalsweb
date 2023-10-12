@@ -140,10 +140,11 @@ function AddProduct() {
 
     return (
         <>
-        <div className="updateprod">
+        
             <WindalsNav />
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <div>
+            <div className="updateprod">
                 <h3>Product name:</h3>
                 {/* <input
                     type="text"
@@ -177,7 +178,7 @@ function AddProduct() {
                     <Button onClick={addRow} style={{ margin: 10 }}>Add parameter</Button>
                     <Button onClick={formik.handleSubmit}>Save</Button>
                 </div>
-            </div>
+            
             <p style={{ textAlign: 'center', fontWeight:'bold' }}>
                 Existing parameter
             </p>
@@ -303,7 +304,7 @@ function AddProduct() {
                     ))}
                 </tbody>
             </table>
-
+            </div>
             
             </div>
         

@@ -60,9 +60,10 @@ function WorkerReg(){
 
 
         <form className="workerreg">
-          <h1 className="heading">Worker Registration</h1>
+          <h1 className="heading">User Registration</h1>
           <div style={{ display: 'flex', flexDirection:'column' }}>
             <div className="worklist">
+              
               <input type='text' placeholder="Username" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
               <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
               <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
@@ -82,7 +83,9 @@ function WorkerReg(){
 
         </form>
         <br />
+        
         <div className="checkbox-groups">
+        <hr />
           <div className="checkbox-row">
             <h5>User Access - </h5>
             {accessOptions.slice(0, 4).map((option, index) => (
@@ -98,6 +101,7 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
           <br />
           <div className="checkbox-row">
           <h5>Product Access - </h5>
@@ -114,6 +118,7 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
           <br />
           <div className="checkbox-row">
           <h5>Station Access - </h5>
@@ -130,6 +135,7 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
           <br />
           <div className="checkbox-row">
           <h5>Allocation Access - </h5>
@@ -146,6 +152,7 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
           <br />
           <div className="checkbox-row">
           <h5>Shift Access - </h5>

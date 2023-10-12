@@ -75,11 +75,12 @@ function NextStationAllocation() {
                     name="productName"
                     onChange={(data) => formik.setFieldValue("productName", data)}
                     isSearchable={true}
+                    
                 />
-            </div>
+            
             {formik.values.productName !== "" && (
                 <div className="stattable" style={{ marginTop: 30 }}>
-                    <table className="table" style={{display:'block'}}>
+                    <table className="nstable">
                         <thead>
                             <tr>
                                 <th>Station</th>
@@ -121,6 +122,7 @@ function NextStationAllocation() {
                     </table>
                 </div>
             )}
+            </div>
             <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
             </div>

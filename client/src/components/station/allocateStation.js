@@ -310,6 +310,9 @@ function StationAllocation() {
             <br />
             
         </div>
+        <br />
+        <br />
+        
         <Footer />
         </>
     );
