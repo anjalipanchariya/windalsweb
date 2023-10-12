@@ -22,7 +22,7 @@ function AddStation() {
         stationName:Yup.string().required("Required"),
         productName:Yup.string().required("Required"),
         reportType:Yup.string().required("Required"),
-        stationParameter:Yup.array().min(1, "At least one option must be selected").required("Required"),
+        // stationParameter:Yup.array().min(1, "At least one option must be selected").required("Required"),
         cycleTime:Yup.number().min(0,"Value cannot be negative").required("Required"),
         dailyCount:Yup.number().min(0,"Value cannot be negative").required("Required"),
         productPerHour:Yup.number().min(0,"Value cannot be negative").required("Required")
@@ -40,6 +40,12 @@ function AddStation() {
         },
         validationSchema:stationValidationSchema,
         onSubmit: async (values) => {
+            // if(values.reportType == 1){
+            //     if(values.stationParameter.lenght<=0){
+            //         alert("Select atleast one parameter")
+            //         return
+            //     }
+            // }
             const addStationPromise = addStation(values)
             toast.promise(
                 addStationPromise,
@@ -290,7 +296,7 @@ function AddStation() {
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.reportType}</Alert>) : null}
                             {
                                 addFormFormik.values.reportType === "1" && 
-                                <Form>
+                                <div>
                                 <h3>Select Parameters:</h3>
                                     {productParameters.map((parameter,index) => (
                                         <div key={index}>
@@ -306,13 +312,11 @@ function AddStation() {
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.stationParameter}</Alert>) : null}
                                         </div>
                                     ))}
-                                </Form>
+                                </div>
                             }    
-                        
                         </div>
-
                         <div className="add-station-button">
-                            <Button variant="danger" className="add-button-stn" onClick={addFormFormik.handleSubmit}>Add Station</Button>
+                            <Button variant="danger" type="button" className="add-button-stn" onClick={addFormFormik.handleSubmit}>Add Station</Button>
                         </div>
                     </Form>
                 </div>

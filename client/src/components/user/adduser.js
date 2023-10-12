@@ -19,25 +19,23 @@ function WorkerReg(){
   const [accessGiven, setAccessGiven] = useState(new Array(accessOptions.length).fill(false));
 
   const userValidationSchema= Yup.object().shape({
-    userName:Yup.string().required(),
-    firstName:Yup.string().required(),
-    lastName:Yup.string().required(),
-    nickName:Yup.string().required(),
-    password:Yup.string().required(),
-    confirmPassword:Yup.string().required(),
-    designation:Yup.string().required(),
+    userName:Yup.string().required("Username is required"),
+    firstName:Yup.string().required("Username is required"),
+    lastName:Yup.string().required("Username is required"),
+    nickName:Yup.string().required("Username is required"),
+    password:Yup.string().required("Username is required"),
+    confirmPassword:Yup.string().required("Username is required"),
+    designation:Yup.string().required("Username is required"),
     mobileNo: Yup.string()
-    .required()
-    .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits")
+    .matches(/^[0-9]{10}$/, "Invalid mobile number")
     .test("is-positive", "Mobile number must be positive", (value) => {
       return parseInt(value) > 0;
     }),
-    accessGiven:Yup.string().required(),
     joiningDate: Yup.date()
     .required()
     .max(today, "Joining date cannot be in the future")
-    
   })
+
   const formik = useFormik({
     initialValues:{
       userName:"",
@@ -52,6 +50,7 @@ function WorkerReg(){
       accessGiven: "000000000000000000"
     },
     validationSchema:userValidationSchema,
+    validateOnBlur:false,
     onSubmit: values => {
       values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
       console.log(values);
@@ -85,43 +84,43 @@ function WorkerReg(){
         <h1 className="heading">Worker Registration</h1>
         <form className="workerreg">        
             <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
-            { formik.errors.userName ? (
+            { formik.errors.userName && formik.touched.userName ? (
           <Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>
         ) : null}
             <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange}/>
-            { formik.errors.firstName ? (
+            { formik.errors.firstName && formik.touched.firstName ? (
           <Alert variant="danger" className="error-message">{formik.errors.firstName}</Alert>
         ) : null}
             <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange}/>
-            { formik.errors.lastName ? (
+            { formik.errors.lastName && formik.touched.lastName ? (
           <Alert variant="danger" className="error-message">{formik.errors.lastName}</Alert>
         ) : null}
             <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange}/>
-            { formik.errors.nickName ? (
+            { formik.errors.nickName && formik.touched.nickName ? (
           <Alert variant="danger" className="error-message">{formik.errors.nickName}</Alert>
         ) : null}
             <input type="text" placeholder="Mobile Number" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange}/>
-            { formik.errors.mobileNo ? (
+            { formik.errors.mobileNo && formik.touched.mobileNo ? (
           <Alert variant="danger" className="error-message">{formik.errors.mobileNo}</Alert>
         ) : null}
             <input type='password' placeholder="Password" value={formik.values.password} name="password" onChange={formik.handleChange}/>
-            { formik.errors.password ? (
+            { formik.errors.password && formik.touched.password ? (
           <Alert variant="danger" className="error-message">{formik.errors.password}</Alert>
         ) : null}
             <input type='password' placeholder="Confirm Password" value={formik.values.confirmPassword} name="confirmPassword" onChange={formik.handleChange}/>
-            { formik.errors.confirmPassword ? (
-          <Alert variant="danger" className="error-message">{formik.errors.confirmPasswor}</Alert>)
+            { formik.errors.confirmPassword && formik.touched.confirmPassword ? (
+          <Alert variant="danger" className="error-message">{formik.errors.confirmPassword}</Alert>)
            : null}
             <input type='text' placeholder="Designation" value={formik.values.designation} name="designation" onChange={formik.handleChange}/>
-            { formik.errors.designation ? (
+            { formik.errors.designation && formik.touched.designation ? (
           <Alert variant="danger" className="error-message">{formik.errors.designation}</Alert>
         ) : null}
             <label>Joining date:</label>
             <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
-            { formik.errors.joiningDate ? (
+            { formik.errors.joiningDate && formik.touched.joiningDate ? (
           <Alert variant="danger" className="error-message">{formik.errors.joiningDate}</Alert>
         ) : null}
-            <button className="subbtn" type="submit" onClick={formik.handleSubmit}>Register</button>
+            <button className="subbtn" type="button" onClick={formik.handleSubmit}>Register</button>
         </form>
 
 

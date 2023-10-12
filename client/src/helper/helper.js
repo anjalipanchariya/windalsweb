@@ -480,3 +480,13 @@ export async function resetPassword(values){
     }
 
 }
+
+export async function insertInLoginLog({userName,stationName}){
+    try {
+        const {data,status} = await axios.post(`${proxy}api/loginLogInsert`,{userName,stationName})
+        return Promise.resolve(data)
+    } catch (error) {
+        return Promise.reject(error.response.data)
+    }
+
+} 

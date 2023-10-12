@@ -7,6 +7,7 @@ import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInSt
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation,getStationAllocated} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
+import { insertInLoginLog } from "../Controllers/loginlogController.js";
 import { auth } from "../Middleware/auth.js";
 
 const router = Router()
@@ -24,6 +25,7 @@ router.route("/StationyyyyShowJob").post(jobsAtStation);
 router.route("/StationyyyyCountAtStation").post(countOfWorkAtStation)
 // router.route("/StationyyyyWorkInDay").post(workAtStationInDay)
 router.route("/ShiftConfigInsert").post(auth,insertIntoShiftConfig)
+router.route("/loginLogInsert").post(insertInLoginLog)
 
 
 /**GET MEATHODS */

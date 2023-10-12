@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-import { loginUser, getCurrentShift } from '../helper/helper';
+import { loginUser, getCurrentShift, insertInLoginLog } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +34,10 @@ const LoginPage = () => {
         {
           loading: "Checking creds",
           success: result =>{
-            if(result.userName === "admin")
+            const loginLogInsertPromise = insertInLoginLog({userName:result.userName,stationName:result.stationName})
+            loginLogInsertPromise.then((logResult)=>{
+              console.log("test")
+              if(result.userName === "admin")
             {
               navigate(`/${result.userName}/AdminPanel`);
             }
@@ -47,9 +50,14 @@ const LoginPage = () => {
               {
                 navigate(`/Station/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
-              
             }
             return result.msg
+            })
+            .catch((err)=>{
+              console.log(err);
+              return err.msg
+            })
+            
           },
           error: err => {
             console.log(err);

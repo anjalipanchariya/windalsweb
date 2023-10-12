@@ -22,7 +22,7 @@ async function auth(req,res,next){
             token:decodedToken
         }
         req.body = newBody
-        console.log({token:token,decodedToken:decodedToken,user:req.body});
+        // console.log({token:token,decodedToken:decodedToken,user:req.body});
         // res.json(decodedToken)
         next()
     } catch (error) {
