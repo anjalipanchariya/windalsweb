@@ -193,8 +193,7 @@ function StationAllocation() {
 
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
-        <div>
-        <div>
+        <>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
             <WindalsNav/>
@@ -235,7 +234,6 @@ function StationAllocation() {
                             Submit
                         </Button>
                     </Form>
-                    </div>
                     <br />
                     <Button onClick={fetchData}>
                         Fetchdata
@@ -327,7 +325,9 @@ function StationAllocation() {
                 </tbody>
             </Table>
             <br />
-            
+        </div>
+        <br />
+        <br />
         
         <Footer />
         </div>

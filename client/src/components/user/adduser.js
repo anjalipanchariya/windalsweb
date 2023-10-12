@@ -85,10 +85,11 @@ function WorkerReg(){
         
         <div className="adduser">
         <form className="workerreg">
-          <h1 className="heading">Worker Registration</h1>
-          <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <h1 className="heading">User Registration</h1>
+          <div style={{ display: 'flex', flexDirection:'column' }}>
             <div className="worklist">
-              <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
+              
+              <input type='text' placeholder="Username" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
               <input type='text' placeholder="First Name" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
               <input type='text' placeholder="Last Name" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
               <input type='text' placeholder="Nick Name " value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
@@ -107,10 +108,13 @@ function WorkerReg(){
 
         </form>
         <br />
+        
         <div className="checkbox-groups">
-          <div className="row">
-            {accessOptions.slice(0, 6).map((option, index) => (
-              <div key={option}>
+        <hr />
+          <div className="checkbox-row">
+            <h5>User Access - </h5>
+            {accessOptions.slice(0, 4).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -122,9 +126,12 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(6, 12).map((option, index) => (
-              <div key={option}>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Product Access - </h5>
+            {accessOptions.slice(4, 8).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -136,9 +143,12 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(12).map((option, index) => (
-              <div key={option}>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Station Access - </h5>
+            {accessOptions.slice(8,12).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -150,6 +160,41 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Allocation Access - </h5>
+            {accessOptions.slice(12,18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Shift Access - </h5>
+            {accessOptions.slice(18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <br />
         </div>
       </div>
       

@@ -97,6 +97,7 @@ function NextStationAllocation() {
                     name="productName"
                     onChange={(data) => formik.setFieldValue("productName", data)}
                     isSearchable={true}
+                    
                 />
                  { formik.errors.productName ? (
           <Alert variant="danger" className="error-message">{formik.errors.productName}</Alert>
@@ -104,7 +105,7 @@ function NextStationAllocation() {
             </div>
             {formik.values.productName !== "" && (
                 <div className="stattable" style={{ marginTop: 30 }}>
-                    <table className="table" style={{display:'block'}}>
+                    <table className="nstable">
                         <thead>
                             <tr>
                                 <th>Station</th>
@@ -146,6 +147,7 @@ function NextStationAllocation() {
                     </table>
                 </div>
             )}
+            </div>
             <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
             </div>
