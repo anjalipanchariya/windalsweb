@@ -73,7 +73,7 @@ function StationAllocation() {
           }
         )
         .required('Date is required'),
-      shift: Yup.string().required('Shift is required'),
+      shift: Yup.object().required('Shift is required'),
     })
 
     function fetchData() {

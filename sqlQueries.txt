@@ -64,8 +64,9 @@ CREATE TABLE `station_yyyy` (
   `status` int DEFAULT NULL,
   `parameters` varchar(1000) DEFAULT NULL,
   `intime` datetime NOT NULL,
-  `out_time` datetime DEFAULT NULL
-);
+  `out_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`station_id`,`product_name`,`job_id`,`intime`)
+) ;
 
 
 
