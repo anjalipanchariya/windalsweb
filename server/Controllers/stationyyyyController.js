@@ -28,12 +28,12 @@ async function insertInStationyyyyFirstNextStation(req,res){
         const searchQueryJob = "SELECT job_id FROM productyyyy WHERE job_name=? AND product_name=? "
         const [selectResultJob] = await db.promise().query(searchQueryJob,[job_name,product_name])
         const job_id=selectResultJob[0]["job_id"];
-        // console.log(job_id)
+        console.log(job_id)
 
         const selectNextStationNameQuery = "SELECT next_station_name FROM station_master WHERE station_id=? AND product_name=?"
         const [selectNextStationNameResult] = await db.promise().query(selectNextStationNameQuery,[station_id,product_name])
 
-        // console.log(selectNextStationNameResult);
+        console.log(selectNextStationNameResult);
         
         if(selectNextStationNameResult[0].next_station_name===null)
         {
@@ -43,7 +43,7 @@ async function insertInStationyyyyFirstNextStation(req,res){
         const searchQueryNextStation = "SELECT station_id FROM station_master WHERE station_name=(select next_station_name from station_master where station_id=? and product_name=?) AND product_name=? "
         const [selectResultNextStation] = await db.promise().query(searchQueryNextStation,[station_id,product_name,product_name])
         const next_station_id=selectResultNextStation[0]["station_id"];
-        // console.log(next_station_id)
+        console.log(next_station_id)
 
         const insertQuery = "INSERT INTO station_yyyy (product_name, station_id, job_id,intime) VALUES (?, ?, ?,NOW())";
         const [insertResult] = await db.promise().query(insertQuery, [product_name, next_station_id, job_id]);
@@ -160,27 +160,27 @@ async function workAtStationInDay(req, res) {
       "SELECT newt.product_name, newt.status, newt.parameters, newt.intime, newt.out_time, newt.job_id, job_name FROM (SELECT * FROM station_yyyy WHERE employee_id IS NOT NULL AND status IS NOT NULL AND station_id = ?) as newt LEFT JOIN productyyyy ON newt.job_id=productyyyy.job_id WHERE intime BETWEEN ? AND ?;";
     const [selectResult] = await db.promise().query(searchQuery, [stationId, start, end]);
 
-    // Iterate through selectResult and split parameters and reason
-    for (const row of selectResult) {
-      const formattedString = row.parameters || "";
-      let reason = null;
-      let parameters = null;
+    // // Iterate through selectResult and split parameters and reason
+    // for (const row of selectResult) {
+    //   const formattedString = row.parameters || "";
+    //   let reason = null;
+    //   let parameters = null;
 
-      // Split the formattedString into parts using ';'
-      const parts = formattedString.split(';');
+    //   // Split the formattedString into parts using ';'
+    //   const parts = formattedString.split(';');
 
-      for (const part of parts) {
-        if (part.startsWith("Not-Ok-Reason:") || part.startsWith("Rework-Reason:")) {
-          reason = part;
-        } else if (part.startsWith("Parameters:")) {
-          parameters = part.substring("Parameters:".length);
-        }
-      }
+    //   for (const part of parts) {
+    //     if (part.startsWith("Not-Ok-Reason:") || part.startsWith("Rework-Reason:")) {
+    //       reason = part;
+    //     } else if (part.startsWith("Parameters:")) {
+    //       parameters = part.substring("Parameters:".length);
+    //     }
+    //   }
 
-      // Store reason and parameters as strings, or set them to null if absent
-      row.reason = reason ? reason : null;
-      row.parameters = parameters ? parameters : null;
-    }
+    //   // Store reason and parameters as strings, or set them to null if absent
+    //   row.reason = reason ? reason : null;
+    //   row.parameters = parameters ? parameters : null;
+    // }
 
     console.log({ selectResult: selectResult });
     res.status(201).send(selectResult);
@@ -208,11 +208,10 @@ async function productReport(req,res){
 } 
 
 async function jobDetailsReport(req,res){
-    const {job_name} = req.body;
-
+    const {jobName} = req.body;
     try {
         const searchQueryJob = "SELECT job_id FROM productyyyy WHERE job_name=?"
-        const [selectResultJob] = await db.promise().query(searchQueryJob,[job_name])
+        const [selectResultJob] = await db.promise().query(searchQueryJob,[jobName])
         if(selectResultJob.length==0)
         {
             
@@ -223,9 +222,10 @@ async function jobDetailsReport(req,res){
             const job_id=selectResultJob[0]["job_id"];
 
 
-            const searchQueryWork = "select first_name,last_name,station_name, temp2.product_name,status,intime,out_time from (select station_name, temp1.product_name, employee_id,status,intime,out_time from (select station_id,product_name, employee_id,status,intime,out_time from station_yyyy where job_id=?) as temp1 inner join station_master on temp1.station_id=station_master.station_id) as temp2 inner join employee_master on temp2.employee_id=employee_master.employee_id;"
+            const searchQueryWork = "select first_name, last_name, station_name, temp2.product_name, status, intime, out_time from (select station_name, temp1.product_name, employee_id, status, intime, out_time from (select station_id,product_name, employee_id,status,intime,out_time from station_yyyy where job_id=?) as temp1 inner join station_master on temp1.station_id=station_master.station_id) as temp2 inner join employee_master on temp2.employee_id=employee_master.employee_id;"
             const [selectResultWork] = await db.promise().query(searchQueryWork,[job_id])
 
+            console.log(selectResultWork);
             res.status(201).send(selectResultWork);
         }
         

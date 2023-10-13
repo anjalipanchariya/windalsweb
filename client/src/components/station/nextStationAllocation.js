@@ -150,7 +150,6 @@ function NextStationAllocation() {
             </div>
             <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
-            </div>
             <Footer/>
         </>
     );

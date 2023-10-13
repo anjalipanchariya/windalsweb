@@ -73,7 +73,7 @@ function StationAllocation() {
           }
         )
         .required('Date is required'),
-      shift: Yup.string().required('Shift is required'),
+      shift: Yup.object().required('Shift is required'),
     })
 
     function fetchData() {
@@ -278,6 +278,7 @@ function StationAllocation() {
                 </div>
             </div>
 
+            <div>
             <Table striped responsive hover className='table'>
                 <thead>
 
@@ -328,9 +329,8 @@ function StationAllocation() {
         </div>
         <br />
         <br />
-        
         <Footer />
-        </div>
+    </>
     );
 }
 

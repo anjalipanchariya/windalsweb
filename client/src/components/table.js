@@ -103,7 +103,7 @@ function Table({ columns, data }) {
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
         /> */}
-        <div class="search-container">
+        <div className="search-container">
           <input class="search" id="searchleft" type="search" name="q" placeholder="Filter Value" value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)} />
           <label class="button searchbutton" for="searchleft"><span class="mglass">&#9906;</span></label>
