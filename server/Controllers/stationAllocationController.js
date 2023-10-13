@@ -32,7 +32,7 @@ async function getOneWorkerStation(req,res){
     try {
         const selectQuery = "SELECT station_name FROM station_allocation WHERE employee_id=? AND date=? AND shift_id=?"
 
-        const [selectResult] = await db.promise().query(selectQuery,[employeeId,date,shift.shift_id])
+        const [selectResult] = await db.promise().query(selectQuery,[employeeId,date,shift])
         console.log({query:req.query,result:selectResult});
 
         if(selectResult.length<=0)

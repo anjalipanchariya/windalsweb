@@ -19,6 +19,8 @@ import NextStationAllocation from './components/station/nextStationAllocation';
 import StationPage from './components/station/stationPage';
 import ShiftConfig from './components/shift/shiftConfiguration';
 import ViewShifts from './components/shift/viewShift';
+// import LoginLog from './components/reports/loginLog';
+import JobReport from './components/reports/jobReport';
 
 function App() {
   
@@ -32,8 +34,8 @@ function App() {
         <Route path='/:userName/ViewUser' element={<ViewUser />} />
 
         <Route path='/:userName/AddProduct' element={<AddProduct />}></Route>
-        <Route path='/:userName/UpdateAndDeleteProduct' element={<UpdateProduct />}></Route>
-        <Route path='/:userName/viewproduct' element={<ViewProduct />}></Route>
+        <Route path='/:userName/UpdateProduct' element={<UpdateProduct />}></Route>
+        <Route path='/:userName/ViewProduct' element={<ViewProduct />}></Route>
 
         <Route path='/:userName/AddUpdateAndDeleteStation' element={<AddStation />}></Route>
         {/* <Route path='/:userName/updateStation' element={<UpdateStation />}></Route> */}
@@ -46,6 +48,9 @@ function App() {
         
         <Route path='/:userName/ShiftConfig' element={<ShiftConfig />}></Route>
         <Route path='/:userName/ViewShifts' element={<ViewShifts />}></Route>
+
+        {/* <Route path='/:userName/LoginLog' element={<LoginLog />}></Route> */}
+        <Route path='/:userName/JobReport' element={<JobReport />} />
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </>

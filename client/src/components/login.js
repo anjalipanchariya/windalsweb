@@ -42,7 +42,7 @@ const LoginPage = () => {
               navigate(`/${result.userName}/AdminPanel`);
             }
             else{
-              if(result.stationName==="S1")
+              if(result.stationName==="station1")
               {
                 navigate(`/FirstStation/${result.employeeId}/${result.userName}/${result.stationName}`);
               }

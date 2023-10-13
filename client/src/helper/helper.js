@@ -488,5 +488,14 @@ export async function insertInLoginLog({userName,stationName}){
     } catch (error) {
         return Promise.reject(error.response.data)
     }
+} 
 
+export async function getJobReport(jobName){
+    try {
+        const {data,status} = await axios.post(`${proxy}api/StationyyyyJobReport`,{jobName:jobName})
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log({err:error})
+        return Promise.reject(error.response.data)
+    }
 } 

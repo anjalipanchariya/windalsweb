@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal, Table } from 'react-bootstrap';
+import { Button, Form, Modal, Table, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { addShift, getShift, deleteShift, updateShift } from '../../helper/helper';
@@ -9,6 +9,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
 import Footer from '../footer';
 import './shiftConfiguration.css';
+import moment from 'moment';
+import * as Yup from "yup";
 
 function ShiftConfiguration() {
   const [shiftData, setShiftData] = useState([])
@@ -281,6 +283,8 @@ function ShiftConfiguration() {
                                 name="shiftName"
                                 onChange={addFormFormik.handleChange}
                             />
+                            {addFormFormik.touched.shiftName && addFormFormik.errors.shiftName ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.shiftName}</Alert>): null}
                         </Form.Group>
 
           {/* <Form.Group className="mb-3" controlId="formBasicTime">
@@ -341,29 +345,29 @@ function ShiftConfiguration() {
       <option value="AM">AM</option>
       <option value="PM">PM</option>
     </Form.Control>
-    {addFormFormik.touched.startAmPm && addFormFormik.errors.startAmPm ? ( 
-    <Alert variant="danger" className="error-message">{addFormFormik.errors.startAmPm}</Alert>): null}
+    {addFormFormik.touched.endAmPm && addFormFormik.errors.endAmPm ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endAmPm}</Alert>): null}
     <Form.Control
       type="number"
       min="1"
       max="12"
-      name="startHour"
+      name="endHour"
       value={addFormFormik.values.endHour}
       onChange={addFormFormik.handleChange}
     />
-    {addFormFormik.touched.startHour && addFormFormik.errors.startHour ? ( 
-    <Alert variant="danger" className="error-message">{addFormFormik.errors.startHour}</Alert>): null}
+    {addFormFormik.touched.endHour && addFormFormik.errors.endHour ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endHour}</Alert>): null}
     
     <Form.Control
       type="number"
       min="0"
       max="59"
-      name="startMinute"
+      name="endMinute"
       value={addFormFormik.values.endMinute}
       onChange={addFormFormik.handleChange}
     />
-     {addFormFormik.touched.startMinute && addFormFormik.errors.startMinute? ( 
-    <Alert variant="danger" className="error-message">{addFormFormik.errors.startMinute}</Alert>): null}
+     {addFormFormik.touched.endMinute && addFormFormik.errors.endMinute? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endMinute}</Alert>): null}
   </div>
   
 </Form.Group>

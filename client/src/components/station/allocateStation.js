@@ -328,7 +328,6 @@ function StationAllocation() {
         
         <br />
         <br />
-        
         <Footer />
     </>
     );
