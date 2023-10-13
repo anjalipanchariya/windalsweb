@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-import { loginUser, getCurrentShift } from '../helper/helper';
+import { loginUser, getCurrentShift, insertInLoginLog } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +34,10 @@ const LoginPage = () => {
         {
           loading: "Checking creds",
           success: result =>{
-            if(result.userName === "admin")
+            const loginLogInsertPromise = insertInLoginLog({userName:result.userName,stationName:result.stationName})
+            loginLogInsertPromise.then((logResult)=>{
+              console.log("test")
+              if(result.userName === "admin")
             {
               navigate(`/${result.userName}/AdminPanel`);
             }
@@ -47,9 +50,14 @@ const LoginPage = () => {
               {
                 navigate(`/Station/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
-              
             }
             return result.msg
+            })
+            .catch((err)=>{
+              console.log(err);
+              return err.msg
+            })
+            
           },
           error: err => {
             console.log(err);
@@ -73,12 +81,13 @@ const LoginPage = () => {
     <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
-      <div className="col-md-6 bg-light-grey">
-        <form className="row g-3" onSubmit={formik.handleSubmit}>
+      <div className="col-md-10 bg-light-grey d-flex flex-wrap align-items-center">
+        <form className="row g-3 " onSubmit={formik.handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
               Username
             </label>
+            
             <input
               type="text"
               className="form-control"
@@ -105,7 +114,7 @@ const LoginPage = () => {
           {formik.touched.password && formik.errors.password?(<Alert variant="danger" className="error-message">{formik.errors.password}</Alert>):null}
           </div>
 
-          <div className="col-12">
+          <div className="col-12 d-flex flex-column align-items-center">
            <button type="button" className="btn btn-danger" onClick={formik.handleSubmit}>
            Login
            </button>

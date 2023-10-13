@@ -190,6 +190,8 @@ function DeleteUser() {
         </div>
         </div>
 
+        <br />
+
         {
             formik.values.userName!=="" && 
             <div className='delusertable' >

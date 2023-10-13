@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal, Table, Alert } from 'react-bootstrap';
+import { Button, Form, Modal, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { addShift, getShift, deleteShift, updateShift } from '../../helper/helper';
@@ -7,11 +7,8 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
-import * as Yup from "yup";
-import moment from 'moment';
 import Footer from '../footer';
 import './shiftConfiguration.css';
-
 
 function ShiftConfiguration() {
   const [shiftData, setShiftData] = useState([])
@@ -109,8 +106,8 @@ function ShiftConfiguration() {
         alert("start time should be less than end time.")
       }
 
-    }
-  })
+        }
+    })
 
   const editShiftSchema=Yup.object().shape({
     startTime:Yup.string().required("Start time is required"),
@@ -151,50 +148,50 @@ function ShiftConfiguration() {
   })
 
 
-  const handleDelete = (shiftId) => {
-    console.log(shiftId);
-    const deleteShiftPromise = deleteShift(shiftId)
+    const handleDelete = (shiftId) => {
+        console.log(shiftId);
+        const deleteShiftPromise = deleteShift(shiftId)
 
-    toast.promise(
-      deleteShiftPromise,
-      {
-        loading: "Deleting data",
-        success: result => {
-          editFormFormik.resetForm()
-          // searchFormFormik.resetForm()
-          setShiftData([])
-          getShiftData();
+        toast.promise(
+            deleteShiftPromise,
+            {
+                loading: "Deleting data",
+                success: result => {
+                    editFormFormik.resetForm()
+                    // searchFormFormik.resetForm()
+                    setShiftData([])
+                    getShiftData();
 
-          return result.msg
-        },
-        error: err => { return err.msg }
-      }
-    )
+                    return result.msg
+                },
+                error: err => { return err.msg }
+            }
+        )
 
-  };
+    };
 
-  const handleEdit = (shiftData) => {
-    const editValues = {
-      shiftId: shiftData.shift_id,
-      shiftName: shiftData.shift_name,
-      startTime: shiftData.start_time,
-      endTime: shiftData.end_time,
-      active: shiftData.active
+    const handleEdit = (shiftData) => {
+        const editValues = {
+            shiftId: shiftData.shift_id,
+            shiftName: shiftData.shift_name,
+            startTime: shiftData.start_time,
+            endTime: shiftData.end_time,
+            active: shiftData.active
+        }
+        editFormFormik.setValues(editValues)
+        setShowEditModal(true)
+    };
+
+
+
+    const handleModalClose = () => {
+        editFormFormik.resetForm()
+        setShowEditModal(false);
     }
-    editFormFormik.setValues(editValues)
-    setShowEditModal(true)
-  };
 
-
-
-  const handleModalClose = () => {
-    editFormFormik.resetForm()
-    setShowEditModal(false);
-  }
-
-  useEffect(() => {
-    getShiftData();
-  }, [])
+    useEffect(() => {
+        getShiftData();
+    }, [])
 
   const getShiftData = () => {
     const getShiftPromise = getShift()
@@ -204,27 +201,87 @@ function ShiftConfiguration() {
     }).catch((err) => { })
   }
 
-  const handleTickBoxChangeAdd = () => {
-    addFormFormik.setFieldValue("active", !addFormFormik.values.active)
-  }
-  const handleTickBoxChangeEdit = () => {
-    editFormFormik.setFieldValue("active", !editFormFormik.values.active)
-  }
-  return (
-    <div>
-      <WindalsNav />
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div className='shiftconf' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-      <div className="form-container">
-        <h1>Shift Configuration</h1>
-        <p>Add a new shift</p>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Control type="text" placeholder="Enter Shift Name" value={addFormFormik.values.shiftName} name="shiftName" onChange={addFormFormik.handleChange} />
-            {addFormFormik.touched.shiftName && addFormFormik.errors.shiftName ? (
-              <Alert variant="danger" className="error-message">{addFormFormik.errors.shiftName}</Alert>
-            ) : null}
-          </Form.Group>
+    const handleTickBoxChangeAdd = () => {
+        addFormFormik.setFieldValue("active", !addFormFormik.values.active)
+    }
+    console.log("The shift value is " + addFormFormik.values.active);
+    const handleTickBoxChangeEdit = () => {
+        editFormFormik.setFieldValue("active", !editFormFormik.values.active)
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        ctg();
+    });
+
+    const ctg=()=>{
+        const rows = document.querySelectorAll('td');
+        rows.forEach((row) => {
+            if (row.innerHTML === 'yes') {
+                const parent = row.parentNode;
+                parent.style.backgroundColor = 'rgb(131, 230, 131)';
+            }
+
+            else if (row.innerHTML === 'no') {
+                const parent = row.parentNode;
+                parent.style.backgroundColor = 'rgb(255, 168, 168)';
+            }
+        });
+        console.log("page is loaded")
+    }
+
+    function loadRowBackgroundColors() {
+        var tableRows = document.querySelectorAll("tr");
+    
+        tableRows.forEach(function (row) {
+            var rowId = row.textContent;
+            var rowColor = localStorage.getItem(rowId);
+            if (rowColor) {
+                row.classList.add(rowColor);
+            }
+            console.log(rowId)
+        });
+        
+    }
+    
+    loadRowBackgroundColors();
+
+    
+
+    // window.addEventListener("click", function () {
+    //     window.reload();
+    // });
+
+    // document.addEventListener("load", function () {
+    //     const rows = document.querySelectorAll('td');
+    //     rows.forEach((row) => {
+    //         if (row.innerHTML === 'yes') {
+    //             const parent = row.parentNode;
+    //             parent.style.backgroundColor = 'green';
+    //         }
+    //     });
+    // });
+    
+    return (
+        <div>
+            <WindalsNav />
+            
+            <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <div className='shiftconf'>
+                <div className="form-container">
+                    <h1>Shift Configuration</h1>
+                    <p>Add a new shift</p>
+
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                            <label>Shift Name</label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Shift Name"
+                                value={addFormFormik.values.shiftName}
+                                name="shiftName"
+                                onChange={addFormFormik.handleChange}
+                            />
+                        </Form.Group>
 
           {/* <Form.Group className="mb-3" controlId="formBasicTime">
             <Form.Control type="time" placeholder="start time" value={addFormFormik.values.startTime} name="startTime" onChange={addFormFormik.handleChange} />
@@ -315,139 +372,148 @@ function ShiftConfiguration() {
           
 
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <div>
-              <label>Active</label>
-              <input
-                type="checkbox"
-                name="active"
-                checked={addFormFormik.values.active}
-                onChange={handleTickBoxChangeAdd}
-              />
-            </div>
-          </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                            <div>
+                                <label>Active</label>
+                                <input
+                                    type="checkbox"
+                                    name="active"
+                                    checked={addFormFormik.values.active}
+                                    onChange={handleTickBoxChangeAdd}
+                                // onClick={changetogreen}
+                                />
+                            </div>
+                        </Form.Group>
 
-          <Button className="submit-button" variant="primary" type="submit" onClick={addFormFormik.handleSubmit}>
-            Submit
-          </Button>
-        </Form>
-      </div>
-      </div>
-      <div>
-        <Table striped responsive hover className='table'>
-          <thead>
-          </thead>
-          <tbody>
-            <tr>
-              <th>#</th>
-              <th>Shift Name</th>
-              <th>Start time</th>
-              <th>End time</th>
-              <th>Active</th>
-              <th>edit</th>
-              <th>delete</th>
-            </tr>
-            {
-
-              Array.isArray(shiftData) && shiftData.map((shiftdata, index) => (
-                <tr key={index}>
-                  <td>
-                    {index + 1}
-                  </td>
-                  <td>
-                    {shiftdata.shift_name}
-                  </td>
-                  <td>
-                    {shiftdata.start_time}
-                  </td>
-                  <td>
-                    {shiftdata.end_time}
-                  </td>
-                  <td>
-                    {shiftdata.active == 1 ? "yes" : "no"}
-                  </td>
-                  <td>
-                    <button
-                      className="edit-button"
-                      onClick={() => handleEdit(shiftdata)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(shiftdata.shift_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            }
-
-          </tbody>
-        </Table>
-
-      </div>
-      <div>
-        <Modal
-          show={showEditModal}
-          onHide={handleModalClose}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Edit the Shift as per required</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              Shift Name: {editFormFormik.values.shiftName}
-
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <label>Start Time</label>
-                <Form.Control type="time" placeholder="Enter Start Time" value={editFormFormik.values.startTime} name="startTime" onChange={editFormFormik.handleChange} />
-                {editFormFormik.touched.startTime && editFormFormik.errors.startTime ? (
-                  <Alert variant="danger" className="error-message">{editFormFormik.errors.startTime}</Alert>) : null}
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <label>End Time</label>
-                <Form.Control type="time" placeholder="Enter End Time " value={editFormFormik.values.endTime} name="endTime" onChange={editFormFormik.handleChange} />
-                {editFormFormik.touched.endTime && editFormFormik.errors.endTime ? (
-                  <Alert variant="danger" className="error-message">{editFormFormik.errors.endTime}</Alert>) : null}
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <div>
-                  <label> Active </label>
-                  <input
-                    type="checkbox"
-                    name="active"
-                    checked={editFormFormik.values.active}
-                    onChange={handleTickBoxChangeEdit}
-                  />
+                        <Button className="submit-button" variant="primary" type="submit" onClick={addFormFormik.handleSubmit}>
+                            Submit
+                        </Button>
+                    </Form>
                 </div>
-              </Form.Group>
+                <br />
 
-            </Form>
-          </Modal.Body>
+                <button onClick={ctg}>Refresh Table</button>
+                {/* <button onClick={window.location.reload()}>Refresh Page</button> */}
+                <br />
+               
+                <div>
+                    <table className='shifttable'>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>Shift Name</th>
+                                <th>Start time</th>
+                                <th>End time</th>
+                                <th>Active</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            {
 
-          <Modal.Footer>
-            <Button variant="danger" onClick={handleModalClose}>
-              Close
-            </Button>
-            <Button variant="danger" onClick={editFormFormik.handleSubmit}>
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                                Array.isArray(shiftData) && shiftData.map((shiftdata, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            {index + 1}
+                                        </td>
+                                        <td>
+                                            {shiftdata.shift_name}
+                                        </td>
+                                        <td>
+                                            {shiftdata.start_time}
+                                        </td>
+                                        <td>
+                                            {shiftdata.end_time}
+                                        </td>
+                                        <td>
+                                            {shiftdata.active == 1 ? "yes" : "no"}
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="edit-button"
+                                                onClick={() => handleEdit(shiftdata)}
+                                            >
+                                                <FontAwesomeIcon icon={faEdit} />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="edit-button"
+                                                onClick={() => handleDelete(shiftdata.shift_id)}
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div>
+                <Modal
+                    show={showEditModal}
+                    onHide={handleModalClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Edit the Shift as per required</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            Shift Name: {editFormFormik.values.shiftName}
+
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <label>Start Time</label>
+                                <Form.Control type="time" placeholder="Enter Start Time" value={editFormFormik.values.startTime} name="startTime" onChange={editFormFormik.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <label>End Time</label>
+                                <Form.Control type="time" placeholder="Enter End Time " value={editFormFormik.values.endTime} name="endTime" onChange={editFormFormik.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                <div>
+                                    <label> Active </label>
+                                    <input
+                                        type="checkbox"
+                                        name="active"
+                                        checked={editFormFormik.values.active}
+                                        onChange={handleTickBoxChangeEdit}
+                                    />
+                                </div>
+                            </Form.Group>
+
+                        </Form>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleModalClose}>
+                            Close
+                        </Button>
+                        <Button variant="danger" onClick={editFormFormik.handleSubmit}>
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
 
-      </div>
-      <Footer />
-    </div>
-  )
+            </div>
+            <Footer />
+        </div>
+    )
 }
 
 export default ShiftConfiguration

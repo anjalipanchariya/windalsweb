@@ -19,25 +19,23 @@ function WorkerReg(){
   const [accessGiven, setAccessGiven] = useState(new Array(accessOptions.length).fill(false));
 
   const userValidationSchema= Yup.object().shape({
-    userName:Yup.string().required(),
-    firstName:Yup.string().required(),
-    lastName:Yup.string().required(),
-    nickName:Yup.string().required(),
-    password:Yup.string().required(),
-    confirmPassword:Yup.string().required(),
-    designation:Yup.string().required(),
+    userName:Yup.string().required("Username is required"),
+    firstName:Yup.string().required("Username is required"),
+    lastName:Yup.string().required("Username is required"),
+    nickName:Yup.string().required("Username is required"),
+    password:Yup.string().required("Username is required"),
+    confirmPassword:Yup.string().required("Username is required"),
+    designation:Yup.string().required("Username is required"),
     mobileNo: Yup.string()
-    .required()
-    .matches(/^[0-9]{10}$/, "Mobile number must be exactly 10 digits")
+    .matches(/^[0-9]{10}$/, "Invalid mobile number")
     .test("is-positive", "Mobile number must be positive", (value) => {
       return parseInt(value) > 0;
     }),
-    accessGiven:Yup.string().required(),
     joiningDate: Yup.date()
     .required()
     .max(today, "Joining date cannot be in the future")
-    
   })
+
   const formik = useFormik({
     initialValues:{
       userName:"",
@@ -52,6 +50,7 @@ function WorkerReg(){
       accessGiven: "000000000000000000"
     },
     validationSchema:userValidationSchema,
+    validateOnBlur:false,
     onSubmit: values => {
       values.accessGiven = accessGiven.map(val => val ? "1" : "0").join("");
       console.log(values);
@@ -85,8 +84,8 @@ function WorkerReg(){
         
         <div className="adduser">
         <form className="workerreg">
-          <h1 className="heading">Worker Registration</h1>
-          <div style={{ display: 'flex', justifyContent: 'center'}}>
+          <h1 className="heading">User Registration</h1>
+          <div style={{ display: 'flex', flexDirection:'column' }}>
             <div className="worklist">
             <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
             { formik.errors.userName && formik.touched.userName ? (
@@ -136,10 +135,13 @@ function WorkerReg(){
 
         </form>
         <br />
+        
         <div className="checkbox-groups">
-          <div className="row">
-            {accessOptions.slice(0, 6).map((option, index) => (
-              <div key={option}>
+        <hr />
+          <div className="checkbox-row">
+            <h5>User Access - </h5>
+            {accessOptions.slice(0, 4).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -151,9 +153,12 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(6, 12).map((option, index) => (
-              <div key={option}>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Product Access - </h5>
+            {accessOptions.slice(4, 8).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -165,9 +170,12 @@ function WorkerReg(){
               </div>
             ))}
           </div>
-          <div className="row">
-            {accessOptions.slice(12).map((option, index) => (
-              <div key={option}>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Station Access - </h5>
+            {accessOptions.slice(8,12).map((option, index) => (
+              <div key={option} className="col-md-2">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
@@ -179,6 +187,41 @@ function WorkerReg(){
               </div>
             ))}
           </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Allocation Access - </h5>
+            {accessOptions.slice(12,18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <hr />
+          <br />
+          <div className="checkbox-row">
+          <h5>Shift Access - </h5>
+            {accessOptions.slice(18).map((option, index) => (
+              <div key={option} className="col-md-2">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={accessGiven[index + 12]}
+                    onChange={() => handleAccessOptionCheck(index + 12)}
+                  />
+                  {option}
+                </label>
+              </div>
+            ))}
+          </div>
+          <br />
         </div>
       </div>
       

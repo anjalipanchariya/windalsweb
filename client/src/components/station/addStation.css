@@ -1,22 +1,38 @@
 .add-station-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
     margin: 5px;
+    margin-top: 14vh;
 }
 
 .add-station-inputs {
-    width: 100%;
-    max-width: 400px;
+    text-align: center;
+    width: 40%;
     margin: 0 auto;
-    flex: 1;
     margin-left: 20px;
+    margin: 40px;
+    margin-right: 30vh;
 }
 
-.add-station-button {
-    width: 81%;
+
+.search-station-form {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    margin: 40px;
+    margin-right: 10vh;
+    text-align: center;
+}
+
+.select{
+  width: 50%;
+}
+.add-station-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
 }
 
 .header-add-station {
@@ -168,17 +184,4 @@
     margin-left: 50px;
 }
 
-.search-station-form {
-    flex: 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    flex-direction: column;
-    margin: 0;
-    margin-right: 100px;
-    width: 100%;
-}
 
-.search-station-button {
-    margin-right: 130px;
-}
