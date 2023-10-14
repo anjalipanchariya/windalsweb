@@ -71,42 +71,4 @@
   display: flex;
   justify-content: center;
   color: #e74c3c;
-  margin-top: 5px; /* Add some space above the error message */
-  align-items: center;
-  margin-left: 14px;
-  width: 12vw;
-  height: 8vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.productadd h3{
-margin-top: 20px;
-}
-
-
-/* Adjust toast position for margin */
-.react-hot-toast-container {
-  margin-top: 60px; /* Adjust as needed */
-}
-
-.paramererName-error-message{
-  font-size: 14px;
-  color: #e74c3c;
-  margin-top: 5px; /* Add some space above the error message */
-  align-items: center;
-  margin-left: 5px;
-  margin-top: 5px;
-  width: 200px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.selectopts{
-  width: 220px;
-  margin: 20px;
 }

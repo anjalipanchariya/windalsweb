@@ -1,71 +1,72 @@
+/* Table component styles */
 
+/* Table container */
 .table-container {
-    max-width: 100%;
-    overflow-x: auto;
-    border-collapse: collapse;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-  }
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
 
+
+
+
+/* Table header styles */
+.table-container th {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
   
-  
-  
-  /* Table header styles */
-  .table-container th {
-    background-color: black;
-    color: white;
-    font-weight: bold;
-    padding: 10px;
-    text-align: left;
-    
+}
+
+/* Alternating column background */
+.table-container th:nth-child(even) {
+  background-color: #333;
+}
+
+/* Table row styles */
+.table-container tr {
+  background-color: #f2f2f2;
+}
+
+/* Alternating row background */
+.table-container tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+/* Table cell styles */
+.table-container td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-family: Arial, sans-serif; /* Use your preferred font here */
+}
+
+/* Filter section styles */
+.filter-section {
+  margin: 10px 0;
+}
+
+.filter-section select,
+.filter-section input[type="text"] {
+  padding: 5px;
+  font-family: Arial, sans-serif; /* Use your preferred font here */
+}
+
+/* Sorting arrow styles */
+.sort-arrow {
+  margin-left: 5px;
+}
+
+/* Responsive table styles */
+@media screen and (max-width: 600px) {
+  .table-container {
+    width: 100%;
   }
-  
-  /* Alternating column background */
-  .table-container th:nth-child(even) {
-    background-color: #333;
-  }
-  
-  /* Table row styles */
-  .table-container tr {
-    background-color: #f2f2f2;
-  }
-  
-  /* Alternating row background */
-  .table-container tr:nth-child(even) {
-    background-color: #ddd;
-  }
-  
-  /* Table cell styles */
-  .table-container td {
-    padding: 8px;
-    border: 1px solid #ccc;
-    text-align: left;
-    font-family: Arial, sans-serif; /* Use your preferred font here */
-  }
-  
-  /* Filter section styles */
-  .filter-section {
-    margin: 10px 0;
-  }
-  
-  .filter-section select,
-  .filter-section input[type="text"] {
-    padding: 5px;
-    font-family: Arial, sans-serif; /* Use your preferred font here */
-  }
-  
-  /* Sorting arrow styles */
-  .sort-arrow {
-    margin-left: 5px;
-  }
-  
-  /* Responsive table styles */
-  @media screen and (max-width: 600px) {
-    .table-container {
-      width: 100%;
-    }
-  }
-  
+}

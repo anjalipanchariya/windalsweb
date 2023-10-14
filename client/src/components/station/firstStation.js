@@ -100,13 +100,24 @@ const FirstStation = () => {
     console.log({"stationOneProductInfo":stationOneProductInfo,"stationAllinfo":stationAllInfo});
     console.log({"workAtStationInDay":workAtStationInDay});
     return (
-        <div className="container text-center mt-4">
+        <>
+         
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav />
-            <button onClick={()=>{logout()}}>LOG OUT</button>
-            <h1>STATION NAME:{stationName}</h1>
-            <h1>EMPLOYEE ID: {employeeId}</h1>
-            <h1>USER NAME: {userName}</h1>
+            <button className="logout-button" onClick={()=>{logout()}}>LOG OUT</button>
+            <div className="container text-center mt-4">
+            <div className="row">
+         <div className="col-md-3">
+            <h2>STATION NAME: {stationName}</h2>
+         </div>
+         <div className="col-md-3">
+            <h2>EMPLOYEE ID: {employeeId}</h2>
+        </div>
+        <div className="col-md-3">
+            <h2>USER NAME: {userName}</h2>
+        </div>
+    </div>
+           <div className='input_box mx-auto gray-background'>
             <h1 className="centered-text">First Station</h1>
             <div className="form-group">
                 <label htmlFor="job_nameInput">Enter the Job Name:</label>
@@ -136,9 +147,11 @@ const FirstStation = () => {
                     ))}
                 </select>
             </div>
+
             <button className="btn btn-danger" onClick={formik.handleSubmit}>
                 Add Product
             </button>
+            </div>
             <div>
                 <h2>Jobs Submitted:</h2>
                 <table className="table">
@@ -164,8 +177,10 @@ const FirstStation = () => {
                     </tbody>
                 </table>
             </div>
+            </div>
             <Footer/>
-        </div>
+            </>
+        
     );
 };
 
