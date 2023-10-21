@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-import { loginUser, getCurrentShift } from '../helper/helper';
+import { loginUser, getCurrentShift, insertInLoginLog } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 const LoginPage = () => {
 
@@ -33,12 +34,15 @@ const LoginPage = () => {
         {
           loading: "Checking creds",
           success: result =>{
-            if(result.userName === "admin")
+            const loginLogInsertPromise = insertInLoginLog({userName:result.userName,stationName:result.stationName})
+            loginLogInsertPromise.then((logResult)=>{
+              console.log("test")
+              if(result.userName === "admin")
             {
               navigate(`/${result.userName}/AdminPanel`);
             }
             else{
-              if(result.stationName==="S1")
+              if(result.stationName==="station1")
               {
                 navigate(`/FirstStation/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
@@ -46,9 +50,14 @@ const LoginPage = () => {
               {
                 navigate(`/Station/${result.employeeId}/${result.userName}/${result.stationName}`);
               }
-              
             }
             return result.msg
+            })
+            .catch((err)=>{
+              console.log(err);
+              return err.msg
+            })
+            
           },
           error: err => {
             console.log(err);
@@ -61,22 +70,24 @@ const LoginPage = () => {
   useEffect(()=>{
     const getCurrentShiftPromise = getCurrentShift()
     getCurrentShiftPromise.then((result)=>{
-      console.log(result);
-      formik.setFieldValue("shift",result)
+      console.log(result.shift_id);
+      formik.setFieldValue("shift",result.shift_id)
     }).catch((err)=>{
       toast.error(err.msg)
     })
   },[])
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className='login'>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div className="col-md-6 bg-light-grey">
-        <form className="row g-3" onSubmit={formik.handleSubmit}>
+      <div>
+      <div className="col-md-10 bg-light-grey d-flex flex-wrap align-items-center">
+        <form className="row g-3 " onSubmit={formik.handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
               Username
             </label>
+            
             <input
               type="text"
               className="form-control"
@@ -85,8 +96,9 @@ const LoginPage = () => {
               value={formik.values.userName}
               onChange={formik.handleChange}
             />
+            {formik.touched.userName && formik.errors.userName?(<Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>):null}
           </div>
-          {formik.errors.userName && formik.errors.userName}
+          
           <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
@@ -99,16 +111,17 @@ const LoginPage = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
-          {formik.errors.password && formik.errors.password}
+          {formik.touched.password && formik.errors.password?(<Alert variant="danger" className="error-message">{formik.errors.password}</Alert>):null}
           </div>
 
-          <div className="col-12">
+          <div className="col-12 d-flex flex-column align-items-center">
            <button type="button" className="btn btn-danger" onClick={formik.handleSubmit}>
            Login
            </button>
           </div>
 
         </form>
+      </div>
       </div>
     </div>
   );

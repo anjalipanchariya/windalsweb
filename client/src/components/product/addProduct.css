@@ -2,6 +2,7 @@
 .productadd {
   /* margin-top: 30px; */
   text-align: center;
+  margin-top: 20vh;
 }
 
 .product-name-container {
@@ -40,10 +41,13 @@
 
 .product-table {
   text-align: center;
-  margin-left: 19vw;
-  width: 60%;
-  margin-top: 20px;
+  /* margin-left: 19vw; */
+  width: 80%;
+  margin-top: 15px;
+  margin-bottom: 15px;
   border-collapse: collapse;
+  justify-content: center;
+  table-layout: auto;
 }
 
 .product-table th,
@@ -51,10 +55,12 @@
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
+  width: 21%;
 }
 
 .product-table th {
   background-color: #f2f2f2;
+  color: black;
 }
 
 .delete-button {

@@ -1,14 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import WindalsNav from './navbar';
 import Footer from './footer';
 import toast, {Toaster} from "react-hot-toast";
-import { logout, verifyLogin } from "../helper/helper";
+import { getAllStationNames, logout, verifyLogin } from "../helper/helper";
+import StationCard from "./stationcards";
+import { getCurrentShift } from "../helper/helper";
+
 
 function Admin(){
+    
+    const [currentActiveShift,setCurrentActiveShift] = useState("")
+    const [stationNames,setStationNames] = useState([])
+
     useEffect(()=>{
         const verifyLoginPromise = verifyLogin()
         verifyLoginPromise.then((result)=>{
             console.log(result);
+            const getCurrentShiftPromise = getCurrentShift()
+            getCurrentShiftPromise.then((result)=>{
+                console.log(result.shift_id);
+                setCurrentActiveShift(result.shift_id)
+            }).catch((err)=>{
+                toast.error(err.msg)
+            })
             return null  
         }).catch((err)=>{
             toast.error(err.msg)
@@ -19,10 +33,32 @@ function Admin(){
         }) 
     },[])
 
+    useEffect(()=>{
+        const getStationNamesPromise = getAllStationNames()
+        getStationNamesPromise.then((result)=>{
+            setStationNames(result)
+        }).catch((err)=>{
+            toast.error(err.msg)
+        })
+    },[currentActiveShift])
+
+    console.log({currentActiveShift:currentActiveShift,stationNames:stationNames});
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav />
+            <div className="dashboard">
+       
+        <div className="cards">
+        {
+            stationNames.length>0 ?
+            stationNames.map((station,index)=>(
+                <StationCard name={station.station_name} number={index+1} worker = "abc" done='1' shift="2" notdone='0' redo='5'/>
+            ))
+            : "No stations have been configured"
+        }
+       </div> 
+       </div>
             <Footer/>
         </div>
     )

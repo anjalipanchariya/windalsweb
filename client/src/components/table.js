@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './table.css'
-
+import './table.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSolid, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 function Table({ columns, data }) {
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
@@ -49,14 +50,14 @@ function Table({ columns, data }) {
     let csv = '';
     const arr = []
 
-    for(let j = 0; j<columns.length; j++){
+    for (let j = 0; j < columns.length; j++) {
       arr.push(columns[j]['label'])
     }
-    
-console.log(arr);
-console.log(columns);
 
-csv += arr.join(',') + '\n';
+    console.log(arr);
+    console.log(columns);
+
+    csv += arr.join(',') + '\n';
     for (let i = 0; i < data.length; i++) {
       const row = data[i];
       // const values = columnKeys.map(key => row[key]);
@@ -77,28 +78,37 @@ csv += arr.join(',') + '\n';
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   };
-
+  console.log(columns);
   return (
     <div className="table-container">
       <div className="filter-section">
-        <select
-          onChange={(e) => setFilterColumn(e.target.value)}
-          value={filterColumn}
-        >
-          <option value="">--Select Column--</option>
-          {columns.map((col) => (
-            <option key={col.field} value={col.field}>
-              {col.label}
-            </option>
-          ))}
-        </select>
+        <div className='box'>
+          <select
+            onChange={(e) => setFilterColumn(e.target.value)}
+            value={filterColumn}
+          >
+            <option value="">Select Column</option>
+            {columns.map((col) => (
+              <option key={col.field} value={col.field}>
+                {col.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
+{/* 
         <input
           type="text"
           placeholder="Filter Value"
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
-        />
+        /> */}
+        <div className="search-container">
+          <input class="search" id="searchleft" type="search" name="q" placeholder="Filter Value" value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)} />
+          <label class="button searchbutton" for="searchleft"><span class="mglass">&#9906;</span></label>
+        </div>
+
       </div>
 
       <table>
@@ -124,9 +134,13 @@ csv += arr.join(',') + '\n';
         <tbody>
           {filteredData.map((row, index) => (
             <tr key={index}>
-              {columns.map((col) => (
-                <td key={col.field}>{row[col.field]}</td>
-              ))}
+              {
+
+                columns.map((col) => (
+
+                  <td key={col.field}>{row[col.field]}</td>
+                ))
+              }
             </tr>
           ))}
         </tbody>

@@ -1,39 +1,34 @@
 .header-allocate-station {
-    margin-top: 70px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
  
 }
 
-
-
-  .container {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-between;
-    margin: 20px; 
-    width:100%;
-  }
+.allocstat{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+}
   
   .input-box {
-    flex: 1;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
     margin: 10px; 
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f4f4f4;
+    align-items: center;
+    /* margin-left: 22vw; */
+    margin-top: 15vh;
   }
   
-  .table-container {
-    flex: 1;
-    margin: 10px; 
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f4f4f4;
-  }
-    
+ 
   
   
   .form-label {
@@ -55,7 +50,7 @@
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-  
+    background-color: white;
 }
 
   
