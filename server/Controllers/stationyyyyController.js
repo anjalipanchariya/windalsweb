@@ -107,30 +107,33 @@ async function jobsAtStation(req,res){
 }
 
 async function countOfWorkAtStation(req,res){
-    const {station_id} = req.body;
+    const { stationName } = req.query;
 
     try {
+    const searchStationIdQuery = "SELECT station_id FROM station_master WHERE station_name = ?";
+    const [selectstationIdResult] = await db.promise().query(searchStationIdQuery, [stationName]);
 
-        const searchQueryDone = "select count(*) as ok from station_yyyy where status=1 and station_id=?;"
-        const [selectResultDone] = await db.promise().query(searchQueryDone,[station_id])
-        const done=selectResultDone[0]['ok'];
-
-        const searchQueryNotDone = "select count(*) as notok from station_yyyy where status=0 and station_id=?;"
-        const [selectResultNotDone] = await db.promise().query(searchQueryNotDone,[station_id])
-        const notdone=selectResultNotDone[0]['notok'];
-
-        const searchQueryRework = "select count(*) as rework from station_yyyy where status=2 and station_id=?;"
-        const [selectResultRework] = await db.promise().query(searchQueryRework,[station_id])
-        const rework=selectResultRework[0]['rework'];
+    const stationIds = selectstationIdResult.map((station) => station.station_id);
+    const placeholders = stationIds.map(() => '?').join(', ');
 
 
-        res.status(201).send({ok:done,notok:notdone, rework:rework});
+    const searchQueryDone = `SELECT COUNT(*) AS ok FROM station_yyyy WHERE status = 1 AND station_id IN (${placeholders})`;
+    const [selectResultDone] = await db.promise().query(searchQueryDone, stationIds);
+    const done = selectResultDone[0]['ok'];
 
+    const searchQueryNotDone = `SELECT COUNT(*) AS notok FROM station_yyyy WHERE status = -1 AND station_id IN (${placeholders})`;
+    const [selectResultNotDone] = await db.promise().query(searchQueryNotDone, stationIds);
+    const notdone = selectResultNotDone[0]['notok'];
+
+    const searchQueryRework = `SELECT COUNT(*) AS rework FROM station_yyyy WHERE status = 0 AND station_id IN (${placeholders})`;
+    const [selectResultRework] = await db.promise().query(searchQueryRework, stationIds);
+    const rework = selectResultRework[0]['rework'];
+
+    res.status(201).send({ ok: done, notok: notdone, rework: rework });
     } catch (err) {
-        console.error("Database error:", err);
-        res.status(500).send({ msg: `Internal server error: ${err}` });
+    console.error("Database error:", err);
+    res.status(500).send({ msg: `Internal server error: ${err}` });
     }
-
 }
 
 async function getJobesSubmitedAtStation(req,res){
