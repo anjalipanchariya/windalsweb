@@ -92,7 +92,7 @@ function DeleteUser() {
       formik.setFieldValue("nickName",result[0].nick_name)
       formik.setFieldValue("designation",result[0].designation)
       formik.setFieldValue("mobileNo",result[0].mobile_no)
-      formik.setFieldValue("joiningDate",result[0].joining_date)
+      formik.setFieldValue("joiningDate",result[0].joining_date.substring(0, 10))
       formik.setFieldValue("accessGiven",result[0].access_given)
       const accessArray = accessOptions.map((option, index) => result[0].access_given[index] === "1");
       setAccessGiven(accessArray);
@@ -204,11 +204,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.userName} name="userName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.userName && (
+                      formik.errors.userName && formik.touched.userName ? (
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.userName}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>First Name</th>
@@ -216,11 +216,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.firstName} name="firstName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.firstName && (
+                      formik.errors.firstName && formik.touched.firstName?(
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.firstName}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>Last Name</th>
@@ -228,11 +228,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.lastName} name="lastName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.lastName && (
+                      formik.errors.lastName && formik.touched.lastName?(
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.lastName}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>Nick Name</th>
@@ -240,11 +240,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.nickName} name="nickName" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.nickName && (
+                      formik.errors.nickName && formik.touched.nickName? (
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.nickName}
                         </Alert>
-                    )} </td>
+                    ) : null} </td>
                 </tr>
                 <tr>
                   <th>Mobile Number</th>
@@ -252,11 +252,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.mobileNo} name="mobileNo" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.mobileNo && (
+                      formik.errors.mobileNo && formik.touched.mobileNo? (
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.mobileNo}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>Designation</th>
@@ -264,11 +264,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.designation} name="designation" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.designation && (
+                      formik.errors.designation && formik.touched.designation?(
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.designation}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>Joining Date</th>
@@ -276,11 +276,11 @@ function DeleteUser() {
                                 <Form.Control type="text" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange} />
                     </Form.Group>
                     {
-                      formik.errors.joiningDate && (
+                      formik.errors.joiningDate && formik.touched.joiningDate?(
                         <Alert variant="danger" className="paramererName-error-message">
                           {formik.errors.joiningDate}
                         </Alert>
-                    )} </td>
+                    ):null} </td>
                 </tr>
                 <tr>
                   <th>Access Given</th>

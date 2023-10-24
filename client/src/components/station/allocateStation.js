@@ -277,8 +277,7 @@ function StationAllocation() {
                     </table>
                 </div>
             </div>
-
-            <div>
+ 
             <Table striped responsive hover className='table'>
                 <thead>
 
@@ -326,7 +325,7 @@ function StationAllocation() {
                 </tbody>
             </Table>
             <br />
-        </div>
+        
         <br />
         <br />
         <Footer />

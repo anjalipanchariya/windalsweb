@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal, Table } from 'react-bootstrap';
+import { Button, Form, Modal, Table, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { addShift, getShift, deleteShift, updateShift } from '../../helper/helper';
@@ -9,63 +9,145 @@ import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from '../navbar';
 import Footer from '../footer';
 import './shiftConfiguration.css';
+import moment from 'moment';
+import * as Yup from "yup";
 
 function ShiftConfiguration() {
-    const [shiftData, setShiftData] = useState([])
-    const [showEditModal, setShowEditModal] = useState(false);
+  const [shiftData, setShiftData] = useState([])
+  const [showEditModal, setShowEditModal] = useState(false);
 
-    const addFormFormik = useFormik({
-        initialValues: {
-            shiftName: '',
-            startTime: '',
-            endTime: '',
-            active: false
-        },
-        onSubmit: async (values) => {
-            const addShiftPromise = addShift(values)
-            toast.promise(
-                addShiftPromise,
-                {
-                    loading: 'Adding shift',
-                    success: (result) => {
-                        addFormFormik.resetForm()
-                        getShiftData()
-                        return result.msg
-                    },
-                    error: (err) => {
-                        return err.msg
-                    }
-                }
-            )
+
+  const shiftValidationSchema = Yup.object().shape({
+    shiftName: Yup.string().max(100, "Too long").required("Required"),
+
+    startAmPm: Yup.string().required("AM/PM is required"),
+    startHour: Yup.string().required("Hour is required"),
+    startMinute: Yup.string().required("Minute is required"),
+
+    endAmPm: Yup.string().required("AM/PM is required"),
+    endHour: Yup.string().required("Hour is required"),
+    endMinute: Yup.string().required("Minute is required")
+    // startTime: Yup.string()
+    //   .required("Start time is required")
+    //   .test(
+    //     "is-greater",
+    //     "End time should be greater than start time",
+    //     function (value) {
+    //       const { startTime, endTime } = this.parent;
+    //       if (startTime === endTime) {
+    //         return false; 
+    //       }
+    //       return moment(value, "HH:mm").isSameOrAfter(moment(startTime, "HH:mm"));
+    //     }
+    //   ),
+    // endTime: Yup.string()
+    //   .required("End time is required")
+    //   .test(
+    //     "is-greater",
+    //     "End time should be greater than start time",
+    //     function (value) {
+    //       const { startTime, endTime } = this.parent;
+    //       if (startTime === endTime) {
+    //         return false; 
+    //       }
+    //       return moment(value, "HH:mm").isSameOrAfter(moment(startTime, "HH:mm"));
+    //     }
+    //   ),
+  });
+
+
+  const addFormFormik = useFormik({
+    initialValues: {
+      shiftName: '',
+      startAmPm: 'AM',
+      startHour: '12', // Default to 12 (you can set your own default)
+      startMinute: '00',
+      
+      endAmPm: 'AM',
+      endHour: '12', // Default to 12 (you can set your own default)
+      endMinute: '00',
+      
+      active: false
+    },
+    validationSchema: shiftValidationSchema,
+    onSubmit: async (values) => {
+      const startTime = moment(
+        `${values.startHour}:${values.startMinute} ${values.startAmPm}`,
+        'h:mm A').format('HH:mm');
+        const endTime = moment(
+          `${values.endHour}:${values.endMinute} ${values.endAmPm}`,
+          'h:mm A').format('HH:mm');
+          values = { 
+            ...values,
+            startTime:startTime,
+            endTime:endTime
+          }
+          console.log(values);
+      
+      if (moment(endTime, "hh:mm A").isSameOrAfter(moment(startTime, "hh:mm A")) &&
+      !moment(endTime, "hh:mm A").isSame(moment(startTime, "hh:mm A"))) {
+        const addShiftPromise = addShift(values)
+      toast.promise(
+        addShiftPromise,
+        {
+          loading: 'Adding shift',
+          success: (result) => {
+            addFormFormik.resetForm()
+            getShiftData()
+            return result.msg
+          },
+          error: (err) => {
+            return err.msg
+          }
+
+
+        }
+      )
+      }
+      else{
+        alert("start time should be less than end time.")
+      }
 
         }
     })
 
-    const editFormFormik = useFormik({
-        initialValues: {
-            shiftName: '',
-            startTime: '',
-            endTime: '',
-            active: false
-        },
-        onSubmit: async (values) => {
-            const updateShiftPromise = updateShift(values)
-            toast.promise(
-                updateShiftPromise,
-                {
-                    loading: "Updating data",
-                    success: result => {
-                        editFormFormik.resetForm();
-                        setShowEditModal(false);
-                        getShiftData();
-                        // handleSearch();
-                        return <b>{result.msg}</b>; // Return a React element
-                    },
-                    error: err => <b>{err.msg}</b>, // Return a React element
-                }
-            )
+  const editShiftSchema=Yup.object().shape({
+    startTime:Yup.string().required("Start time is required"),
+    endTime:Yup.string().required("End time is required"),
+    shiftName:Yup.string().max(100, "Too long").required("Required")
+  })
+  const editFormFormik = useFormik({
+    initialValues: {
+      shiftName: '',
+      startTime: '',
+      endTime: '',
+      active: false
+    },
+    validationSchema: editShiftSchema,
+    onSubmit: async (values) => {
+      if (moment(values.endTime, "hh:mm A").isSameOrAfter(moment(values.startTime, "hh:mm A")) &&
+      !moment(values.endTime, "hh:mm A").isSame(moment(values.startTime, "hh:mm A"))) {
+      const updateShiftPromise = updateShift(values)
+      toast.promise(
+        updateShiftPromise,
+        {
+          loading: "Updating data",
+          success: result => {
+            editFormFormik.resetForm();
+            setShowEditModal(false);
+            getShiftData();
+            // handleSearch();
+            return <b>{result.msg}</b>; // Return a React element
+          },
+          error: err => <b>{err.msg}</b>, // Return a React element
         }
-    })
+      )
+      }
+      else{
+        alert("start time should be less than end time.")
+      }
+    }
+  })
 
 
     const handleDelete = (shiftId) => {
@@ -113,13 +195,13 @@ function ShiftConfiguration() {
         getShiftData();
     }, [])
 
-    const getShiftData = () => {
-        const getShiftPromise = getShift()
-        getShiftPromise.then(async (result) => {
-            setShiftData(result)
-            console.log("hi");
-        }).catch((err) => { })
-    }
+  const getShiftData = () => {
+    const getShiftPromise = getShift()
+    getShiftPromise.then(async (result) => {
+      setShiftData(result)
+     
+    }).catch((err) => { })
+  }
 
     const handleTickBoxChangeAdd = () => {
         addFormFormik.setFieldValue("active", !addFormFormik.values.active)
@@ -201,29 +283,98 @@ function ShiftConfiguration() {
                                 name="shiftName"
                                 onChange={addFormFormik.handleChange}
                             />
+                            {addFormFormik.touched.shiftName && addFormFormik.errors.shiftName ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.shiftName}</Alert>): null}
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicTime">
-                            <label>Start Time</label>
-                            <Form.Control
-                                type="time"
-                                placeholder="start time"
-                                value={addFormFormik.values.startTime}
-                                name="startTime"
-                                onChange={addFormFormik.handleChange}
-                            />
-                        </Form.Group>
+          {/* <Form.Group className="mb-3" controlId="formBasicTime">
+            <Form.Control type="time" placeholder="start time" value={addFormFormik.values.startTime} name="startTime" onChange={addFormFormik.handleChange} />
+            {addFormFormik.touched.startTime && addFormFormik.errors.startTime ? (
+              <Alert variant="danger" className="error-message">{addFormFormik.errors.startTime}</Alert>
+            ) : null}
+          </Form.Group> */}
 
-                        <Form.Group className="mb-3" controlId="formBasicTime">
-                            <label>End Time</label>
-                            <Form.Control
-                                type="time"
-                                placeholder="end time"
-                                value={addFormFormik.values.endTime}
-                                name="endTime"
-                                onChange={addFormFormik.handleChange}
-                            />
-                        </Form.Group>
+<Form.Group className="mb-3" controlId="formBasicTime">
+  <label>Start Time (AM/PM)</label>
+  <div className="d-flex align-items-center">
+    <Form.Control
+      as="select"
+      name="startAmPm"
+      value={addFormFormik.values.startAmPm}
+      onChange={addFormFormik.handleChange}
+    >
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </Form.Control>
+    {addFormFormik.touched.startAmPm && addFormFormik.errors.startAmPm ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.startAmPm}</Alert>): null}
+    <Form.Control
+      type="number"
+      min="1"
+      max="12"
+      name="startHour"
+      value={addFormFormik.values.startHour}
+      onChange={addFormFormik.handleChange}
+    />
+    {addFormFormik.touched.startHour && addFormFormik.errors.startHour ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.startHour}</Alert>): null}
+    :
+    <Form.Control
+      type="number"
+      min="0"
+      max="59"
+      name="startMinute"
+      value={addFormFormik.values.startMinute}
+      onChange={addFormFormik.handleChange}
+    />
+    {addFormFormik.touched.startMinute && addFormFormik.errors.startMinute? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.startMinute}</Alert>): null}
+  </div>
+  
+</Form.Group>
+
+<Form.Group className="mb-3" controlId="formBasicTime">
+  <label>End Time (AM/PM)</label>
+  <div className="d-flex align-items-center">
+    <Form.Control
+      as="select"
+      name="endAmPm"
+      value={addFormFormik.values.endAmPm}
+      onChange={addFormFormik.handleChange}
+    >
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </Form.Control>
+    {addFormFormik.touched.endAmPm && addFormFormik.errors.endAmPm ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endAmPm}</Alert>): null}
+    <Form.Control
+      type="number"
+      min="1"
+      max="12"
+      name="endHour"
+      value={addFormFormik.values.endHour}
+      onChange={addFormFormik.handleChange}
+    />
+    {addFormFormik.touched.endHour && addFormFormik.errors.endHour ? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endHour}</Alert>): null}
+    
+    <Form.Control
+      type="number"
+      min="0"
+      max="59"
+      name="endMinute"
+      value={addFormFormik.values.endMinute}
+      onChange={addFormFormik.handleChange}
+    />
+     {addFormFormik.touched.endMinute && addFormFormik.errors.endMinute? ( 
+    <Alert variant="danger" className="error-message">{addFormFormik.errors.endMinute}</Alert>): null}
+  </div>
+  
+</Form.Group>
+          
+
+          
+
 
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <div>

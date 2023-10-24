@@ -75,8 +75,9 @@ CREATE TABLE `station_yyyy` (
   `status` int DEFAULT NULL,
   `parameters` varchar(1000) DEFAULT NULL,
   `intime` datetime NOT NULL,
-  `out_time` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `out_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`station_id`,`product_name`,`job_id`,`intime`)
+) ;
 
 INSERT INTO employee_master VALUES ('1', 'admin', 'admin', 'admin', 'admin', 'admin', '2023-09-12 00:00:00', NULL, '9689850419','$2b$10$SD6.jEKVxpQrtC1mfOZNjOh6waVEUhceSvo.t9Gu2wa9Hckh3vdui','1111111111111111111');
 
