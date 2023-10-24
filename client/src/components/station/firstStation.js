@@ -178,7 +178,7 @@ const FirstStation = () => {
                 : "null"}
             
             <Footer/>
-            <div>
+           </div>
             
         
     );
