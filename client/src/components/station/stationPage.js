@@ -350,8 +350,8 @@ const StationPage = () => {
       </Modal>
       { 
         workAtStationInDay.length>0 ? 
-          <div>
-            <h2>Jobs Submitted:</h2>
+          <div className='jobsub'>
+            <h2>Jobs Submitted</h2>
             <table className="product-table">
                   <thead>
                       <tr>
