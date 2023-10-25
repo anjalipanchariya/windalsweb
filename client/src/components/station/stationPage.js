@@ -46,24 +46,34 @@ const StationPage = () => {
       const updateJobeAtStationPromise = updateJobesAtStation(values,stationOneProductInfo[0].station_id,employeeId)
       updateJobeAtStationPromise.then((result)=>{
         toast.success(result.msg)
-        const newValues = {
-          job_name:values.selectedJob.job_name,
-          product_name:product_name,
-          station_id:stationOneProductInfo[0].station_id
+        if(values["status"]=='1'){
+          const newValues = {
+            job_name:values.selectedJob.job_name,
+            product_name:product_name,
+            station_id:stationOneProductInfo[0].station_id
+          }
+          const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
+          insertInStationyyyyFirstNextStationPromise.then((result)=>{
+            toast.success(result.msg)
+            getSubmitedJobs()
+            formik.resetForm()
+            setDropdownOptions([])
+            setDropdownPosition(null)
+            closeModal()
+            setJobesAtStationFunction()
+          }).catch((err)=>{
+            toast.error(err.msg)
+            console.log(err);
+          })
         }
-        const insertInStationyyyyFirstNextStationPromise = insertInStationyyyyFirstNextStation(newValues)
-        insertInStationyyyyFirstNextStationPromise.then((result)=>{
-          toast.success(result.msg)
+        else{
           getSubmitedJobs()
           formik.resetForm()
           setDropdownOptions([])
           setDropdownPosition(null)
           closeModal()
           setJobesAtStationFunction()
-        }).catch((err)=>{
-          toast.error(err.msg)
-          console.log(err);
-        })
+        }        
       }).catch((err)=>{
         toast.error(err.msg)
         console.log(err);
