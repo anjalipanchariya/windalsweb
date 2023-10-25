@@ -3,6 +3,7 @@ import { getAllProducts } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from '../table';
 import WindalsNav from '../navbar';
+import Footer from '../footer';
 function ViewProduct() { // Changed the function name to start with an uppercase letter
 
   const [products, setProducts] = useState([]);
@@ -37,6 +38,10 @@ function ViewProduct() { // Changed the function name to start with an uppercase
       <div style={{marginTop:'20vh'}}>
       <Table columns={columns} data={products} />
       </div>
+      <br />
+      <br />
+      
+      <Footer/>
       
     </>
   );

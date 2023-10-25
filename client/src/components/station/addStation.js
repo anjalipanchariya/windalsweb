@@ -476,7 +476,8 @@ function AddStation() {
                     </Table>
                     : null}
             </div>
-
+            <br />
+            <br />
             <Modal
                 show={showEditModal}
                 onHide={handleModalClose}
@@ -551,9 +552,8 @@ function AddStation() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-
-
+            <br />
+            <br />
 
             <Footer />
         </div>

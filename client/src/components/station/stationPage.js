@@ -220,21 +220,15 @@ const StationPage = () => {
       <WindalsNav />
       {/* <button onClick={() => { logout() }}>Log Out</button> */}
       <h1>Station {stationName}</h1>
+      <hr />
       <div className='fslist'>
-      <h3>Station Name{stationName}</h3>
-      <h3>Employee Id {employeeId}</h3>
-      <h3>User Name {userName}</h3>
+      <h4>Station Name : {stationName}</h4>
+      <h4>Employee Id : {employeeId}</h4>
+      <h4>User Name : {userName}</h4>
       </div>
-      {stationOneProductInfo[0] && product_name !== "" &&
-        <div>
-          <h1>Daily Count: {stationOneProductInfo[0].daily_count}</h1>
-          <h1>Cycle Time: {stationOneProductInfo[0].cycle_time}</h1>
-          <h1>Product per hour: {stationOneProductInfo[0].product_per_hour}</h1>
-          <h1>Parameters to be checked: {stationOneProductInfo[0].report === 1 ? stationOneProductInfo[0].station_parameters : "NONE"}</h1>
-        </div>
-      }
+      <hr />
       <div className="form-group">
-        <label style={{fontSize:'1.5rem'}} htmlFor="productSelect">Select a Product:</label>
+        <label style={{fontSize:'1.7rem'}} htmlFor="productSelect">Select a Product:</label>
         <select
           id="productSelect"
           value={product_name}
@@ -254,7 +248,38 @@ const StationPage = () => {
         </select>
       </div>
       <br />
-      <h3>Job At Station</h3>
+      {stationOneProductInfo[0] && product_name !== "" &&
+        <div className='params'>
+          <table style={{width:'20%', textAlign:'center'}}>
+            <tbody>
+              <tr>
+                <td>Daily Count:</td>
+                <td>{stationOneProductInfo[0].daily_count}</td>
+              </tr>
+              <tr>
+                <td>Cycle Time: </td>
+                <td>{stationOneProductInfo[0].cycle_time}</td>
+              </tr>
+              <tr>
+                <td>Product per hour:</td>
+                <td>{stationOneProductInfo[0].product_per_hour}</td>
+              </tr>
+              <tr>
+                <td>Parameters to be checked:</td>
+                <td>{stationOneProductInfo[0].report === 1 ? stationOneProductInfo[0].station_parameters : "NONE"}</td>
+              </tr>
+            </tbody>
+          </table>
+          {/* <h5>Daily Count: {stationOneProductInfo[0].daily_count}</h5>
+          <h5>Cycle Time: {stationOneProductInfo[0].cycle_time}</h5>
+          <h5>Product per hour: {stationOneProductInfo[0].product_per_hour}</h5>
+          <h5>Parameters to be checked: {stationOneProductInfo[0].report === 1 ? stationOneProductInfo[0].station_parameters : "NONE"}</h5> */}
+        </div>
+      }
+      <hr />
+      
+      <br />
+      <p style={{fontSize:'1.7rem', fontWeight:"bold"}}>Job At Station</p>
       <ul>
         { jobsAtStation.length>0 ? jobsAtStation.map((job) => (
           <li
@@ -354,7 +379,10 @@ const StationPage = () => {
           </div>
         : null
       }
-      
+      <br />
+      <br />
+      <br />
+
      <Footer/>
     </div>
   );

@@ -166,7 +166,7 @@ function DeleteUser() {
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>
-      <Form style={{ margin: '15vh' , alignItems:'center',textAlign:'center'}}>
+      <Form style={{ margin: '20vh' , alignItems:'center',textAlign:'center'}}>
       <div className='username-not-table'  style={{ margin: 30 , alignItems:'center',textAlign:'center'}}>
         <h3 style={{ width: 500, textAlign: 'center' }}>Enter Username of the User to Delete</h3>
 

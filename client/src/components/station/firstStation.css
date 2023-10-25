@@ -10,6 +10,7 @@
     width: 15vw;
 }
 .firststat{
+    margin-top: 20vh;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -17,13 +18,28 @@
     
 }
 
-
 .fslist{
     display: flex;
-    margin-left: 20vw;
-    
+    justify-content: center;
 }
 
-.fslist h3{
+.fslist h4{
     margin: 30px;
+}
+
+.params{
+    display: flex;
+    justify-content: center;
+}
+
+#job_nameInput{
+    width: 16%;
+    padding: 0px;
+    border: 1px solid black;
+}
+
+.jobsub{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
