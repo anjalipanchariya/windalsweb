@@ -86,8 +86,6 @@ function NextStationAllocation() {
     return (
         <>
         <div className="product-select">
-
-        
             <div >
                 <Toaster position="top-center" reverseOrder={false}></Toaster>
                 <WindalsNav/>
@@ -147,9 +145,11 @@ function NextStationAllocation() {
                     </table>
                 </div>
             )}
-            </div>
             <br />
             <button onClick={formik.handleSubmit}>Save configuration</button>
+            </div>
+            <br />
+            
             <Footer/>
         </>
     );

@@ -499,3 +499,14 @@ export async function getJobReport(jobName){
         return Promise.reject(error.response.data)
     }
 } 
+
+export async function getCountOfWorkAtStation(stationName){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.get(`${proxy}api/StationyyyyGetCountOfWorkAtStation`,{params:{stationName},headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log({err:error})
+        return Promise.reject(error.response.data)
+    }
+}

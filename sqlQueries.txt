@@ -87,3 +87,11 @@ INSERT INTO employee_master VALUES ('1', 'admin', 'admin', 'admin', 'admin', 'ad
   
   1 for access given 0 for not given
 */
+
+CREATE TABLE `login_log` (
+  `employee_id` int NOT NULL,
+  `date_time` datetime NOT NULL,
+  `station_name` varchar(100) DEFAULT NULL,
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `login_log_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee_master` (`employee_id`) ON DELETE CASCADE
+);

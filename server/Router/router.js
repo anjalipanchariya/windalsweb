@@ -46,6 +46,7 @@ router.route('/StationMasterGetNamesForOneProduct').get(getStationNamesForOnePro
 router.route('/getOneWorkerStation').get(getOneWorkerStation)
 router.route("/StationyyyyWorkAtStationInDay").get(workAtStationInDay)
 router.route('/StationyyyyGetJobsSubmitted').get(getJobesSubmitedAtStation)
+router.route('/StationyyyyGetCountOfWorkAtStation').get(countOfWorkAtStation)
 router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route("/ShiftConfigGetActiveShiftNames").get(getActiveShiftNames)
 router.route("/ShiftConfigGetCurrentShift").get(getCurrentShift)

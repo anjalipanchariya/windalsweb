@@ -53,7 +53,7 @@ function Admin(){
         {
             stationNames.length>0 ?
             stationNames.map((station,index)=>(
-                <StationCard name={station.station_name} number={index+1} worker = "abc" done='1' shift="2" notdone='0' redo='5'/>
+                <StationCard name={station.station_name} number={index+1} worker = "abc" shift="2"/>
             ))
             : "No stations have been configured"
         }

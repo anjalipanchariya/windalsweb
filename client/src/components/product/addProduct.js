@@ -112,7 +112,8 @@ const AddProduct = () => {
 
       <div className="parameter-buttons">
         <Button className="add-parameter-button" onClick={addRow}>Add parameter</Button>
-        <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
+        
+        {/* <Button className="save-button" onClick={formik.handleSubmit}>Save</Button> */}
       </div>
       
 
@@ -204,8 +205,11 @@ const AddProduct = () => {
           ))}
         </tbody>
       </table>
+      
        : null
       }
+      <br />
+      <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
     </div>
   );
