@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: center;
     margin-left: 15px;
+    overflow: auto;
   }
 
   
@@ -66,6 +67,8 @@
   @media screen and (max-width: 600px) {
     .table-container {
       width: 100%;
+      max-width: 100%;
+     overflow-x: auto;
     }
   }
 

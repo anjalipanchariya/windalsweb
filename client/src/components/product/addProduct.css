@@ -1,6 +1,5 @@
-/* AddProduct.css */
+/* Default styles for larger screens */
 .productadd {
-  /* margin-top: 30px; */
   text-align: center;
   margin-top: 20vh;
 }
@@ -14,10 +13,6 @@
   margin: 20px;
 }
 
-.product-name {
-  margin-right: 10px;
-}
-
 .product-input {
   max-width: 300px;
 }
@@ -29,24 +24,12 @@
   gap: 10px;
 }
 
-.add-parameter-button,
-.save-button {
-  background-color: #f5b7b1;
-  color: #fff;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .product-table {
   text-align: center;
-  /* margin-left: 19vw; */
   width: 80%;
   margin-top: 15px;
   margin-bottom: 15px;
   border-collapse: collapse;
-  justify-content: center;
   table-layout: auto;
 }
 
@@ -55,26 +38,74 @@
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
-  width: 21%;
+ 
 }
 
-.product-table th {
-  background-color: #f2f2f2;
-  color: black;
+
+@media (max-width: 768px) {
+  .product-table th {
+    font-size: 14px; /* Adjust the font size for readability */
+  }
+
+  /* Convert table rows to a column layout */
+  .product-table tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .product-table th {
+    display: block; /* Display table header as block for stacking */
+    text-align: left;
+    width: 100%; /* Full width for table header */
+    margin-bottom: 5px;
+  }
+
+  .product-table td {
+    display: block;
+    text-align: left;
+    width: 100%; /* Full width for cells */
+    margin-bottom: 5px;
+  }
+
+  /* Add spacing between rows */
+  .product-table tr:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+  }
 }
 
-.delete-button {
-  background-color: #ff3a28;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+/* Styles for small screens (e.g., mobile devices) */
+@media (max-width: 576px) {
+  .productadd {
+    margin-top: 10vh;
+  }
+
+  .product-name-container {
+    margin: 10px;
+  }
+
+  .product-input {
+    max-width: 100%;
+  }
+
+  .product-table {
+    width: 100%;
+  }
+
+  .product-table th,
+  .product-table td {
+    width: auto;
+    padding: 5px;
+    font-size: 12px;
+  }
 }
 
-.error-message {
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  color: #e74c3c;
+/* Additional media queries for larger screens can be added here */
+@media (min-width: 1024px) {
+  .productadd {
+    margin-top: 25vh;
+  }
+
+  .product-name-container {
+    margin: 30px;
+  }
 }

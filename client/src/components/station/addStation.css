@@ -70,6 +70,7 @@
   .table {
     width: 100%;
     border-collapse: collapse;
+    overflow-x: auto;
   }
   
   .table th, .table td {
@@ -120,17 +121,60 @@
 }
 
 @media (max-width: 767px) {
-    .add-station-container {
-        flex-direction: column;
-       
-        align-items: center;
-        justify-content: center;
-    }
+  .add-station-container {
+    display: flex;
+    flex-direction: column; /* Change to column on small screens */
+    align-items: center;
+    margin: 5px;
+    margin-top: 14vh;
+}
 
-    .add-station-inputs {
-        max-width: 100%;
-        padding: 0 20px;
-    }
+.add-station-inputs {
+    text-align: center;
+    width: 100%; /* Take full width on small screens */
+    margin: 0 auto;
+    margin: 40px;
+}
+
+.search-station-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Take full width on small screens */
+    margin: 40px;
+    text-align: center;
+}
+
+.select {
+    width: 100%;
+}
+
+/* Responsive table styles */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow-x: auto;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* On small screens, make the station rows stack */
+.station-row,
+.product-row {
+    margin-left: 0; /* Remove margin to allow stacking */
+}
+
+/* Responsive buttons */
+.table-edit-button button {
+    height: auto;
+    width: 100%; /* Take full width on small screens */
+}
+
 }
 
 .styled-table {

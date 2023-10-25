@@ -1,59 +1,127 @@
+/* Form and table container styles */
 .Form {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+.username-not-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+  text-align: center;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.delusertable td {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.delusertable {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+
+/* Reset and Delete buttons styles */
+.reset-button,
+.delete-button {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.reset-button:hover,
+.delete-button:hover {
+  background-color: #cc0000;
+}
+
+/* Responsive styles for tablets and phones */
+@media (max-width: 768px) {
+  .Form {
+    margin-left: 30px;
+  }
+
+  .username-not-table {
+    margin: 10px;
+    margin-left: 20px;
+  }
+
+  .reset-button,
+  .delete-button {
+    width: 100%;
+  }
+}
+
+/* Additional styles for smaller screens */
+@media screen and (max-width: 480px) {
+  .Form {
+    margin-left: 1000px; /* This line appears to be unnecessary; you can remove it */
   }
   .username-not-table {
-      display: flex;
-      flex-direction: column;
-      align-items: center; 
-      justify-content: center; 
-      margin: 30px;
-      text-align: center;
-      background-color: #f4f4f4; 
-      padding: 20px; 
-    }
-  
-  
-    
-    .delusertable td{
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .delusertable {
-      margin: 0 auto;
-      width: 72%;
-      text-align: center;
-      align-items: center;
-      
-    }
+    margin: 10px;
+  }
 
+  .reset-button,
+  .delete-button {
+    width: 100%;
+  }
+}
 
-    .reset-button {
-      background-color: #d9534f; 
-      color: #fff;
-      border: none; 
-      padding: 10px 20px; 
-      cursor: pointer; 
-      border-radius: 5px; 
-      width: 200px;
-      margin-left: 3.6vw;
-    }
-    
-    .reset-button:hover {
-      background-color: #cc0000; 
-    }
+/* Styled table and box styles */
+.styled-table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 10px; /* Add a 10px margin from all sides */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px; /* Add a 10px margin from all sides */
+  background-color: #f4f4f4;
+  padding: 20px;
+}
 
-    .delete-button{
-      background-color: #d9534f; 
-      color: #fff;
-      border: none; 
-      padding: 10px 20px; 
-      cursor: pointer; 
-      border-radius: 5px; 
-      width: 50px;
-      margin-left: 9vw;
-    }
+/* Responsive table styles */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
+.styled-table th,
+.styled-table td {
+  padding: 8px;
+  text-align: left;
+}
 
+/* On small screens, stack the table rows */
+@media screen and (max-width: 767px) {
+  .styled-table thead {
+    display: none; /* Hide table head on small screens */
+  }
+
+  .styled-table tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .styled-table td {
+    display: block;
+  }
+}
