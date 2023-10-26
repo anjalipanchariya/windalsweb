@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
  
 }
 
@@ -42,6 +43,7 @@
   .table {
     width: 100%;
     border-collapse: collapse;
+   
   }
   
  
@@ -66,5 +68,5 @@
     position: relative;
     background-color: white; 
   }
-  
+
   

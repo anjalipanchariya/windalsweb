@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './stationPage.css';
 import Modal from 'react-modal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -250,7 +251,7 @@ const StationPage = () => {
       <br />
       {stationOneProductInfo[0] && product_name !== "" &&
         <div className='params'>
-          <table style={{width:'20%', textAlign:'center'}}>
+          <table className='first_table'>
             <tbody>
               <tr>
                 <td>Daily Count:</td>

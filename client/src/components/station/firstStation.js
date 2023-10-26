@@ -102,6 +102,7 @@ const FirstStation = () => {
     console.log({"stationOneProductInfo":stationOneProductInfo,"stationAllinfo":stationAllInfo});
     console.log({"workAtStationInDay":workAtStationInDay});
     return (
+        
         <div className="firststat">
             <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -152,7 +153,7 @@ const FirstStation = () => {
             { workAtStationInDay.length>0 ? 
                 <div className='jobsub'>
                     <h2>Jobs Submitted</h2>
-                    <table className="product-table" style={{width:'80%'}}>
+                    <table className="product-table" style={{width:'80%', marginLeft:'40px'}}>
                         <thead>
                             <tr>
                                 <th>Product Name</th>
@@ -181,7 +182,9 @@ const FirstStation = () => {
             <br />
 
             <Footer/>
-        </div>
+           </div>
+            
+        
     );
 };
 

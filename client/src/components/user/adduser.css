@@ -70,10 +70,37 @@
     margin-right: 10px;
     
  } 
+ 
+ 
 
-
- @media screen and (max-width:1310px){
-    .adduser{
-        margin-top: 22vh;
+@media (max-width: 768px) {
+    .workerreg input {
+      width: 40%; 
     }
- }
+  
+    .subbtn {
+      margin-left: 0; 
+    }
+  }
+  
+ 
+  @media (max-width: 480px) {
+    .workerreg {
+      margin-top: 2vh; 
+    }
+  
+    .adduser {
+      margin-top: 5vh; 
+    }
+  
+    .workerreg input {
+      width: 80%; 
+    }
+  
+    .worklist {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; 
+    }
+  }
+  
