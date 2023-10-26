@@ -131,6 +131,22 @@ async function getOneStationOneProductFromStationMaster(req,res){
         res.status(500).send({msg:`Internal server error: ${err}`})
     }
 }
+async function mobileGetOneStationOneProductFromStationMaster(req,res){
+    const {stationName,productName} = req.query
+    try {
+        const searchQuery = "SELECT * FROM station_master WHERE station_name = ? AND product_name = ?"
+        const [searchResult] = await db.promise().query(searchQuery,[stationName,productName])
+        if(searchResult.length === 0){
+            res.status(409).send({msg:"Station configuration of this product does not exist in database."})
+        }
+        else{
+            res.status(201).send(searchResult)
+        }        
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send({msg:`Internal server error: ${err}`})
+    }
+}
 
 async function getStationNamesFromStationMaster(req,res){
     try {
@@ -171,4 +187,4 @@ async function addNextStationInStationMaster(req,res){
     }
 }
 
-export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster,getStationNamesForOneProduct,addNextStationInStationMaster}
+export {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster,getStationNamesForOneProduct,addNextStationInStationMaster,mobileGetOneStationOneProductFromStationMaster}
