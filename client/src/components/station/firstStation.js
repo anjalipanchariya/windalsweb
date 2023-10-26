@@ -153,7 +153,7 @@ const FirstStation = () => {
             { workAtStationInDay.length>0 ? 
                 <div className='jobsub'>
                     <h2>Jobs Submitted</h2>
-                    <table className="product-table" style={{width:'80%'}}>
+                    <table className="product-table" style={{width:'80%', marginLeft:'40px'}}>
                         <thead>
                             <tr>
                                 <th>Product Name</th>
