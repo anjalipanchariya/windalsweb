@@ -44,7 +44,7 @@ function WindalsNav() {
       <Navbar expand="lg" className="bg-body-tertiary fixed-top">
         
           <div class="col" style={{ marginLeft: 5 }} >
-          <button type='button' onClick={redirectToHome}><img src={logo} alt='' style={{ height: 40, width: 50 }} /></button>
+          <button type='button' style={{backgroundColor:'white'}}onClick={redirectToHome}><img src={logo} alt='' style={{ height: 40, width: 50 }} /></button>
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
