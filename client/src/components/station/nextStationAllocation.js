@@ -97,7 +97,7 @@ function NextStationAllocation() {
                     isSearchable={true}
                     
                 />
-                 { formik.errors.productName ? (
+                 { formik.errors.productName && formik.touched.productName? (
           <Alert variant="danger" className="error-message">{formik.errors.productName}</Alert>
         ) : null}
             </div>
