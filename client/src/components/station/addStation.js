@@ -275,7 +275,7 @@ function AddStation() {
                         <div className="station-name-id">
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Enter Station Name" value={addFormFormik.values.stationName} name="stationName" onChange={addFormFormik.handleChange} />
-                                { addFormFormik.errors.stationName ? (
+                                { addFormFormik.errors.stationName && addFormFormik.touched.stationName ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.stationName}</Alert>) : null}
                             </Form.Group>
 
@@ -288,7 +288,7 @@ function AddStation() {
                                     ))
                                 }
                             </Form.Select>
-                            { addFormFormik.errors.productName ? (
+                            { addFormFormik.errors.productName && addFormFormik.touched.productName ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.productName}</Alert>) : null}
                             </Form.Group>
                             {/* <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -298,20 +298,20 @@ function AddStation() {
                                 </Form.Group> */}
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="number" placeholder="Enter Cycle Time" value={addFormFormik.values.cycleTime} name="cycleTime" onChange={addFormFormik.handleChange} />
-                                { addFormFormik.errors.cycleTime ? (
+                                <Form.Control type="number" placeholder="Enter Cycle Time(in minutes)" value={addFormFormik.values.cycleTime} name="cycleTime" onChange={addFormFormik.handleChange} />
+                                { addFormFormik.errors.cycleTime && addFormFormik.touched.cycleTime ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.cycleTime}</Alert>) : null}
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="number" placeholder="Enter Daily Count " value={addFormFormik.values.dailyCount} name="dailyCount" onChange={addFormFormik.handleChange} />
-                                { addFormFormik.errors.dailyCount ? (
+                                { addFormFormik.errors.dailyCount && addFormFormik.touched.dailyCount ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.dailyCount}</Alert>) : null}
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="number" placeholder="Enter Product to be producted per hour" value={addFormFormik.values.productPerHour} name="productPerHour" onChange={addFormFormik.handleChange} />
-                                { addFormFormik.errors.productPerHour ? (
+                                { addFormFormik.errors.productPerHour && addFormFormik.touched.productPerHour ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.productPerHour}</Alert>) : null}
                             </Form.Group>
 
@@ -320,7 +320,7 @@ function AddStation() {
                                 <option value="0">Okay/Not okay</option>
                                 <option value="1">Parameters</option>
                             </Form.Select>
-                            { addFormFormik.errors.reportType ? (
+                            { addFormFormik.errors.reportType && addFormFormik.touched.reportType ? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.reportType}</Alert>) : null}
                             {
                                 addFormFormik.values.reportType === "1" &&
@@ -336,7 +336,7 @@ function AddStation() {
                                             />
                                             {parameter}
                                         </label>
-                                        { addFormFormik.errors.stationParameter ? (
+                                        { addFormFormik.errors.stationParameter && addFormFormik.touched.stationParameter? (
                                 <Alert variant="danger" className="error-message">{addFormFormik.errors.stationParameter}</Alert>) : null}
                                         </div>
                                     ))}
