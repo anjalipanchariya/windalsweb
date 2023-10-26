@@ -52,6 +52,25 @@
     flex-direction: row;
 }
 
+.table{
+    /* display: block; */
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    width: 50%;
+    
+}
+
+.updateprod{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 18vh;
+}
+
 .table {
     text-align: center;
     width: 80%;

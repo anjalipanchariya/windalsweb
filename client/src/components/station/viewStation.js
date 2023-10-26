@@ -55,7 +55,8 @@ function ViewStation() {
       <div style={{marginTop:'15vh'}}>
       <Table columns={columns} data={stations} />
       </div>
-      
+      <br />
+      <br />
       <Footer/>
     </>
   );
