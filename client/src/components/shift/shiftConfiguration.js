@@ -213,8 +213,7 @@ function ShiftConfiguration() {
 
   return (
     <div>
-      <WindalsNav />
-
+      <WindalsNav/>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className='shiftconf'>
         <div className="form-container">

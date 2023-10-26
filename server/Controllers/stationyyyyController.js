@@ -194,21 +194,28 @@ async function workAtStationInDay(req, res) {
 }
 
 async function productReport(req,res){
-    const {lastStationId,product_name} = req.body;
+    const {product_name} = req.body;
 
     try {
-        
-        const searchQueryWork = "select date(temp.out_time) as 'date' ,time(temp.out_time) as 'time',productyyyy.job_name from (select job_id , out_time from station_yyyy  where status=1 and station_id=? and product_name=?) as temp inner join productyyyy on productyyyy.job_id=temp.job_id;"
-        const [selectResultWork] = await db.promise().query(searchQueryWork,[lastStationId,product_name])
-
-        res.status(201).send(selectResultWork);
+        const searchQueryid="select station_id from station_master where next_station_name is null and product_name=?"
+        const [selectResultid] = await db.promise().query(searchQueryid,[product_name])
+        if(selectResultid.length!=1){
+            res.status(409).send({ msg: `allocate next station` });
+        }
+        else{
+            
+            const lastStationId=selectResultid[0]['station_id']
+            const searchQueryWork = "select date(temp.out_time) as 'date' ,time(temp.out_time) as 'time',productyyyy.job_name from (select job_id , out_time from station_yyyy  where status=1 and station_id=? and product_name=?) as temp inner join productyyyy on productyyyy.job_id=temp.job_id;"
+            const [selectResultWork] = await db.promise().query(searchQueryWork,[lastStationId,product_name])
+            res.status(201).send(selectResultWork);
+        }        
 
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send({ msg: `Internal server error: ${err}` });
     }
 
-} 
+}  
 
 async function jobDetailsReport(req,res){
     const {jobName} = req.body;

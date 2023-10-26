@@ -79,8 +79,8 @@ function WorkerReg(){
   return(
 
         <div>
+          <WindalsNav/>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
-        <WindalsNav/>
         
         <div className="adduser">
         <form className="workerreg">
@@ -127,7 +127,7 @@ function WorkerReg(){
           <label>Joining date:</label>
           <br />
             <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
-            { formik.errors.joiningDate ? (
+            { formik.errors.joiningDate && formik.touched.joiningDate ? (
           <Alert variant="danger" className="error-message">{formik.errors.joiningDate}</Alert>
         ) : null}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom:'2vh' }}>

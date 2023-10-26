@@ -85,10 +85,10 @@ function NextStationAllocation() {
     console.log({formik:formik.values});
     return (
         <>
+        <WindalsNav/>
         <div className="product-select">
             <div >
                 <Toaster position="top-center" reverseOrder={false}></Toaster>
-                <WindalsNav/>
                 <Select
                     options={productNames.map((product) => ({ label: product, value: product }))}
                     value={formik.values.productName}
@@ -97,7 +97,7 @@ function NextStationAllocation() {
                     isSearchable={true}
                     
                 />
-                 { formik.errors.productName ? (
+                 { formik.errors.productName && formik.touched.productName? (
           <Alert variant="danger" className="error-message">{formik.errors.productName}</Alert>
         ) : null}
             </div>

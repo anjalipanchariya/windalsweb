@@ -1,13 +1,13 @@
 import Router from "express"
 import { insertInProductMaster, getInfoFromProductMaster, deleteFromProductMaster, updateProductMaster, getOneProductAllParametersInfoFromProductMaster, getOneProductOneParameterInfoFromProductMaster, getProductNames } from "../Controllers/productMasterController.js";
-import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster} from "../Controllers/stationMasterController.js";
+import {insertIntoStationMaster,deleteFromStationMaster,getInfoFromStationMaster,getOneStationFromStationMaster,getOneStationOneProductFromStationMaster,updateStationMaster,getStationNamesFromStationMaster, getStationNamesForOneProduct,addNextStationInStationMaster,mobileGetOneStationOneProductFromStationMaster} from "../Controllers/stationMasterController.js";
 import {insertInProductyyyy} from "../Controllers/productyyyyController.js";
 import {insertIntoEmployeeMaster,getAllFromEmployee,getOneFromEmployee,updateEmployeeMaster, deleteFromEmployeeMaster, resetPassword} from "../Controllers/employeeMasterController.js"
 import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInStationyyyy,jobsAtStation,countOfWorkAtStation,workAtStationInDay,getJobesSubmitedAtStation,productReport,jobDetailsReport} from "../Controllers/stationyyyyController.js"
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation,getStationAllocated} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
-import { insertInLoginLog } from "../Controllers/loginlogController.js";
+import { insertInLoginLog,getFromLoginLog } from "../Controllers/loginlogController.js";
 import { auth } from "../Middleware/auth.js";
 
 const router = Router()
@@ -38,6 +38,7 @@ router.route("/StationMasterGet").get(getInfoFromStationMaster)
 router.route('/ProductMasterGetProductNames').get(getProductNames)
 router.route('/StationMasterGetOneStation').get(getOneStationFromStationMaster)
 router.route('/StationMasterGetOneStationOneProduct').get(getOneStationOneProductFromStationMaster)
+router.route('/MobileStationMasterGetOneStationOneProduct').get(mobileGetOneStationOneProductFromStationMaster)
 router.route('/EmployeeMasterGet').get(getAllFromEmployee)
 router.route('/EmployeeMasterGetOne').get(getOneFromEmployee)
 router.route('/EmployeeMasterGetNames').get(getNamesFromEmployeeMaster)
@@ -51,6 +52,7 @@ router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route("/ShiftConfigGetActiveShiftNames").get(getActiveShiftNames)
 router.route("/ShiftConfigGetCurrentShift").get(getCurrentShift)
 router.route('/WorkerAllocation').get(getStationAllocated)
+router.route("/loginLogGet").get(getFromLoginLog)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
     try{

@@ -194,9 +194,9 @@ function StationAllocation() {
     // console.log({ availableWorkerNames: availableWorkerNames });
     return (
         <>
+        <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-            <WindalsNav/>
             <div className="allocstat">
                 <div className="input-box">
                 <Form onSubmit={formik.handleSubmit}>

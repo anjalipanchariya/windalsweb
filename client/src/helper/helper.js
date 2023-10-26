@@ -510,3 +510,14 @@ export async function getCountOfWorkAtStation(stationName){
         return Promise.reject(error.response.data)
     }
 }
+
+export async function getLoginLogInfo(values){
+    try {
+        const token = localStorage.getItem("token")
+        const {data,status} = await axios.get(`${proxy}api/loginLogGet`,{params:{values},headers:{"Authorization":`Bearer ${token}`}})
+        return Promise.resolve(data)
+    } catch (error) {
+        console.log({err:error})
+        return Promise.reject(error.response.data)
+    }
+}

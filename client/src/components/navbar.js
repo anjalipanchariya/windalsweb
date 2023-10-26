@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import { logout,getOneEmployee } from '../helper/helper';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -15,6 +15,7 @@ function WindalsNav() {
 
   const {userName} = useParams()
   const [workerAccess,setWorkerAccess] = useState("")
+  const navigate = useNavigate()
 
   const accessOptions = [ "0-AddUser", "1-ViewUser", "2-DeleteUser", "3-UpdateUser", "4-AddProduct", "5-VeiwProduct", "6-DeleteProduct", "7-UpdateProduct",
   "8-AddStation", "9-ViewStation", "10-DeleteStation", "11-UpdateStation", "12-AllocateNextStation", "13-UpdateNextStationAllocated", 
@@ -31,13 +32,19 @@ function WindalsNav() {
     })
   },[])
 
+  const redirectToHome = () => {
+    if(userName==="admin"){
+      navigate(`/${userName}/AdminPanel`,{ replace: true })
+    }
+  }
+
   // console.log({workerAccess:workerAccess,userName:userName});
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary fixed-top">
         
-          <div style={{ marginLeft: 40, padding:14 }} >
-          <img src={logo} alt='' style={{ height: 40, width: 50,marginRight:8 }} />
+          <div class="col" style={{ marginLeft: 5 }} >
+          <button type='button' style={{backgroundColor:'white'}}onClick={redirectToHome}><img src={logo} alt='' style={{ height: 40, width: 50 }} /></button>
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -61,9 +68,9 @@ function WindalsNav() {
               <NavDropdown title="Station Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
               {workerAccess[9] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/ViewStation`}>View</NavDropdown.Item>}
                 
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Add</NavDropdown.Item>}
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Update</NavDropdown.Item>}
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Delete</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/Add`}>Add</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteStation`}>Update</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteStation`}>Delete</NavDropdown.Item>}
                 {/* <NavDropdown.Item as={Link} to={`/${userName}/updateStation`}>Update Station</NavDropdown.Item> */}
                 
                 {workerAccess[16] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AllocateStationToWorker`}>Allocate Station To Worker</NavDropdown.Item>}
@@ -77,8 +84,9 @@ function WindalsNav() {
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ShiftConfig`}>Delete</Nav.Link>} 
               </NavDropdown>
               <NavDropdown title="Reports" id="basic-nav-dropdown" style={{marginRight:12}}>
-              <Nav.Link href={`/${userName}/ShiftConfig`}>Product</Nav.Link> 
+              <Nav.Link href={`/${userName}/ProductReport`}>Product</Nav.Link> 
               <Nav.Link href={`/${userName}/JobReport`}>Job</Nav.Link>
+              <Nav.Link href={`/${userName}/LoginLog`}>Login</Nav.Link>
               {/* <Nav.Link href={`/${userName}/LoginLog`}>Login Logs</Nav.Link> */}
               </NavDropdown>
             </Nav>

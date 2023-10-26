@@ -21,11 +21,15 @@ import ShiftConfig from './components/shift/shiftConfiguration';
 import ViewShifts from './components/shift/viewShift';
 // import LoginLog from './components/reports/loginLog';
 import JobReport from './components/reports/jobReport';
+import ProductReport from './components/reports/productReport';
+import LoginLog from './components/reports/loginLog';
 
 function App() {
+  console.log(window.location.href);
   
   return (
     <>
+
       <Routes>
         <Route path='/:userName/AdminPanel' element={<Admin/>}></Route>
         
@@ -37,7 +41,8 @@ function App() {
         <Route path='/:userName/UpdateProduct' element={<UpdateProduct />}></Route>
         <Route path='/:userName/ViewProduct' element={<ViewProduct />}></Route>
 
-        <Route path='/:userName/AddUpdateAndDeleteStation' element={<AddStation />}></Route>
+        <Route path='/:userName/Add' element={<AddStation />}></Route>
+        <Route path='/:userName/UpdateAndDeleteStation' element={<AddStation />}></Route>
         {/* <Route path='/:userName/updateStation' element={<UpdateStation />}></Route> */}
         <Route path='/:userName/ViewStation' element={<ViewStation />}></Route>
         <Route path='/:userName/AllocateStationToWorker' element={<StationAllocation />}></Route>
@@ -51,6 +56,8 @@ function App() {
 
         {/* <Route path='/:userName/LoginLog' element={<LoginLog />}></Route> */}
         <Route path='/:userName/JobReport' element={<JobReport />} />
+        <Route path='/:userName/ProductReport' element={<ProductReport />} />
+        <Route path='/:userName/LoginLog' element={<LoginLog />} />
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </>

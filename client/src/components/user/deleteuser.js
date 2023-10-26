@@ -163,6 +163,7 @@ function DeleteUser() {
 
   return (
     <>
+    <WindalsNav/>
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <WindalsNav/>

@@ -76,9 +76,8 @@ function ViewUser() { // Changed the function name to start with an uppercase le
 
   return (
     <>
-    
+    <WindalsNav/>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <WindalsNav/>
       <div style={{marginTop:'18vh'}}>
       <Table columns={columns} data={users} />
       </div>

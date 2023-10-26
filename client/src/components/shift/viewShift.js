@@ -33,8 +33,8 @@ function ViewShifts() { // Changed the function name to start with an uppercase 
 
   return (
     <>
+    <WindalsNav/>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <WindalsNav />
       <div style={{marginTop:'20vh'}}>
       <Table columns={columns} data={shifts} />
       </div>
