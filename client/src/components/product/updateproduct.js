@@ -12,6 +12,9 @@ import WindalsNav from '../navbar';
 import Select from 'react-select';
 import {getProductNames} from "../../helper/helper";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../footer';
+
+
 function AddProduct() {
 
     const validationSchema = Yup.object().shape({
@@ -218,7 +221,7 @@ function AddProduct() {
                 <div className='buttons'>
                     <Button onClick={handleSearch} style={{ margin: 6 }}>Search</Button>
                     <Button onClick={addRow} style={{ margin: 10 }}>Add parameter</Button>
-                    <Button onClick={formik.handleSubmit}>Save</Button>
+                    
                 </div>
             
             <p style={{ textAlign: 'center', fontWeight:'bold' }}>
@@ -385,10 +388,13 @@ function AddProduct() {
                     ))}
                 </tbody>
             </table>
+            <Button onClick={formik.handleSubmit}>Save</Button>
             </div>
             
             </div>
-        
+            <br />
+            <br />
+        <Footer/>
         </>
     );
 }

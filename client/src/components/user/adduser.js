@@ -125,6 +125,7 @@ function WorkerReg(){
             </div>
           </div>
           <label>Joining date:</label>
+          <br />
             <input type='date' placeholder="Joining Date" value={formik.values.joiningDate} name="joiningDate" onChange={formik.handleChange}/>   
             { formik.errors.joiningDate ? (
           <Alert variant="danger" className="error-message">{formik.errors.joiningDate}</Alert>
@@ -162,8 +163,8 @@ function WorkerReg(){
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={accessGiven[index + 6]}
-                    onChange={() => handleAccessOptionCheck(index + 6)}
+                    checked={accessGiven[index + 4]}
+                    onChange={() => handleAccessOptionCheck(index + 4)}
                   />
                   {option}
                 </label>
@@ -179,8 +180,8 @@ function WorkerReg(){
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={accessGiven[index + 12]}
-                    onChange={() => handleAccessOptionCheck(index + 12)}
+                    checked={accessGiven[index + 8]}
+                    onChange={() => handleAccessOptionCheck(index + 8)}
                   />
                   {option}
                 </label>
@@ -213,8 +214,8 @@ function WorkerReg(){
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={accessGiven[index + 12]}
-                    onChange={() => handleAccessOptionCheck(index + 12)}
+                    checked={accessGiven[index + 18]}
+                    onChange={() => handleAccessOptionCheck(index + 18)}
                   />
                   {option}
                 </label>

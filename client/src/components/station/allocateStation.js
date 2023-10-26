@@ -229,7 +229,6 @@ function StationAllocation() {
                     </Form.Group>
 
                         <br />
-                        
                         <Button variant="danger" type="submit">
                             Submit
                         </Button>

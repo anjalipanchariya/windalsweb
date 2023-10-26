@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import Select from 'react-select'
 import { getProductNames } from "../../helper/helper";
 import Table from '../table'
+import Footer from '../footer';
 
 const AddProduct = () => {
   const validationSchema = Yup.object().shape({
@@ -112,7 +113,8 @@ const AddProduct = () => {
 
       <div className="parameter-buttons">
         <Button className="add-parameter-button" onClick={addRow}>Add parameter</Button>
-        <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
+        
+        {/* <Button className="save-button" onClick={formik.handleSubmit}>Save</Button> */}
       </div>
       
 
@@ -204,9 +206,15 @@ const AddProduct = () => {
           ))}
         </tbody>
       </table>
+      
        : null
       }
+      <br />
+      <Button className="save-button" onClick={formik.handleSubmit}>Save</Button>
       </div>
+      <br />
+      <br />
+      <Footer/>
     </div>
   );
 };

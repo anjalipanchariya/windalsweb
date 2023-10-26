@@ -5,6 +5,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import WindalsNav from "../navbar";
 import { useEffect, useState } from "react";
 import { getJobReport } from "../../helper/helper.js";
+import './jobReport.css'
+import Footer from '../footer';
 
 function JobReport() {
     const [jobReports,setJobReports] = useState([])
@@ -55,7 +57,8 @@ function JobReport() {
     return (
         <div>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            {/* <WindalsNav/> */}
+            <WindalsNav/>
+            <div className="jobreport">
             <input
                 className=""
                 type="text"
@@ -64,9 +67,14 @@ function JobReport() {
                 onChange={formik.handleChange}
                 name="jobName"
             />
+            <br />
             <button type="button" onClick={formik.handleSubmit}>Submit</button>
             <p>{productName!=="" && productName}</p>
             {jobReports.length>0 && <Table columns={columns} data={jobReports}/>}
+            </div>
+            <br />
+            <br />
+            <Footer/>
         </div>
     )
 }

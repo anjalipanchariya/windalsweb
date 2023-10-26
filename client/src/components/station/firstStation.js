@@ -107,14 +107,15 @@ const FirstStation = () => {
             <WindalsNav />
             {/* <button onClick={()=>{logout()}}>Log Out</button> */}
             <h1>First Station</h1>
+            <hr />
             <div className='fslist'>
-            <h3>Station Name {stationName}</h3>
-            <h3>Employee ID {employeeId}</h3>
-            <h3>Username {userName}</h3>
+            <h4>Station Name : {stationName}</h4>
+            <h4>Employee ID : {employeeId}</h4>
+            <h4>Username : {userName}</h4>
             </div>
-            <br />
+            <hr />
             <div className="form-group">
-                <label style={{fontSize:'1.5rem'}} htmlFor="job_nameInput">Enter the Job Name:</label>
+                <label style={{fontSize:'1.5rem'}} htmlFor="job_nameInput">Enter the Job Name</label>
                 <input
                     type="text"
                     id="job_nameInput"
@@ -123,6 +124,7 @@ const FirstStation = () => {
                     onChange={formik.handleChange}
                 />
             </div>
+            <br />
             <div className="form-group">
                 <label style={{fontSize:'1.5rem'}} htmlFor="productSelect">Select a Product:</label>
                 <select
@@ -145,13 +147,12 @@ const FirstStation = () => {
             </button>
             </div>
             <br />
-            
             <br />
           
             { workAtStationInDay.length>0 ? 
-                <div>
-                    <h2>Jobs Submitted:</h2>
-                    <table className="product-table" style={{width:'100%'}}>
+                <div className='jobsub'>
+                    <h2>Jobs Submitted</h2>
+                    <table className="product-table" style={{width:'80%'}}>
                         <thead>
                             <tr>
                                 <th>Product Name</th>
@@ -174,8 +175,11 @@ const FirstStation = () => {
                         </tbody>
                     </table>
                 </div>
-                : "null"}
-            
+                : null}
+            <br />
+            <br />
+            <br />
+
             <Footer/>
         </div>
     );
