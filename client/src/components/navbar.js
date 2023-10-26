@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import { logout,getOneEmployee } from '../helper/helper';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,6 +14,7 @@ function WindalsNav() {
 
   const {userName} = useParams()
   const [workerAccess,setWorkerAccess] = useState("")
+  const navigate = useNavigate()
 
   const accessOptions = [ "0-AddUser", "1-ViewUser", "2-DeleteUser", "3-UpdateUser", "4-AddProduct", "5-VeiwProduct", "6-DeleteProduct", "7-UpdateProduct",
   "8-AddStation", "9-ViewStation", "10-DeleteStation", "11-UpdateStation", "12-AllocateNextStation", "13-UpdateNextStationAllocated", 
@@ -30,13 +31,19 @@ function WindalsNav() {
     })
   },[])
 
+  const redirectToHome = () => {
+    if(userName==="admin"){
+      navigate(`/${userName}/AdminPanel`,{ replace: true })
+    }
+  }
+
   // console.log({workerAccess:workerAccess,userName:userName});
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary fixed-top">
         
           <div class="col" style={{ marginLeft: 5 }} >
-          <img src={logo} alt='' style={{ height: 40, width: 50 }} />
+          <button type='button' onClick={redirectToHome}><img src={logo} alt='' style={{ height: 40, width: 50 }} /></button>
           <Navbar.Brand as={Link} to='/'>Windals Precision Ltd.</Navbar.Brand>
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
