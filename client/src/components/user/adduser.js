@@ -214,8 +214,8 @@ function WorkerReg(){
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={accessGiven[index + 12]}
-                    onChange={() => handleAccessOptionCheck(index + 12)}
+                    checked={accessGiven[index + 18]}
+                    onChange={() => handleAccessOptionCheck(index + 18)}
                   />
                   {option}
                 </label>

@@ -12,6 +12,9 @@ import WindalsNav from '../navbar';
 import Select from 'react-select';
 import {getProductNames} from "../../helper/helper";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../footer';
+
+
 function AddProduct() {
 
     const validationSchema = Yup.object().shape({
@@ -389,7 +392,9 @@ function AddProduct() {
             </div>
             
             </div>
-        
+            <br />
+            <br />
+        <Footer/>
         </>
     );
 }

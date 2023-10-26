@@ -44,21 +44,21 @@ function WindalsNav() {
           <Navbar.Collapse id="basic-navbar-nav">
           <div class="col">
           <Nav className="me-auto">
-              <NavDropdown title="User Configuration" id="basic-nav-dropdown" style={{marginRight:30}}>
+              <NavDropdown title="User Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
               {workerAccess[1] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/ViewUser`}>View</NavDropdown.Item>}
                 {workerAccess[0] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AddUser`}>Add</NavDropdown.Item>}
                 {(workerAccess[2] === 1 || workerAccess[3] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteUser`}>Update</NavDropdown.Item>}
                 {(workerAccess[2] === 1 || workerAccess[3] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteUser`}>Delete</NavDropdown.Item>}
               </NavDropdown>
 
-              <NavDropdown title="Product Configuration" id="basic-nav-dropdown" style={{marginRight:30}}>
+              <NavDropdown title="Product Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
                 {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/VIewProduct`}>View</NavDropdown.Item>}
                 {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AddProduct`}>Add</NavDropdown.Item>}
                 {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/UpdateProduct`}>Update</NavDropdown.Item>}
                   {(workerAccess[6] === 1 || workerAccess[7] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateProduct`}>Delete</NavDropdown.Item>}
               </NavDropdown>
 
-              <NavDropdown title="Station Configuration" id="basic-nav-dropdown" style={{marginRight:30}}>
+              <NavDropdown title="Station Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
               {workerAccess[9] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/ViewStation`}>View</NavDropdown.Item>}
                 
                 {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Add</NavDropdown.Item>}
@@ -70,20 +70,20 @@ function WindalsNav() {
                 {workerAccess[12] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AllocateNextStation`}>Allocate Next Station</NavDropdown.Item>}
               </NavDropdown>
 
-              <NavDropdown title="Shift Configuration" id="basic-nav-dropdown" style={{marginRight:30}}>
+              <NavDropdown title="Shift Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ViewShifts`}>View</Nav.Link>} 
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ShiftConfig`}>Add</Nav.Link>} 
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ShiftConfig`}>Update</Nav.Link>} 
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ShiftConfig`}>Delete</Nav.Link>} 
               </NavDropdown>
-              <NavDropdown title="Reports" id="basic-nav-dropdown" style={{marginRight:30}}>
+              <NavDropdown title="Reports" id="basic-nav-dropdown" style={{marginRight:12}}>
               <Nav.Link href={`/${userName}/ShiftConfig`}>Product</Nav.Link> 
               <Nav.Link href={`/${userName}/JobReport`}>Job</Nav.Link>
               {/* <Nav.Link href={`/${userName}/LoginLog`}>Login Logs</Nav.Link> */}
               </NavDropdown>
             </Nav>
           </div>
-          <div class="nav navbar-nav navbar-right" style={{marginRight:40}}>
+          <div class="nav navbar-nav navbar-right" style={{marginRight:20}}>
             <Nav.Link href="#" style={{ marginTop: 6, marginRight:6}}>My Profile</Nav.Link>
             <img src={logoutimg} style={{ width: 30, height: 28, marginTop: 12, marginLeft: 5,  cursor:'pointer'}} alt="" onClick={() => {
                   logout()
@@ -92,6 +92,9 @@ function WindalsNav() {
           </div>
           </Navbar.Collapse>
       </Navbar>
+      <br />
+      <br />
+      
     </>
   );
 }
