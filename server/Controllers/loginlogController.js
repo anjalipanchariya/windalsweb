@@ -13,7 +13,7 @@ async function insertInLoginLog(req,res){
         // console.log('Current DateTime (SQL DATETIME format):', currentDateTime);
         // console.log(employeeIdSelectResult[0][0])
         console.log(userName);
-        const insertQuery = userName === "admin" ? "INSERT INTO login_log (employee_id,login_date_time,station_name) VALUES (?,?)" : "INSERT INTO login_log VALUES (?,?,?)" 
+        const insertQuery = userName === "admin" ? "INSERT INTO login_log (employee_id,login_date_time) VALUES (?,?)" : "INSERT INTO login_log(employee_id,login_date_time,station_name) VALUES (?,?,?)" 
         const insertResult = userName === "admin" ? await db.promise().query(insertQuery,[employeeIdSelectResult[0][0].employee_id,currentDateTime]) : await db.promise().query(insertQuery,[employeeIdSelectResult[0][0].employee_id,currentDateTime,stationName]) 
         res.end()
     }catch(err){

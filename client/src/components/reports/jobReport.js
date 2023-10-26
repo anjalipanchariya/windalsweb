@@ -37,13 +37,25 @@ function JobReport() {
                 loading: "Fetching data",
                 error: (err) => { return err.msg},
                 success: (result) => {
-                    result.map((job)=>{
+                    const newResult=result.map((job)=>{
                        return {
                         ...job,
-                        status: job.status===1 ? "Ok" : job.status === 0 ? "Rework" : "Not-Ok" 
+                        status: job.status===1 ? "Ok" : job.status === 0 ? "Rework" : "Not-Ok",
+                        intime: job.intime
+                             ? [
+                                   new Date(job.intime).toLocaleDateString(),
+                                   new Date(job.intime).toLocaleTimeString(),
+                               ].join(" ")
+                             : "null",
+                             out_time: job.out_time
+                             ? [
+                                    new Date(job.out_time).toLocaleDateString(),
+                                    new Date(job.out_time).toLocaleTimeString(),
+                               ].join(" ")
+                             :  "null" 
                     } 
                     })
-                    setJobReports(result)
+                    setJobReports(newResult);
                     console.log(jobReports[0].product_name);
                     // setProductName(jobReports[0].product_name)
                 }
