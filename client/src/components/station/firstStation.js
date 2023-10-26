@@ -103,8 +103,8 @@ const FirstStation = () => {
     console.log({"workAtStationInDay":workAtStationInDay});
     return (
         <div className="firststat">
+            <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav />
             {/* <button onClick={()=>{logout()}}>Log Out</button> */}
             <h1>First Station</h1>
             <hr />

@@ -216,8 +216,8 @@ const StationPage = () => {
   console.log({jobsAtStation:jobsAtStation,stationOneProductInfo:stationOneProductInfo,stationAllInfo:stationAllInfo,formikvalues:formik.values,parameterNames:parameterNames,workAtStationInDay:workAtStationInDay});
   return (
     <div className="firststat">
+      <WindalsNav/>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <WindalsNav />
       {/* <button onClick={() => { logout() }}>Log Out</button> */}
       <h1>Station {stationName}</h1>
       <hr />

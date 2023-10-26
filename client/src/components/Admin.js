@@ -45,8 +45,8 @@ function Admin(){
     console.log({currentActiveShift:currentActiveShift,stationNames:stationNames});
     return (
         <div>
+            <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-            <WindalsNav />
             <div className="dashboard">
        
         <div className="cards">

@@ -79,8 +79,8 @@ function WorkerReg(){
   return(
 
         <div>
+          <WindalsNav/>
         <Toaster position="top-center" reverseOrder={false}></Toaster>
-        <WindalsNav/>
         
         <div className="adduser">
         <form className="workerreg">

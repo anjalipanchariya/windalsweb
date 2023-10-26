@@ -208,7 +208,7 @@ function UpdateStation() {
     };
   return (
     <>
-      <WindalsNav/>
+    <WindalsNav/>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div>
       <div className="add-station-inputs">

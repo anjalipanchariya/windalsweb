@@ -68,9 +68,9 @@ function WindalsNav() {
               <NavDropdown title="Station Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
               {workerAccess[9] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/ViewStation`}>View</NavDropdown.Item>}
                 
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Add</NavDropdown.Item>}
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Update</NavDropdown.Item>}
-                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/AddUpdateAndDeleteStation`}>Delete</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/Add`}>Add</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteStation`}>Update</NavDropdown.Item>}
+                {(workerAccess[8] === 1 || workerAccess[10] === 1 || workerAccess[11] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateAndDeleteStation`}>Delete</NavDropdown.Item>}
                 {/* <NavDropdown.Item as={Link} to={`/${userName}/updateStation`}>Update Station</NavDropdown.Item> */}
                 
                 {workerAccess[16] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AllocateStationToWorker`}>Allocate Station To Worker</NavDropdown.Item>}
@@ -84,8 +84,9 @@ function WindalsNav() {
               {workerAccess[18] === 1 && <Nav.Link href={`/${userName}/ShiftConfig`}>Delete</Nav.Link>} 
               </NavDropdown>
               <NavDropdown title="Reports" id="basic-nav-dropdown" style={{marginRight:12}}>
-              <Nav.Link href={`/${userName}/ShiftConfig`}>Product</Nav.Link> 
+              <Nav.Link href={`/${userName}/ProductReport`}>Product</Nav.Link> 
               <Nav.Link href={`/${userName}/JobReport`}>Job</Nav.Link>
+              <Nav.Link href={`/${userName}/LoginLog`}>Login</Nav.Link>
               {/* <Nav.Link href={`/${userName}/LoginLog`}>Login Logs</Nav.Link> */}
               </NavDropdown>
             </Nav>

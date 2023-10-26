@@ -85,10 +85,10 @@ function NextStationAllocation() {
     console.log({formik:formik.values});
     return (
         <>
+        <WindalsNav/>
         <div className="product-select">
             <div >
                 <Toaster position="top-center" reverseOrder={false}></Toaster>
-                <WindalsNav/>
                 <Select
                     options={productNames.map((product) => ({ label: product, value: product }))}
                     value={formik.values.productName}

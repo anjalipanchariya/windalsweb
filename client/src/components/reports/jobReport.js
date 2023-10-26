@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { getJobReport } from "../../helper/helper.js";
 import './jobReport.css'
 import Footer from '../footer';
+import { Alert } from 'react-bootstrap';
+
 
 function JobReport() {
     const [jobReports,setJobReports] = useState([])
@@ -56,8 +58,8 @@ function JobReport() {
     // console.log({repors:jobReports});
     return (
         <div>
-            <Toaster position="top-center" reverseOrder={false}></Toaster>
             <WindalsNav/>
+            <Toaster position="top-center" reverseOrder={false}></Toaster>
             <div className="jobreport">
             <input
                 className=""
@@ -67,6 +69,9 @@ function JobReport() {
                 onChange={formik.handleChange}
                 name="jobName"
             />
+            { formik.errors.jobName && formik.touched.jobName ? (
+                                <Alert variant="danger" className="error-message">{formik.errors.jobName}</Alert>) : null}
+
             <br />
             <button type="button" onClick={formik.handleSubmit}>Submit</button>
             <p>{productName!=="" && productName}</p>

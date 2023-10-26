@@ -7,7 +7,7 @@ import {insertInStationyyyyFirst, insertInStationyyyyFirstNextStation,updateInSt
 import { login,getNamesFromEmployeeMaster } from "../Controllers/employeeMasterController.js";
 import {getOneWorkerStation, insertIntoStationAllocation,getStationAllocated} from "../Controllers/stationAllocationController.js"
 import {getAllFromShiftConfig,insertIntoShiftConfig,deleteFromShiftConfig,updateShiftConfig,getActiveShiftNames,getCurrentShift} from "../Controllers/shiftConfigController.js";
-import { insertInLoginLog } from "../Controllers/loginlogController.js";
+import { insertInLoginLog,getFromLoginLog } from "../Controllers/loginlogController.js";
 import { auth } from "../Middleware/auth.js";
 
 const router = Router()
@@ -51,6 +51,7 @@ router.route("/ShiftConfigGet").get(getAllFromShiftConfig)
 router.route("/ShiftConfigGetActiveShiftNames").get(getActiveShiftNames)
 router.route("/ShiftConfigGetCurrentShift").get(getCurrentShift)
 router.route('/WorkerAllocation').get(getStationAllocated)
+router.route("/loginLogGet").get(getFromLoginLog)
 router.route('/verifyLogin').get(auth,(req,res)=>{
     const {userId} = req.body.token
     try{

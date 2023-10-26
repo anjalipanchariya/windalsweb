@@ -1,95 +1,71 @@
-// import { useFormik} from "formik";
-// import * as Yup from "yup";
+import { useFormik} from "formik";
+import * as Yup from "yup";
+import { getLoginLogInfo } from "../../helper/helper";
+import { useState } from "react";
+import Table from "../table";
+import { Alert } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
 
-// function LoginLog() {
-//     const table = [
-//         {
-//             username: "User1",
-//             stationName: "Station 1",
-//             logindate_time: "2023-10-12 12:54",
-//           },
-//           {
-//             username: "User2",
-//             stationName: "Station 2",
-//             logindate_time: "2023-10-12 13:05",
-//           },
-//           // Add more data as needed
-//     ]
+function LoginLog() {
+    
+    const [loginLogInfo,setLoginLogInfo] = useState([])
+    
+    const columns = [
+        {field:'station_name', label:'Station Name'},
+        {field:'login_date_time', label:'Login date and time'},
+        {field:'logout_date_time', label:'Logout date and time'},
+    ]
 
-//     const exportToCSV = () => {
+    const validationSchema = Yup.object().shape({
+        userName: Yup.string().required("Required")
+    })
 
-//         let csv = '';
-//         const arr = ["Username", "Station name", "login date_time"]
+    const formik = useFormik({
+        initialValues: {
+            userName: ""
+        },
+        validationSchema: validationSchema,
+        onSubmit:(values)=>{
+            const getLoginLogInfoPromice = getLoginLogInfo(values)
+                toast.promise(getLoginLogInfoPromice,{
+                    loading: "Fetching data",
+                    error: (err) => { return err.msg},
+                    success: (result) => {
+                        const newResult = result.map((log)=>{
+                            return {
+                             ...log,
+                             station_name: log.station_name===null ? "null" : log.station_name,
+                             logout_date_time: log.logout_date_time===null ? "null" : log.logout_date_time 
+                         } 
+                         })
+                        setLoginLogInfo(newResult)
+                        return "Fetched data successfully"
+                    }
+                })
+        }
+    })
 
-//         console.log(arr);
+    console.log({loginLogInfo:loginLogInfo});
+    return (
+        <div>
+             {/* <WindalsNav/> */}
+            <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <input
+                type="text"
+                value={formik.values.userName}
+                placeholder="Enter username"
+                onChange={formik.handleChange}
+                name="userName"
+            />
+            { formik.errors.userName && formik.touched.userName ? (
+                                <Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>) : null}
+            <button type="button" onClick={formik.handleSubmit}>Submit</button>
+            <p>{formik.userName}</p>
 
-//         csv += arr.join(',') + '\n';
-//         for (let i = 0; i < table.length; i++) {
-//             const row = table[i];
-//             // const values = columnKeys.map(key => row[key]);
-//             const values = Object.values(row);
-//             csv += values.join(',') + '\n';
-//         }
+            {loginLogInfo.length>0 && <Table columns={columns} data={loginLogInfo}/>}
+            
+        </div>
+    )
+}
 
-//         const blob = new Blob([csv], { type: 'text/csv' });
-//         const url = window.URL.createObjectURL(blob);
-
-//         const a = document.createElement('a');
-//         a.href = url;
-//         a.download = 'table_table.csv';
-//         a.style.display = 'none';
-//         document.body.appendChild(a);
-//         a.click();
-
-//         window.URL.revokeObjectURL(url);
-//         document.body.removeChild(a);
-//     };
-
-//     const formik = useFormik({
-//         initialValues: {
-//             jobName: ""
-//         },
-//         validationSchema: validationSchema,
-//     })
-
-//     return (
-//         <div>
-//             <input
-//                 className=""
-//                 type="text"
-//                 value={formik.values.jobName}
-//                 placeholder="Enter Job Name"
-//                 name="Job Name"
-//             />
-//             <button>Submit</button>
-//             <p>{productName}</p>
-//             <table>
-//                 <thead>
-//                     <tr>
-//                         <th>Sr. No.</th>
-//                         <th>Username</th>
-//                         <th>Station name</th>
-//                         <th>login date_time</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {
-//                         table.map((key, index) => {
-//                             return (
-//                                 <tr key={index}>
-//                                     <td>{index + 1}</td>
-//                                     <td>{key.username}</td>
-//                                     <td>{key.stationName}</td>
-//                                     <td>{key.logindate_time}</td>
-//                                 </tr>
-//                             )
-//                         })
-//                     }
-//                 </tbody>
-//             </table>
-//             <button onClick={exportToCSV}>Export</button>
-//         </div>
-//     )
-// }
-
-// export default LoginLog
+export default LoginLog

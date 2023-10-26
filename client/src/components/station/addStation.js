@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button, Form, Modal,Table,Alert } from 'react-bootstrap';
 import './addStation.css'
-import { useState } from "react";
+import { useState,useLocation } from "react";
 import { useFormik } from "formik";
 import { addStation, deleteStation, getOneProductAllParameters, getOneStation, getOneStationOneProduct, getProductNames, updateStation, getAllStationNames } from "../../helper/helper";
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,6 +11,7 @@ import WindalsNav from "../navbar";
 import * as Yup from "yup";
 import Footer from '../footer';
 import Select from 'react-select';
+import { useParams } from "react-router-dom";
 
 
 function AddStation() {
@@ -18,6 +19,8 @@ function AddStation() {
     const [productParameters,setProductParameters] = useState([]);
     const [stationData,setStationData] = useState([])
     const [showEditModal,setShowEditModal] = useState(false);
+
+    const {userName} = useParams()
 
     const stationValidationSchema= Yup.object().shape({
         stationName:Yup.string().required("Required"),
@@ -259,15 +262,16 @@ function AddStation() {
             setstationnames(arr)
         }).catch((err) => { })
     }, [])
-
+    console.log(window.location);
     return (
         <div >
-            <WindalsNav />
+            <WindalsNav/>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             {/* <div className="header-add-station">
                 <h2 className="add-station-header">Add Station</h2>
             </div> */}
 
+            
             <div className="add-station-container">
                 <div className="add-station-inputs">
                     <Form>
