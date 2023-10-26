@@ -1,6 +1,6 @@
-/* Table component styles */
 
-/* Table container */
+
+
 .table-container {
     max-width: 100%;
     /* overflow-x: auto; */
@@ -17,7 +17,7 @@
   
   
   
-  /* Table header styles */
+ 
   .table-container th {
     background-color: black;
     color: white;
