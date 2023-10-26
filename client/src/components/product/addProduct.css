@@ -1,6 +1,5 @@
-/* AddProduct.css */
+
 .productadd {
-  /* margin-top: 30px; */
   text-align: center;
   margin-top: 20vh;
 }
@@ -12,10 +11,7 @@
   justify-content: center;
   margin-bottom: 20px;
   margin: 20px;
-}
-
-.product-name {
-  margin-right: 10px;
+  margin-left: 80px;
 }
 
 .product-input {
@@ -29,24 +25,24 @@
   gap: 10px;
 }
 
-.add-parameter-button,
-.save-button {
-  background-color: #f5b7b1;
-  color: #fff;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 4px;
-  cursor: pointer;
+
+.product-table-container {
+  max-width: 100%;
+  
+  border-collapse: collapse;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+  overflow: auto;
 }
 
+
 .product-table {
-  text-align: center;
-  /* margin-left: 19vw; */
-  width: 80%;
-  margin-top: 15px;
-  margin-bottom: 15px;
+ 
   border-collapse: collapse;
-  justify-content: center;
   table-layout: auto;
 }
 
@@ -55,64 +51,38 @@
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
-  width: 21%;
-}
-
-.product-table th {
-  background-color: #f2f2f2;
-  color: black;
-}
-
-.delete-button {
-  background-color: #ff3a28;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.error-message {
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  color: #e74c3c;
-  margin-top: 5px; /* Add some space above the error message */
-  align-items: center;
-  margin-left: 14px;
-  width: 12vw;
-  height: 8vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.productadd h3{
-margin-top: 20px;
 }
 
 
-/* Adjust toast position for margin */
-.react-hot-toast-container {
-  margin-top: 60px; /* Adjust as needed */
+@media (max-width: 768px) {
+  .product-table th {
+    font-size: 14px;
+  }
+
+  .product-table-container {
+    width: 50%;
+    max-width: 100%;
+   overflow-x: auto;
+  }
+
+  .product-table {
+   
+   border-collapse: collapse;
+   table-layout: auto;
+  }
+
 }
 
-.paramererName-error-message{
-  font-size: 14px;
-  color: #e74c3c;
-  margin-top: 5px; /* Add some space above the error message */
-  align-items: center;
-  margin-left: 5px;
-  margin-top: 5px;
-  width: 200px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 480px) {
+  .product-table th {
+    font-size: 14px; 
+  }
+
+  .product-name-container {
+    margin-left: 40px;
+  }
 }
 
 
-.selectopts{
-  width: 220px;
-  margin: 20px;
-}
+
+

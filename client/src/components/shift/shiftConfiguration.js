@@ -351,7 +351,7 @@ function ShiftConfiguration() {
 
 
 
-        <div>
+        <div >
           <table className='shifttable'>
             <thead>
             </thead>

@@ -1,4 +1,6 @@
 
+
+
 .table-container {
     max-width: 100%;
     /* overflow-x: auto; */
@@ -9,12 +11,13 @@
     align-items: center;
     justify-content: center;
     margin-left: 15px;
+    overflow: auto;
   }
 
   
   
   
-  /* Table header styles */
+ 
   .table-container th {
     background-color: black;
     color: white;
@@ -64,6 +67,8 @@
   @media screen and (max-width: 600px) {
     .table-container {
       width: 100%;
+      max-width: 100%;
+     overflow-x: auto;
     }
   }
 
