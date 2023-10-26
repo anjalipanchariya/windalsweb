@@ -32,12 +32,27 @@ function LoginLog() {
                     error: (err) => { return err.msg},
                     success: (result) => {
                         const newResult = result.map((log)=>{
+                            
+                            
+                           
                             return {
                              ...log,
                              station_name: log.station_name===null ? "null" : log.station_name,
-                             logout_date_time: log.logout_date_time===null ? "null" : log.logout_date_time 
-                         } 
+                             login_date_time: log.login_date_time
+                             ? [
+                                   new Date(log.login_date_time).toLocaleDateString(),
+                                   new Date(log.login_date_time).toLocaleTimeString(),
+                               ].join(" ")
+                             : "null",
+                             logout_date_time: log.logout_date_time
+                             ? [
+                                    new Date(log.logout_date_time).toLocaleDateString(),
+                                    new Date(log.logout_date_time).toLocaleTimeString(),
+                               ].join(" ")
+                             :  "null"
+                             } 
                          })
+                        
                         setLoginLogInfo(newResult)
                         return "Fetched data successfully"
                     }
