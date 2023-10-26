@@ -27,7 +27,7 @@ function StationCard(props) {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <Card style={{ width: '14rem', margin: 20, }}>
+      <Card style={{ width: '14rem', margin: 20, backgroundColor:'rgb(230, 230, 230)'}}>
         <Card.Body>
           <Card.Title>{props.number} : {props.name}</Card.Title>
           <hr />
@@ -39,9 +39,9 @@ function StationCard(props) {
           <Card.Text >
             <table style={{ width: '100%' }}>
               <tr>
-                <th>Done</th>
-                <th>Not Done</th>
-                <th>Redo</th>
+                <th>Accept</th>
+                <th>Reject</th>
+                <th>Rework</th>
               </tr>
               <tr>
                 <td>{jobCountInfo.ok}</td>

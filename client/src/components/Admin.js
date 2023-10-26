@@ -58,6 +58,8 @@ function Admin(){
             : "No stations have been configured"
         }
        </div> 
+       <br />
+       <br />
        </div>
             <Footer/>
         </div>
