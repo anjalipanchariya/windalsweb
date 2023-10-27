@@ -2,6 +2,7 @@ import { useFormik} from "formik";
 import * as Yup from "yup";
 import Table from "../table"
 import WindalsNav from "../navbar";
+import './jobReport.css'
 
 function ProductReport() {
     const productName = "Fetched Product Name"
@@ -52,7 +53,8 @@ function ProductReport() {
 
     return (
         <div>
-            {/* <WindalsNav/> */}
+            <WindalsNav/>
+            <div className="jobreport">
             <input
                 className=""
                 type="text"
@@ -60,9 +62,13 @@ function ProductReport() {
                 placeholder="Enter Product Name"
                 name="Product Name"
             />
+            <br />
             <button>Submit</button>
+            <br />
             <p>{productName}</p>
             <Table columns={columns} data={table}/>
+            </div>
+            
         </div>
     )
 }
