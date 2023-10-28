@@ -119,10 +119,12 @@ const FirstStation = () => {
                 <label style={{fontSize:'1.5rem'}} htmlFor="job_nameInput">Enter the Job Name</label>
                 <input
                     type="text"
+                    className='jobnameinp'
                     id="job_nameInput"
                     value={formik.values.job_name}
                     name="job_name"
                     onChange={formik.handleChange}
+                    style={{width: '20%'}}
                 />
             </div>
             <br />

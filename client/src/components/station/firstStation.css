@@ -16,6 +16,9 @@
     
 }
 
+.jobnameinp{
+    width: 20%;
+}
 
 .fslist{
     display: flex;
@@ -25,4 +28,11 @@
 
 .fslist h4{
     margin: 30px;
+}
+
+
+.jobsub{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
