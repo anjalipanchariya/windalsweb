@@ -62,6 +62,9 @@
     
 }
 
+.selectopts{
+    width: 15%;
+}
 .updateprod{
     display: flex;
     text-align: center;

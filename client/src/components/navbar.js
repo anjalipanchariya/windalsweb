@@ -58,7 +58,7 @@ function WindalsNav() {
               </NavDropdown>
 
               <NavDropdown title="Product Configuration" id="basic-nav-dropdown" style={{marginRight:12}}>
-                {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/VIewProduct`}>View</NavDropdown.Item>}
+                {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/ViewProduct`}>View</NavDropdown.Item>}
                 {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/AddProduct`}>Add</NavDropdown.Item>}
                 {workerAccess[4] === 1 && <NavDropdown.Item as={Link} to={`/${userName}/UpdateProduct`}>Update</NavDropdown.Item>}
                   {(workerAccess[6] === 1 || workerAccess[7] === 1) && <NavDropdown.Item as={Link} to={`/${userName}/UpdateProduct`}>Delete</NavDropdown.Item>}

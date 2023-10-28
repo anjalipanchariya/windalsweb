@@ -23,9 +23,9 @@
 
 .delusertable {
   margin: 0 auto;
- 
   text-align: center;
   align-items: center;
+  width: 75%;
 }
 
 .reset-button,

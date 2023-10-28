@@ -388,6 +388,8 @@ function AddProduct() {
                     ))}
                 </tbody>
             </table>
+            <br />
+            
             <Button onClick={formik.handleSubmit}>Save</Button>
             </div>
             

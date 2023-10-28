@@ -6,7 +6,6 @@
 
 .fslist{
     display: flex;
-    margin-left: 30vw;
     
 }
 
@@ -24,16 +23,7 @@
     }
 
     
-.fslist{
-    display: flex;
-    margin-left: 17vw;
-    
-}
-
-.fslist h3{
-    margin: 30px;
-}
-    
+ 
     
 }
 

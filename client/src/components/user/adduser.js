@@ -87,7 +87,7 @@ function WorkerReg(){
           <h1 className="heading">User Registration</h1>
           <div style={{ display: 'flex', flexDirection:'column' }}>
             <div className="worklist">
-            <input type='text' placeholder="Username Name" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
+            <input type='text' placeholder="Username" value={formik.values.userName} name="userName" onChange={formik.handleChange}/>
             { formik.errors.userName && formik.touched.userName ? (
           <Alert variant="danger" className="error-message">{formik.errors.userName}</Alert>
         ) : null}
